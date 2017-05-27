@@ -17,6 +17,18 @@ namespace GameJam2017.Unit {
         public float Angle { get; set; }
 
         protected Field f;
+        protected enum Strategy {
+            ATTACK_MOVE,
+            ATTACK,
+            MOVE,
+            STOP,
+            HOLD_POS
+        }
+
+        protected Strategy currentStrategy;
+
+        public int Width { get { return (int)Size.X; } }
+        public int Height { get { return (int)Size.Y; } }
 
         public Unit(Texture2D texture, Vector2 position, float movespeed, Field f) : base(position, new Vector2(texture.Width, texture.Height), Vector2.Zero) {
             this.f = f;
@@ -30,6 +42,7 @@ namespace GameJam2017.Unit {
             Texture = texture;
             MoveSpeed = movespeed;
             Angle = 0;
+            currentStrategy = Strategy.HOLD_POS;
         }
 
         public virtual Vector2 getPos() { return new Vector2(Pos.X + Width / 2, Pos.Y + Height / 2); }
