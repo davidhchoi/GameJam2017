@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -15,6 +11,7 @@ namespace GameJam2017.Unit {
         Vector2 Target;
         Unit TargetEnemy;
         bool selected;
+        int range = 200;
 
 
         public Controllable(Texture2D texture, Vector2 position, float movespeed, Field f) : base(texture, position, movespeed, f) {
@@ -36,19 +33,6 @@ namespace GameJam2017.Unit {
             Target = target - toMid;
         }
 
-        public override void Update(GameTime time) {
-            var diff = Target - Pos;
-            if (diff.Length() > 5) {
-                diff.Normalize();
-                Pos = Pos + diff * MoveSpeed;
-            }
-<<<<<<< HEAD
-            if (diff.X == 0) {
-                Angle = 0;
-            }
-            Angle = (float)(Math.Atan2(diff.Y, diff.X) + Math.PI);
-=======
-        }
 
         /**
          * Set the current strategy to stop
@@ -81,55 +65,60 @@ namespace GameJam2017.Unit {
             return;
         }
 
-        public override void Update(GameTime time, List<Unit> other) {
+        public override void Update(GameTime time) {
             switch (currentStrategy) {
                 case Unit.Strategy.ATTACK_MOVE:
-                    if (Field.EnemyInRange(getPos())) {
-                        Shoot(Field.GetNearestEnemy(getPos()));
+                    Unit enemy = f.ClosestUnit(getPos());
+                    Vector2 diff;
+                    if (enemy != null && (enemy.getPos() - getPos()).Length() < range) {
+                        Shoot(enemy);
                     } else {
-                        var diff = Target - Pos;
+                        diff = Target - Pos;
                         if (diff.Length() > 5) {
                             diff.Normalize();
                             Pos = Pos + diff * MoveSpeed;
                             if (diff.X == 0) {
-                                angle = 0;
+                                Angle = 0;
                             }
-                            angle = (float)(Math.Atan2(diff.Y, diff.X) + Math.PI);
+                            Angle = (float)(Math.Atan2(diff.Y, diff.X) + Math.PI);
                         }
                     }
+                    break;
                 case Unit.Strategy.ATTACK:
-                    if (Field.EnemyInRange(TargetEnemy)) {
-                        Shoot(Field.GetNearestEnemy(getPos()));
+                    if (f.IsEnemyInRange(getPos(), TargetEnemy, range)) {
+                        Shoot(TargetEnemy);
                     } else {
-                        var diff = Target - Pos;
+                        diff = Target - Pos;
                         if (diff.Length() > 5) {
                             diff.Normalize();
                             Pos = Pos + diff * MoveSpeed;
                             if (diff.X == 0) {
-                                angle = 0;
+                                Angle = 0;
                             }
-                            angle = (float)(Math.Atan2(diff.Y, diff.X) + Math.PI);
+                            Angle = (float)(Math.Atan2(diff.Y, diff.X) + Math.PI);
                         }
                     }
+                    break;
                 case Unit.Strategy.MOVE:
-                    var diff = Target - Pos;
+                    diff = Target - Pos;
                     if (diff.Length() > 5) {
                         diff.Normalize();
                         Pos = Pos + diff * MoveSpeed;
                         if (diff.X == 0) {
-                            angle = 0;
+                            Angle = 0;
                         }
-                        angle = (float)(Math.Atan2(diff.Y, diff.X) + Math.PI);
+                        Angle = (float)(Math.Atan2(diff.Y, diff.X) + Math.PI);
                     }
                     break;
                 case Unit.Strategy.STOP:
                     break;
                 case Unit.Strategy.HOLD_POS:
-                    if (Field.EnemyInRange(getPos())) {
-                        Shoot(Field.GetNearestEnemy(getPos()));
+                    enemy = f.ClosestUnit(getPos());
+                    if (enemy != null && (enemy.getPos() - getPos()).Length() < range) {
+                        Shoot(enemy);
                     }
+                    break;
             }
->>>>>>> partial strategies
         }
     }
 }

@@ -32,7 +32,16 @@ namespace GameJam2017.Unit {
         public Unit ClosestUnit(Vector2 pos) {
             return units.Where(u => !(u is Enemy))
                 .OrderBy(u => (u.getPos() - pos).Length())
-                .First();
+                .FirstOrDefault();
+        }
+
+        public bool IsEnemyInRange(Vector2 pos, Unit enemy, int range) {
+            foreach (Unit u in units) {
+                if (u.Equals(enemy)) {
+                    return (u.getPos() - pos).Length() < range;
+                }
+            }
+            return false;
         }
 
         public override void Initialize() {
