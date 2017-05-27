@@ -7,7 +7,7 @@ using GameJam2017.Glamour.Bullets;
 namespace GameJam2017.Unit {
     public class Player : Minion {
         public Player(Vector2 position, Field f) : base("Units\\player", position, Factions.P1, Core.Colours.White, f) {
-            Health = 100;
+            Health = 500;
         }
         int timeSinceLastShot = 0;
 

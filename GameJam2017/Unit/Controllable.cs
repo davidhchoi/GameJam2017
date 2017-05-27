@@ -71,7 +71,7 @@ namespace GameJam2017.Unit {
 
             diff.Normalize();
             Pos = Pos + diff * MoveSpeed;
-            Angle = (float)(Math.Atan2(diff.Y, diff.X) + Math.PI);
+            Angle = (float)(Math.Atan2(diff.Y, diff.X) + Math.PI/2);
             return true;
         }
 
