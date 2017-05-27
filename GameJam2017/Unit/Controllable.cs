@@ -13,9 +13,17 @@ namespace GameJam2017.Unit {
     abstract class Controllable : Unit {
 
         Vector2 Target;
+        bool selected;
         public override void Initialize(Texture2D texture, Vector2 position, float movespeed) {
             base.Initialize(texture, position, movespeed);
             Target = position;
+        }
+
+        public abstract void Select() {
+            selected = true;
+        }
+        public abstract void Unselect() {
+            selected = false;
         }
         public void ChangeTarget(Vector2 target) {
             var toMid = new Vector2(Width / 2, Height / 2);

@@ -20,6 +20,7 @@ namespace GameJam2017 {
             Yellow,
             Blue,
             Green,
+            LightGreen,
             Orange,
             Purple,
             White
@@ -76,6 +77,8 @@ namespace GameJam2017 {
                     return Color.Blue;
                 case Colours.Green:
                     return Color.Green;
+                case Colours.LightGreen:
+                    return Color.LightGreen;
                 case Colours.Orange:
                     return Color.Orange;
                 case Colours.Purple:
