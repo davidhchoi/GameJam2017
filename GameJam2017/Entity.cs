@@ -41,8 +41,18 @@ namespace GameJam2017.Content {
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch) {
         }
 
-        public virtual bool Intersect(Point pos) {
+        public virtual bool Intersects(Point pos) {
+            if (Width == Height) {
+                return new Circle(X + Width / 2, Y + Height / 2, Width / 2).ContainsPoint(pos);
+            }
             return new Rectangle(Pos.ToPoint(), Size.ToPoint()).Intersects(new Rectangle(pos, Point.Zero));
+        }
+
+        public virtual bool Intersects(Rectangle r) {
+            if (Width == Height) {
+                return new Circle(X + Width / 2, Y + Height / 2, Width / 2).Intersects(r);
+            }
+            return new Rectangle(Pos.ToPoint(), Size.ToPoint()).Intersects(r);
         }
     }
 }

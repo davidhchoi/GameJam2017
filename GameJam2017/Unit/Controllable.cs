@@ -33,7 +33,7 @@ namespace GameJam2017.Unit {
             Target = target - toMid;
             currentStrategy = Strategy.MOVE;
         }
-
+        
 
         /**
          * Set the current strategy to stop
@@ -53,7 +53,7 @@ namespace GameJam2017.Unit {
                 TargetEnemy = u;
             } else { // Else if it's an ally, just move to it
                 currentStrategy = Strategy.MOVE;
-                Target = u.getPos();
+                Target = u.GetPos;
             }
         }
 
@@ -69,9 +69,9 @@ namespace GameJam2017.Unit {
         public override void Update(GameTime time) {
             switch (currentStrategy) {
                 case Unit.Strategy.ATTACK_MOVE:
-                    Unit enemy = f.ClosestEnemy(getPos());
+                    Unit enemy = f.ClosestEnemy(GetPos);
                     Vector2 diff;
-                    if (enemy != null && (enemy.getPos() - getPos()).Length() < range) {
+                    if (enemy != null && (enemy.GetPos - GetPos).Length() < range) {
                         Shoot(enemy);
                     } else {
                         diff = Target - Pos;
@@ -86,7 +86,7 @@ namespace GameJam2017.Unit {
                     }
                     break;
                 case Unit.Strategy.ATTACK:
-                    if (f.IsEnemyInRange(getPos(), TargetEnemy, range)) {
+                    if (f.IsEnemyInRange(GetPos, TargetEnemy, range)) {
                         Shoot(TargetEnemy);
                     } else {
                         diff = Target - Pos;
@@ -114,8 +114,8 @@ namespace GameJam2017.Unit {
                 case Unit.Strategy.STOP:
                     break;
                 case Unit.Strategy.HOLD_POS:
-                    enemy = f.ClosestEnemy(getPos());
-                    if (enemy != null && (enemy.getPos() - getPos()).Length() < range) {
+                    enemy = f.ClosestEnemy(GetPos);
+                    if (enemy != null && (enemy.GetPos - GetPos).Length() < range) {
                         Shoot(enemy);
                     }
                     break;

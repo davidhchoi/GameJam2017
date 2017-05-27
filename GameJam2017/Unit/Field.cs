@@ -28,23 +28,23 @@ namespace GameJam2017.Unit {
             units.Add(u);
             scene.entities.Add(u);
         }
-
+        
         public Unit ClosestUnit(Vector2 pos) {
             return units.Where(u => !(u is Enemy))
-                .OrderBy(u => (u.getPos() - pos).Length())
+                .OrderBy(u => (u.GetPos - pos).Length())
                 .FirstOrDefault();
         }
 
         public Unit ClosestEnemy(Vector2 pos) {
             return units.Where(u => u is Enemy)
-                .OrderBy(u => (u.getPos() - pos).Length())
+                .OrderBy(u => (u.GetPos - pos).Length())
                 .FirstOrDefault();
         }
 
         public bool IsEnemyInRange(Vector2 pos, Unit enemy, int range) {
             foreach (Unit u in units) {
                 if (u.Equals(enemy)) {
-                    return (u.getPos() - pos).Length() < range;
+                    return (u.GetPos - pos).Length() < range;
                 }
             }
             return false;
@@ -93,26 +93,16 @@ namespace GameJam2017.Unit {
         }
 
         public void EndSelection(Vector2 click) {
-            // If the box is small, treat it as a click and select whatever is under the cursor
-            if ((selectBegin - click).Length() < 5) {
-                foreach (Unit unit in units) {
-                    if ((unit.getPos() - click).Length() < 100) {
-                        ((Controllable)unit).Select();
-                        selected.Add((Controllable)unit);
-                        break;
-                    }
-                }
-            } else { // Otherwise, select everthing in the box
-                foreach (Unit unit in units) {
-                    if (unit is Controllable && IsInBox(selectBegin, click, unit.getPos())) {
-                        ((Controllable)unit).Select();
-                        selected.Add((Controllable)unit);
-                    }
+            Rectangle r = new Rectangle(selectBegin.ToPoint(), (click - selectBegin).ToPoint());
+            foreach (Unit unit in units) {
+                if (unit is Controllable && unit.Intersects(r)) {
+                    ((Controllable)unit).Select();
+                    selected.Add((Controllable)unit);
                 }
             }
             selecting = false;
         }
-
+        
         public void HoldSelected() {
             foreach (Controllable unit in selected) {
                 unit.HoldPos();
@@ -130,16 +120,7 @@ namespace GameJam2017.Unit {
                 unit.AttackMove(target);
             }
         }
-
-
-        /**
-         * Return true if pos is in the box formed by corner1 and corner2
-         */
-        public bool IsInBox(Vector2 corner1, Vector2 corner2, Vector2 pos) {
-            return (pos.X > corner1.X && pos.X > corner1.Y && pos.X < corner2.X && pos.Y < corner2.Y)
-                ||(pos.X < corner1.X && pos.X < corner1.Y && pos.X > corner2.X && pos.Y > corner2.Y);
-        }
-
+        
         public override void Update(GameTime time) {
             foreach (var unit in units) {
                 unit.Update(time);

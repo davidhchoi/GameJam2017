@@ -32,12 +32,12 @@ namespace GameJam2017.Component {
         public override void Update(GameTime gameTime) {
             switch (state) {
                 case BState.Unpressed:
-                    if (Core.Game.MouseLeftBecame(ButtonState.Pressed) && Intersect(Mouse.GetState().Position)) {
+                    if (Core.Game.MouseLeftBecame(ButtonState.Pressed) && Intersects(Mouse.GetState().Position)) {
                         state = BState.Pressed;
                     }
                     break;
                 case BState.Pressed:
-                    if (!Intersect(Mouse.GetState().Position)) state = BState.Unpressed;
+                    if (!Intersects(Mouse.GetState().Position)) state = BState.Unpressed;
                     else if (Core.Game.MouseLeftBecame(ButtonState.Released)) {
                         callback();
                     }

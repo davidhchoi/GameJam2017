@@ -45,7 +45,9 @@ namespace GameJam2017.Unit {
             currentStrategy = Strategy.HOLD_POS;
         }
 
-        public virtual Vector2 getPos() { return new Vector2(Pos.X + Width / 2, Pos.Y + Height / 2); }
+        public virtual Vector2 GetPos {
+            get { return new Vector2(Pos.X + Width / 2, Pos.Y + Height / 2); }
+        }
 
         public override void Update(GameTime time) {
 //            Pos += new Vector2((float)Math.Sin(angle) * MoveSpeed, (float)Math.Cos(angle) * MoveSpeed);
@@ -53,7 +55,8 @@ namespace GameJam2017.Unit {
         }
 
         public virtual void Draw(SpriteBatch sb) {
-            sb.Draw(Texture, new Rectangle(Pos.ToPoint(), Size.ToPoint()), null, Color.White, Angle, Vector2.Zero, SpriteEffects.None, 0f);
+            sb.Draw(Texture, new Rectangle((Pos + Size / 2).ToPoint(), Size.ToPoint()), null, Color.White, Angle, Size / 2, SpriteEffects.None, 0f);
+            sb.Draw(Core.Rectangles[2], new Rectangle((Pos + Size / 2 - new Vector2(5, 5)).ToPoint(), new Point(10, 10)), Color.White);
         }
     }
 }

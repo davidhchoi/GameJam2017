@@ -48,7 +48,7 @@ namespace GameJam2017.Scene {
         public override void Update(GameTime gameTime) {
             if (Core.Game.MouseLeftBecame(ButtonState.Pressed)) {
                 for (int i = 0; i < activeCards.Length; i++) {
-                    if (activeCards[i].Intersect(Mouse.GetState().Position)) {
+                    if (activeCards[i].Intersects(Mouse.GetState().Position)) {
                         deck.AddGlamour(activeCards[i]);
                         GenerateCards();
                     }

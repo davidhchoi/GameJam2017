@@ -9,17 +9,17 @@ namespace GameJam2017.Unit {
         Unit Target;
         int range = 50;
         public Enemy(Vector2 position, Field f) : base(Core.Game.Content.Load<Texture2D>("Units\\enemy"), position, 2.0f, f) { }
-
+        
         public void Shoot(Unit u) {
             return;
         }
 
         public override void Update(GameTime time) {
-            Target = f.ClosestUnit(getPos());
-            if (f.IsEnemyInRange(getPos(), Target, range)) {
+            Target = f.ClosestUnit(GetPos);
+            if (f.IsEnemyInRange(GetPos, Target, range)) {
                 Shoot(Target);
             } else {
-                var diff = Target.getPos() - Pos;
+                var diff = Target.GetPos - Pos;
                 if (diff.Length() > 5) {
                     diff.Normalize();
                     Pos = Pos + diff * MoveSpeed;
