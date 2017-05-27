@@ -41,7 +41,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Content\Entity.cs" />
+    <Compile Include="Entity.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="Drawable.cs" />
     <Compile Include="Game1.cs" />

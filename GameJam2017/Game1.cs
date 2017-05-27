@@ -14,16 +14,17 @@ namespace GameJam2017 {
     public class Game1 : Game {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Field field;
-        KeyboardState currentKeyboardState;
-        KeyboardState previousKeyboardState;
-        MouseState currentMouseState;
-        MouseState prevMouseState;
         private Texture2D cursor;
 
         private MainMenuScene mainScene;
         private DraftScene draftScene;
         private GameScene gameScene;
+
+        MouseState currentMouseState;
+        MouseState prevMouseState;
+
+        KeyboardState currentKeyboardState;
+        KeyboardState previousKeyboardState;
 
         private Scene.Scene[] scenes;
         private Scene.Scene activeScene;
@@ -44,7 +45,7 @@ namespace GameJam2017 {
             gameScene = new GameScene();
             scenes = new Scene.Scene[]{mainScene, draftScene, gameScene};
 
-            activeScene = draftScene;
+            activeScene = gameScene;
         }
 
         /// <summary>
@@ -62,10 +63,6 @@ namespace GameJam2017 {
             Core.Initialize();
 
             base.Initialize();
-            graphics.ApplyChanges();
-            field = new Field();
-            Vector2 playerPos = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
-            field.Initialize(playerPos);
         }
 
         /// <summary>
@@ -129,20 +126,6 @@ namespace GameJam2017 {
             previousKeyboardState = currentKeyboardState;
             currentKeyboardState = Keyboard.GetState();
             var mousePosition = new Vector2(currentMouseState.X, currentMouseState.Y);
-            if (currentMouseState.RightButton == ButtonState.Pressed) {
-                field.RightClick(mousePosition);
-            }
-            if (currentMouseState.LeftButton == ButtonState.Pressed &&
-                prevMouseState.LeftButton != ButtonState.Pressed
-                ) {
-                field.BeginSelection(mousePosition);
-            }
-            if (currentMouseState.LeftButton == ButtonState.Released && 
-                prevMouseState.LeftButton != ButtonState.Released
-                ) {
-                field.EndSelection(mousePosition);
-            }
-            field.Update(gameTime, mousePosition);
             base.Update(gameTime);
         }
 
@@ -157,7 +140,6 @@ namespace GameJam2017 {
             spriteBatch.Begin();
             activeScene.Draw(gameTime, spriteBatch);
 
-            //field.Draw(spriteBatch);
             spriteBatch.Draw(cursor, new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y), Color.White);
             spriteBatch.End();
 
