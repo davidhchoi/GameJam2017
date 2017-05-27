@@ -15,6 +15,7 @@ namespace GameJam2017.Unit {
         protected Texture2D Texture;
         protected Vector2 Position;
         protected float MoveSpeed;
+        protected float angle;
 
         public int Width { get { return Texture.Width; } }
         public int Height { get { return Texture.Height; } }
@@ -23,14 +24,15 @@ namespace GameJam2017.Unit {
             Texture = texture;
             Position = position;
             MoveSpeed = movespeed;
+            angle = 0;
         }
 
         public Vector2 getPos() { return Position + new Vector2(Width, Height); }
 
         abstract public void Update(GameTime time, List<Unit> other);
 
-        public void Draw(SpriteBatch sb) {
-            sb.Draw(Texture, Position, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+        public virtual void Draw(SpriteBatch sb) {
+            sb.Draw(Texture, Position, null, Color.White, angle, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
     }
 }

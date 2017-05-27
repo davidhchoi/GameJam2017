@@ -17,8 +17,8 @@ namespace GameJam2017.Unit {
                 .First();
             Target = moveTo.getPos();
 
-            var diff = Target - Position;
-            if (diff.Length() > 5) {
+            var diff = Target - getPos();
+            if (diff.Length() > 1) {
                 diff.Normalize();
                 Position = Position + diff * MoveSpeed;
             }

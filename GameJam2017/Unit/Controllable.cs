@@ -28,6 +28,10 @@ namespace GameJam2017.Unit {
                 diff.Normalize();
                 Position = Position + diff * MoveSpeed;
             }
+            if (diff.X == 0) {
+                angle = 0;
+            }
+            angle = (float)(Math.Atan2(diff.Y, diff.X) + Math.PI);
         }
         
     }
