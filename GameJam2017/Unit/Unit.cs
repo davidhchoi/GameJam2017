@@ -15,6 +15,8 @@ namespace GameJam2017.Unit {
         protected Texture2D Texture;
         protected float MoveSpeed;
         public float Angle { get; set; }
+        public int Health;
+        public int MaxHealth;
 
         protected Field f;
         protected enum Strategy {
@@ -66,9 +68,19 @@ namespace GameJam2017.Unit {
             base.Update(time);
         }
 
+        // Remove the unit from the game
+        public abstract void Kill();
+
         public virtual void Draw(SpriteBatch sb) {
+            // Draw the units
             sb.Draw(Texture, new Rectangle((Pos + Size / 2).ToPoint(), Size.ToPoint()), null, selected ? Color.White * .5f : Color.White, Angle, Size / 2, SpriteEffects.None, 0f);
-//            sb.Draw(Core.Rectangles[2], new Rectangle((Pos + Size / 2 - new Vector2(5, 5)).ToPoint(), new Point(10, 10)), selected ? Color.White * .5f : Color.White);
+
+            // Draw the health bars
+            if (MaxHealth != 0) {
+                sb.Draw(Core.Rectangles[2],
+                    new Rectangle((Pos - new Vector2(0, 10)).ToPoint(),
+                    new Point((int)(((float)Health) / MaxHealth * Width), 5)), Color.Red);
+            }
         }
     }
 }

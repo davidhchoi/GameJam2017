@@ -38,11 +38,29 @@ namespace GameJam2017.Glamour.Bullets {
         public override void Update(GameTime gameTime) {
             Pos += new Vector2((float)Math.Sin(Angle) * MoveSpeed, (float)Math.Cos(Angle) * MoveSpeed);
             base.Update(gameTime);
+            Unit.Unit u = f.ClosestEnemy(this);
+            if (u != null) {
+                if (u.Intersects(GetPos.ToPoint())) {
+                    Collide(u);
+                }
+            }
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch) {
             spriteBatch.Draw(textures[(int)Colour], Pos, Color.White);
             base.Draw(gameTime, spriteBatch);
+        }
+
+        public void Collide(Unit.Unit u) {
+            u.Health -= damage;
+            if (u.Health <= 0) {
+                u.Kill();
+            }
+            Kill();
+        }
+
+        public override void Kill() {
+            f.RemoveUnit(this);
         }
     }
 }

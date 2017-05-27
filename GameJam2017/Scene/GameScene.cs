@@ -74,6 +74,7 @@ namespace GameJam2017.Scene {
                 lastSpellTime = gameTime.TotalGameTime.Seconds;
             }
             field.AddNewUnits();
+            field.RemoveKilledUnits();
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch) {

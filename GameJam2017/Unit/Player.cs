@@ -6,9 +6,9 @@ using GameJam2017.Glamour.Bullets;
 
 namespace GameJam2017.Unit {
     public class Player : Minion {
-        public Player(Vector2 position, Field f) : base("Units\\player", position, Factions.P1, Core.Colours.White,
-            f) { }
-
+        public Player(Vector2 position, Field f) : base("Units\\player", position, Factions.P1, Core.Colours.White, f) {
+            Health = 100;
+        }
         int timeSinceLastShot = 0;
 
         public virtual Vector2 GetPos {
@@ -22,5 +22,8 @@ namespace GameJam2017.Unit {
             sb.Draw(Core.Rectangles[2], new Rectangle((Pos + Size / 2 - new Vector2(5, 5)).ToPoint(), new Point(10, 10)), selected ? Color.White * .5f : Color.White);
         }
 
+        public override void Kill() {
+            Core.Game.ChangeScene(Scene.SceneTypes.MainMenu);
+        }
     }
 }

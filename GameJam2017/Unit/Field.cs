@@ -16,6 +16,7 @@ namespace GameJam2017.Unit {
         List<Unit> units;
         Vector2 selectBegin;
         List<Unit> toAddUnits;
+        List<Unit> toRemoveUnits;
         bool selecting = false;
         public Texture2D FieldTexture;
 
@@ -25,10 +26,15 @@ namespace GameJam2017.Unit {
             Vector2.Zero) {
             this.scene = scene;
             toAddUnits = new List<Unit>();
+            toRemoveUnits = new List<Unit>();
         }
 
         public void AddUnit(Unit u) {
             toAddUnits.Add(u);
+        }
+
+        public void RemoveUnit(Unit u) {
+            toRemoveUnits.Add(u);
         }
         
         public Unit ClosestAlly(Unit u1) {
@@ -151,6 +157,16 @@ namespace GameJam2017.Unit {
                     controllables.Add((Controllable)unit);
             }
             toAddUnits.Clear();
+        }
+
+        public void RemoveKilledUnits() {
+            foreach (var unit in toRemoveUnits) {
+                units.Remove(unit);
+                scene.entities.Remove(unit);
+                if (unit is Controllable)
+                    controllables.Remove((Controllable)unit);
+            }
+            toRemoveUnits.Clear();
         }
 
         public override void Draw(GameTime g, SpriteBatch sb) {
