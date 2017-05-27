@@ -4,7 +4,7 @@
 
         public enum Type {
             Damage,
-            MindControl,
+            ColourEnemy,
             Spawn
         };
 

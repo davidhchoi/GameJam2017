@@ -13,6 +13,7 @@ namespace GameJam2017.Unit {
      */
     public abstract class Unit : Entity {
         protected Texture2D Texture;
+        
         protected float MoveSpeed;
         public float Angle { get; set; }
         public int Health;
@@ -57,6 +58,11 @@ namespace GameJam2017.Unit {
             currentStrategy = Strategy.STOP;
             Faction = factions;
             Colour = c;
+        }
+
+        public virtual void ReColor(Core.Colours c) {
+            Colour = c;
+//            Texture = Core.GetRecoloredCache()
         }
 
         public virtual Vector2 GetPos {

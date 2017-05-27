@@ -46,8 +46,8 @@ namespace GameJam2017.Glamour {
                 new Vector2(destination.Left + destination.Width / 8, destination.Top + destination.Height *7/10), Color.Black, 0, new Vector2(0,0), 1.5f, SpriteEffects.None, 0);
         }
 
-        public List<Bullet> Cast(Vector2 pos, float angle, Field f) {
-            List<Bullet> bullets = new List<Bullet>();
+        public List<Unit.Unit> Cast(Vector2 pos, float angle, Field f) {
+            List<Unit.Unit> newEntities = new List<Unit.Unit>();
             float startAngle = 0, endAngle = 0, increment = 0;
             switch (s.T) {
                 case Shape.Type.Bullet:
@@ -58,20 +58,47 @@ namespace GameJam2017.Glamour {
                 case Shape.Type.Circle:
                     startAngle = angle;
                     endAngle = angle + (float)(2 * Math.PI);
-                    increment = (float)(Math.PI / 10);
+                    switch (e.T) {
+                        case Effect.Type.Spawn:
+                            increment = (float)(Math.PI / 4);
+                            break;
+                        case Effect.Type.Damage:
+                            increment = (float)(Math.PI / 10);
+                            break;
+                        case Effect.Type.ColourEnemy:
+                            increment = (float)(Math.PI / 3);
+                            break;
+                    }
                     break;
                 case Shape.Type.Cone:
-                    startAngle = angle - (float)(Math.PI / 2);
-                    endAngle = angle + (float)(Math.PI / 2);
-                    increment = (float)(Math.PI / 20);
+                    startAngle = angle - (float)(Math.PI / 4);
+                    endAngle = angle + (float)(Math.PI / 4);
+                    switch (e.T) {
+                        case Effect.Type.Spawn:
+                            increment = (float)(Math.PI / 12);
+                            break;
+                        case Effect.Type.Damage:
+                            increment = (float)(Math.PI / 30);
+                            break;
+                        case Effect.Type.ColourEnemy:
+                            increment = (float)(Math.PI / 9);
+                            break;
+                    }
                     break;
             }
             for (; startAngle < endAngle; startAngle += increment) {
-                Bullet b = new Bullet(10, c.C, 5, startAngle, pos, new Vector2(20, 20), Unit.Unit.Factions.P1, f);
-                bullets.Add(b);
-                f.AddUnit(b);
+                Unit.Unit ent;
+                if (e.T != Effect.Type.Spawn) {
+                    ent = new Bullet(10, c.C, 5, startAngle, pos, new Vector2(20, 20), Unit.Unit.Factions.P1, f);
+                } else {
+                    ent = new Minion("Units\\minion", 
+                        pos + new Vector2((float)Math.Sin(startAngle) * 10, (float)Math.Cos(startAngle) * 10), 
+                        Unit.Unit.Factions.P1, c.C, f);
+                }
+                newEntities.Add(ent);
+                f.AddUnit(ent);
             }
-            return bullets;
+            return newEntities;
         }
 
         public static Glamour RandomGlamour(Vector2 pos, Vector2 size) {
