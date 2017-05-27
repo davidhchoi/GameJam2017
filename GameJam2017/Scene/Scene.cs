@@ -7,20 +7,20 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace GameJam2017.Scene {
-    class Scene {
-        protected virtual void Initialize() {
+    class Scene : IDrawable {
+        public virtual void Initialize() {
         }
 
-        protected virtual void LoadContent() {
+        public virtual void LoadContent() {
         }
 
-        protected virtual void UnloadContent() {
+        public virtual void UnloadContent() {
         }
 
-        protected virtual void Update(GameTime gameTime) {
+        public virtual void Update(GameTime gameTime) {
         }
 
-        protected virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch) {
+        public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch) {
         }
     }
 }

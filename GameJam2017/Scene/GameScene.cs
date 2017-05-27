@@ -8,23 +8,23 @@ using System.Threading.Tasks;
 
 namespace GameJam2017.Scene {
     class GameScene : Scene {
-        protected override void Initialize() {
+        public override void Initialize() {
             base.Initialize();
         }
 
-        protected override void LoadContent() {
+        public override void LoadContent() {
             base.LoadContent();
         }
 
-        protected override void UnloadContent() {
+        public override void UnloadContent() {
             base.UnloadContent();
         }
 
-        protected override void Update(GameTime gameTime) {
+        public override void Update(GameTime gameTime) {
             base.Update(gameTime);
         }
 
-        protected override void Draw(GameTime gameTime, SpriteBatch spriteBatch) {
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch) {
             base.Draw(gameTime, spriteBatch);
         }
     }

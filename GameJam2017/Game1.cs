@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameJam2017.Glamour;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -13,7 +14,10 @@ namespace GameJam2017 {
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-
+            graphics.PreferredBackBufferWidth = 1920;  // set this value to the desired width of your window
+            graphics.PreferredBackBufferHeight = 1080;   // set this value to the desired height of your window
+            graphics.ApplyChanges();
+            Window.IsBorderless = true;
         }
 
         /// <summary>
@@ -25,6 +29,7 @@ namespace GameJam2017 {
         protected override void Initialize() {
             // TODO: Add your initialization logic here
 
+            Glamour.Glamour.Initialize();
             base.Initialize();
         }
 
