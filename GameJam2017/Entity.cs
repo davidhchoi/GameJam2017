@@ -8,9 +8,14 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam2017.Content {
     class Entity {
-        public Vector2 Vel { get; set; }
+        private Vector2 Vel { get; set; }
         public Vector2 Pos { get; set; }
         public Vector2 Size { get; set; }
+
+        public int Width { get { return (int)Size.X; } }
+        public int Height { get { return (int)Size.Y; } }
+        public int X { get { return (int)Pos.X; } }
+        public int Y { get { return (int)Pos.Y; } }
 
         public Entity(Vector2 pos, Vector2 size, Vector2 vel) {
             this.Pos = pos;

@@ -6,15 +6,11 @@ using System.Linq;
 namespace GameJam2017.Unit {
     class Enemy : Unit {
         Vector2 Target;
-        public void Initialize(Vector2 position) {
-            base.Initialize(Core.Game.Content.Load<Texture2D>("Units\\enemy"), position, 2.0f);
-        }
+        public Enemy(Vector2 position, Field f) : base(Core.Game.Content.Load<Texture2D>("Units\\enemy"), position, 2.0f, f) { }
 
-        public override void Update(GameTime time, List<Unit> other) {
+        public override void Update(GameTime time) {
             // Move towards the nearest unit
-            Unit moveTo = other.Where(u => !(u is Enemy))
-                .OrderBy(u => (u.getPos() - getPos()).Length())
-                .First();
+            Unit moveTo = f.ClosestUnit(getPos());
             Target = moveTo.getPos();
 
             var diff = Target - getPos();

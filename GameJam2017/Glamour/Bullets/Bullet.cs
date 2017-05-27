@@ -4,20 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GameJam2017.Content;
+using GameJam2017.Unit;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam2017.Glamour.Bullets {
-    class Bullet : Entity {
+    class Bullet : Unit.Unit {
         private int damage;
         private Core.Colours colour;
         List<StatusEffect> statusEffects = new List<StatusEffect>();
 
         public static Texture2D[] textures = new Texture2D[Enum.GetValues(typeof(Core.Colours)).Length];
 
-        public Bullet(int damage, Core.Colours colour, Vector2 pos, Vector2 size, Vector2 vel) : base(pos, size, vel) {
+        public Bullet(int damage, Core.Colours colour, float moveSpeed, float angle, Vector2 pos, Vector2 size, Field f) : 
+            base(textures[(int)colour], pos, size, moveSpeed, f) {
             this.damage = damage;
             this.colour = colour;
+            while (angle < 0) angle += (float) (Math.PI * 2);
+            while (angle > (float) (Math.PI * 2)) angle -= (float) (Math.PI * 2);
+            this.angle = angle;
         }
 
         public static void Initialize() {
@@ -27,7 +32,7 @@ namespace GameJam2017.Glamour.Bullets {
         }
 
         public override void Update(GameTime gameTime) {
-            Pos += Vel;
+            Pos += new Vector2((float)Math.Sin(angle) * MoveSpeed, (float)Math.Cos(angle) * MoveSpeed);
             base.Update(gameTime);
         }
 

@@ -12,16 +12,14 @@ namespace GameJam2017.Scene {
     class GameScene : Scene {
         SpriteBatch spriteBatch;
         Field field;
-
-        MouseState currentMouseState;
-        MouseState prevMouseState;
+        
         public GameScene() {
         }
         public override void Initialize() {
             base.Initialize();
-            Vector2 playerPos = new Vector2(Core.Game.GraphicsDevice.Viewport.TitleSafeArea.X + Core.Game.GraphicsDevice.Viewport.TitleSafeArea.Width/2, Core.Game.GraphicsDevice.Viewport.TitleSafeArea.Y + Core.Game.GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
-            field = new Field();
-            field.Initialize(playerPos);
+            field = new Field(this);
+            field.Initialize();
+            entities.Add(field);
         }
 
         public override void LoadContent() {
@@ -35,27 +33,20 @@ namespace GameJam2017.Scene {
         public override void Update(GameTime gameTime) {
             base.Update(gameTime);
 
-            prevMouseState = currentMouseState;
-            currentMouseState = Mouse.GetState();
-            var mousePosition = new Vector2(currentMouseState.X, currentMouseState.Y);
-            if (currentMouseState.RightButton == ButtonState.Pressed) {
+            var mousePosition = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
+            if (Core.Game.MouseRightBecame(ButtonState.Pressed)) {
                 field.RightClick(mousePosition);
             }
-            if (currentMouseState.LeftButton == ButtonState.Pressed &&
-                prevMouseState.LeftButton != ButtonState.Pressed
-                ) {
+            if (Core.Game.MouseLeftBecame(ButtonState.Pressed)) {
                 field.BeginSelection(mousePosition);
             }
-            if (currentMouseState.LeftButton == ButtonState.Released && 
-                prevMouseState.LeftButton != ButtonState.Released
-                ) {
+            if (Core.Game.MouseLeftBecame(ButtonState.Released)) {
                 field.EndSelection(mousePosition);
             }
-            field.Update(gameTime, mousePosition);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch) {
-            field.Draw(spriteBatch);
+            field.Draw(gameTime, spriteBatch);
             base.Draw(gameTime, spriteBatch);
         }
 

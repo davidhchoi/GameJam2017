@@ -14,8 +14,9 @@ namespace GameJam2017.Unit {
 
         Vector2 Target;
         bool selected;
-        public override void Initialize(Texture2D texture, Vector2 position, float movespeed) {
-            base.Initialize(texture, position, movespeed);
+
+
+        public Controllable(Texture2D texture, Vector2 position, float movespeed, Field f) : base(texture, position, movespeed, f) {
             Target = position;
             Unselect();
         }
@@ -28,12 +29,13 @@ namespace GameJam2017.Unit {
             selected = false;
             Texture = Core.ReColor(Texture, Core.Colours.Green);
         }
+
         public void ChangeTarget(Vector2 target) {
             var toMid = new Vector2(Width / 2, Height / 2);
             Target = target - toMid;
         }
 
-        public override void Update(GameTime time, List<Unit> other) {
+        public override void Update(GameTime time) {
             var diff = Target - Pos;
             if (diff.Length() > 5) {
                 diff.Normalize();

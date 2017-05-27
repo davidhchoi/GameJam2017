@@ -14,7 +14,7 @@ namespace GameJam2017.Scene {
         MainMenu
     }
     class Scene : IDrawable {
-        protected List<Entity> entities = new List<Entity>();
+        public List<Entity> entities = new List<Entity>();
 
         public virtual void Initialize() {
             foreach (var entity in entities) {

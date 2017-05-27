@@ -16,24 +16,28 @@ namespace GameJam2017.Unit {
         protected float MoveSpeed;
         protected float angle;
 
-        public int Width { get { return (int)Size.X; } }
-        public int Height { get { return (int)Size.Y; } }
+        protected Field f;
 
-        public Unit() : base(Vector2.Zero, Vector2.Zero, Vector2.Zero) {
-            
+        public Unit(Texture2D texture, Vector2 position, float movespeed, Field f) : base(position, new Vector2(texture.Width, texture.Height), Vector2.Zero) {
+            this.f = f;
+            Texture = texture;
+            MoveSpeed = movespeed;
+            angle = 0;
         }
 
-        public virtual void Initialize(Texture2D texture, Vector2 position, float movespeed) {
+        public Unit(Texture2D texture, Vector2 position, Vector2 size, float movespeed, Field f) : base(position, size, Vector2.Zero) {
+            this.f = f;
             Texture = texture;
-            Pos = position;
-            Size = new Vector2(Texture.Width, Texture.Height);
             MoveSpeed = movespeed;
             angle = 0;
         }
 
         public virtual Vector2 getPos() { return new Vector2(Pos.X + Width / 2, Pos.Y + Height / 2); }
 
-        abstract public void Update(GameTime time, List<Unit> other);
+        public override void Update(GameTime time) {
+//            Pos += new Vector2((float)Math.Sin(angle) * MoveSpeed, (float)Math.Cos(angle) * MoveSpeed);
+            base.Update(time);
+        }
 
         public virtual void Draw(SpriteBatch sb) {
             sb.Draw(Texture, new Rectangle(Pos.ToPoint(), Size.ToPoint()), null, Color.White, angle, Vector2.Zero, SpriteEffects.None, 0f);

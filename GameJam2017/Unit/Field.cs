@@ -2,11 +2,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.Linq;
+using GameJam2017.Content;
+using Microsoft.Xna.Framework.Input;
 
 namespace GameJam2017.Unit {
-    class Field {
-        int width = 1920;
-        int height = 1080;
+    class Field : Entity {
         Vector2 pos = new Vector2(0, 0);
         Player player;
         Cursor cursor;
@@ -16,30 +17,46 @@ namespace GameJam2017.Unit {
         bool selecting = false;
         public Texture2D FieldTexture;
 
-        public void Initialize( Vector2 playerPos ) {
-            FieldTexture = Core.Game.Content.Load<Texture2D>("Units\\stage");
-            player = new Player();
-            cursor = new Cursor();
+        private Scene.Scene scene;
 
-            player.Initialize(playerPos);
+        public Field(Scene.Scene scene) : base(Vector2.Zero, new Vector2(Core.ScreenWidth, Core.ScreenHeight),
+            Vector2.Zero) {
+            this.scene = scene;
+        }
+
+        public void AddUnit(Unit u) {
+            units.Add(u);
+            scene.entities.Add(u);
+        }
+
+        public Unit ClosestUnit(Vector2 pos) {
+            return units.Where(u => !(u is Enemy))
+                .OrderBy(u => (u.getPos() - pos).Length())
+                .First();
+        }
+
+        public override void Initialize() {
+            Vector2 playerPos = new Vector2(Width / 2, Height / 2);
+            FieldTexture = Core.Game.Content.Load<Texture2D>("Units\\stage");
+            player = new Player(playerPos, this);
+            cursor = new Cursor();
+            
             cursor.Initialize(playerPos);
             selected = new List<Controllable>();
             units = new List<Unit>();
-            units.Add(player);
+            AddUnit(player);
             for (int i = 0; i < 5; i ++) {
-                var minion = new Minion();
-                var x = Core.rnd.Next(100, width -100);
-                var y = Core.rnd.Next(100, height - 100);
-                minion.Initialize(new Vector2(x, y));
-                units.Add(minion);
+                var x = Core.rnd.Next(100, Width - 100);
+                var y = Core.rnd.Next(100, Height - 100);
+                var minion = new Minion(new Vector2(x, y), this);
+                AddUnit(minion);
             }
 
             for (int i = 0; i < 5; i ++) {
-                var enemy = new Enemy();
-                var x = Core.rnd.Next(100, width -100);
-                var y = Core.rnd.Next(100, height - 100);
-                enemy.Initialize(new Vector2(x, y));
-                units.Add(enemy);
+                var x = Core.rnd.Next(100, Width - 100);
+                var y = Core.rnd.Next(100, Height - 100);
+                var enemy = new Enemy(new Vector2(x, y), this);
+                AddUnit(enemy);
             }
 
 
@@ -89,14 +106,14 @@ namespace GameJam2017.Unit {
                 ||(pos.X < corner1.X && pos.X < corner1.Y && pos.X > corner2.X && pos.Y > corner2.Y);
         }
 
-        public void Update(GameTime time, Vector2 mousePos) {
+        public override void Update(GameTime time) {
             foreach (var unit in units) {
-                unit.Update(time, units);
+                unit.Update(time);
             }
-            cursor.Update(time, mousePos);
+            cursor.Update(time, new Vector2(Mouse.GetState().X, Mouse.GetState().Y));
         }
 
-        public void Draw(SpriteBatch sb) {
+        public override void Draw(GameTime g, SpriteBatch sb) {
             sb.Draw(FieldTexture, pos, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
             Vector2 size = cursor.getPos() - selectBegin;
