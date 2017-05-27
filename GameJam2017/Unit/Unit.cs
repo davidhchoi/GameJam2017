@@ -5,15 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using GameJam2017.Content;
 
 namespace GameJam2017.Unit {
     /**
      * Represents any unit on the field
      */
-    abstract class Unit {
+    abstract class Unit : Entity {
         protected Texture2D Texture;
         protected Vector2 Position;
-        protected Vector2 Target;
         protected float MoveSpeed;
 
         public int Width { get { return Texture.Width; } }
@@ -27,11 +27,10 @@ namespace GameJam2017.Unit {
 
         public Vector2 getPos() { return Position + new Vector2(Width, Height); }
 
-        abstract public void Update(GameTime time);
+        abstract public void Update(GameTime time, List<Unit> other);
 
         public void Draw(SpriteBatch sb) {
             sb.Draw(Texture, Position, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
-
     }
 }

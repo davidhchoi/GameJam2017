@@ -58,6 +58,7 @@
     <Compile Include="Scene\GameScene.cs" />
     <Compile Include="Scene\MainMenuScene.cs" />
     <Compile Include="Scene\Scene.cs" />
+    <Compile Include="Unit\Enemy.cs" />
     <Compile Include="Unit\Minion.cs" />
     <Compile Include="Unit\Unit.cs" />
     <Compile Include="Unit\Controllable.cs" />

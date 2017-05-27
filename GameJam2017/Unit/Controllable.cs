@@ -22,7 +22,7 @@ namespace GameJam2017.Unit {
             Target = target - toMid;
         }
 
-        public override void Update(GameTime time) {
+        public override void Update(GameTime time, List<Unit> other) {
             var diff = Target - Position;
             if (diff.Length() > 5) {
                 diff.Normalize();

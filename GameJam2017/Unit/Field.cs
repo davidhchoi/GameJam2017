@@ -33,6 +33,16 @@ namespace GameJam2017.Unit {
                 minion.Initialize(new Vector2(x, y));
                 units.Add(minion);
             }
+
+            for (int i = 0; i < 5; i ++) {
+                var enemy = new Enemy();
+                var x = Core.rnd.Next(100, width -100);
+                var y = Core.rnd.Next(100, height - 100);
+                enemy.Initialize(new Vector2(x, y));
+                units.Add(enemy);
+            }
+
+
             selected.Add(player);
         }
         public void RightClick(Vector2 click) {
@@ -66,7 +76,7 @@ namespace GameJam2017.Unit {
 
         public void Update(GameTime time, Vector2 mousePos) {
             foreach (var unit in units) {
-                unit.Update(time);
+                unit.Update(time, units);
             }
             cursor.Update(time, mousePos);
         }
