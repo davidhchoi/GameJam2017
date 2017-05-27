@@ -1,9 +1,11 @@
 ﻿namespace GameJam2017.Glamour {
     public class Effect {
-        public static Effect [] effects = new Effect[1];
+        public static Effect [] effects = new Effect[3];
 
         public enum Type {
-            Damage
+            Damage,
+            MindControl,
+            Spawn
         };
 
         public Type T { get; }

@@ -8,6 +8,11 @@ using System.Threading.Tasks;
 using GameJam2017.Content;
 
 namespace GameJam2017.Scene {
+    public enum SceneTypes {
+        Deck,
+        Game,
+        MainMenu
+    }
     class Scene : IDrawable {
         protected List<Entity> entities = new List<Entity>();
 

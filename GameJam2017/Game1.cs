@@ -1,4 +1,6 @@
-﻿using System.Diagnostics.Eventing.Reader;
+﻿using System;
+using System.Diagnostics.Eventing.Reader;
+using GameJam2017.Component;
 using GameJam2017.Glamour;
 using GameJam2017.Scene;
 using GameJam2017.Unit;
@@ -37,6 +39,7 @@ namespace GameJam2017 {
             Content.RootDirectory = "Content";
             graphics.PreferredBackBufferWidth = Width;  // set this value to the desired width of your window
             graphics.PreferredBackBufferHeight = Height;   // set this value to the desired height of your window
+            this.TargetElapsedTime = TimeSpan.FromSeconds(1.0f / 60.0f);
             graphics.ApplyChanges();
             Window.IsBorderless = true;
 
@@ -45,7 +48,7 @@ namespace GameJam2017 {
             gameScene = new GameScene();
             scenes = new Scene.Scene[]{mainScene, draftScene, gameScene};
 
-            activeScene = gameScene;
+            activeScene = mainScene;
         }
 
         /// <summary>
@@ -57,10 +60,10 @@ namespace GameJam2017 {
         protected override void Initialize() {
             // TODO: Add your initialization logic here
 
+            Core.Initialize();
             foreach (var scene in scenes) {
                 scene.Initialize();
             }
-            Core.Initialize();
 
             base.Initialize();
         }
@@ -76,6 +79,7 @@ namespace GameJam2017 {
                 scene.LoadContent();
             }
             Glamour.Glamour.Initialize();
+            Button.Initialize();
             cursor = Content.Load<Texture2D>("menucursor");
             draftScene.Reset();
             // TODO: use this.Content to load your game content here
@@ -106,6 +110,20 @@ namespace GameJam2017 {
                 return currentKeyboardState.IsKeyDown(key) && previousKeyboardState.IsKeyUp(key);
             } else {
                 return currentKeyboardState.IsKeyUp(key) && previousKeyboardState.IsKeyDown(key);
+            }
+        }
+
+        public void ChangeScene(SceneTypes scene) {
+            switch (scene) {
+                case SceneTypes.Deck:
+                    activeScene = draftScene;
+                    break;
+                case SceneTypes.Game:
+                    activeScene = gameScene;
+                    break;
+                case SceneTypes.MainMenu:
+                    activeScene = mainScene;
+                    break;
             }
         }
 

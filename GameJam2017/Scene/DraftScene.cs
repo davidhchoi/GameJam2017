@@ -5,14 +5,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GameJam2017.Component;
 using GameJam2017.Glamour;
 using Microsoft.Xna.Framework.Input;
 
 namespace GameJam2017.Scene {
     class DraftScene : Scene {
         private Glamour.Glamour[] activeCards = new Glamour.Glamour[3];
-        Deck deck = new Deck(new Rectangle((int)(Core.ScreenWidth * .8), 50, (int)(Core.ScreenWidth * .2), Core.ScreenHeight - 100));
+        private Deck deck;
+        private Button toGame;
         public override void Initialize() {
+            deck = new Deck(new Rectangle((int)(Core.ScreenWidth * .8), 50, (int)(Core.ScreenWidth * .2), Core.ScreenHeight - 100));
+            toGame = new Button(delegate {
+                Core.Game.ChangeScene(SceneTypes.Game);
+            }, new Rectangle(Core.ScreenWidth / 2 - 100, Core.ScreenHeight * 3 / 4, 200, 60));
+            entities.Add(deck);
+            entities.Add(toGame);
             base.Initialize();
         }
 
@@ -37,10 +45,12 @@ namespace GameJam2017.Scene {
         }
 
         public override void Update(GameTime gameTime) {
-            for (int i = 0; i < activeCards.Length; i++) {
-                if (activeCards[i].Intersect(Mouse.GetState().Position)) {
-                    deck.AddGlamour(activeCards[i]);
-                    GenerateCards();
+            if (Core.Game.MouseLeftBecame(ButtonState.Pressed)) {
+                for (int i = 0; i < activeCards.Length; i++) {
+                    if (activeCards[i].Intersect(Mouse.GetState().Position)) {
+                        deck.AddGlamour(activeCards[i]);
+                        GenerateCards();
+                    }
                 }
             }
             base.Update(gameTime);
@@ -51,6 +61,7 @@ namespace GameJam2017.Scene {
                 activeCards[i].Draw(gameTime, spriteBatch);
             }
             deck.Draw(gameTime, spriteBatch);
+            toGame.Draw(gameTime, spriteBatch);
             base.Draw(gameTime, spriteBatch);
         }
     }
