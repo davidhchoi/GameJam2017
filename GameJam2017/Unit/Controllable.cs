@@ -76,6 +76,7 @@ namespace GameJam2017.Unit {
         }
 
         public override void Update(GameTime time) {
+            base.Update(time);
             Unit enemy = f.ClosestEnemy(this);
             switch (currentStrategy) {
                 case Unit.Strategy.ATTACK_MOVE:

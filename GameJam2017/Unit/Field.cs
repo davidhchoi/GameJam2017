@@ -96,10 +96,10 @@ namespace GameJam2017.Unit {
 
         public void EndSelection(Vector2 click) {
             Rectangle r = new Rectangle(selectBegin.ToPoint(), (click - selectBegin).ToPoint());
-            foreach (Unit unit in units) {
+            foreach (Controllable unit in controllables) {
                 if (unit.Faction == Unit.Factions.P1 && unit.Intersects(r)) {
-                    ((Controllable)unit).Select();
-                    selected.Add((Controllable)unit);
+                    (unit).Select();
+                    selected.Add(unit);
                 }
             }
             selecting = false;
@@ -124,10 +124,23 @@ namespace GameJam2017.Unit {
         }
         
         public override void Update(GameTime time) {
-            foreach (var unit in units) {
-                unit.Update(time);
-            }
             cursor.Update(time, new Vector2(Mouse.GetState().X, Mouse.GetState().Y));
+
+            for (int i = 0; i < controllables.Count; i++) {
+                controllables[i].Vel = Vector2.Zero;
+                for (int j = 0; j < controllables.Count; j++) {
+                    if (i == j) continue;
+                    Vector2 diff = controllables[i].GetPos - controllables[j].GetPos;
+                    var dist = diff.Length() - controllables[i].Height / 4 - controllables[i].Width / 4 -
+                               controllables[j].Height / 4
+                               - controllables[j].Width / 4;
+                    if (dist > 20) continue;
+                    diff.Normalize();
+                    dist = (float)(1.0 / Math.Pow(Math.Max(dist, -9.5f) + 10, 1));
+                    
+                    controllables[i].Vel += diff * dist;
+                }
+            }
         }
 
         public void AddNewUnits() {

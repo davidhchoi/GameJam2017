@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam2017.Content {
     public class Entity {
-        private Vector2 Vel { get; set; }
+        public Vector2 Vel { get; set; }
         public Vector2 Pos { get; set; }
         public Vector2 Size { get; set; }
 
