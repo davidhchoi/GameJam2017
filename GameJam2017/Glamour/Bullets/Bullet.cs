@@ -23,6 +23,12 @@ namespace GameJam2017.Glamour.Bullets {
             this.Angle = angle;
         }
 
+        public void Apply(Minion u) {
+            foreach (var statusEffect in statusEffects) {
+                statusEffect.Apply(u);
+            }
+        }
+
         public static void Initialize() {
             foreach (Core.Colours colour in Enum.GetValues(typeof(Core.Colours))) {
                 textures[(int) colour] = Core.GetRecoloredCache("bullet", colour);

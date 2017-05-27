@@ -52,7 +52,7 @@ namespace GameJam2017.Unit {
             Texture = texture;
             MoveSpeed = movespeed;
             Angle = 0;
-            currentStrategy = Strategy.HOLD_POS;
+            currentStrategy = Strategy.STOP;
             Faction = factions;
             Colour = c;
         }
