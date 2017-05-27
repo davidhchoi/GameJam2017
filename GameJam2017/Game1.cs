@@ -1,5 +1,7 @@
 ﻿using GameJam2017.Glamour;
 using GameJam2017.Scene;
+using GameJam2017.Unit;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -11,6 +13,12 @@ namespace GameJam2017 {
     public class Game1 : Game {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Field field;
+        KeyboardState currentKeyboardState;
+        KeyboardState previousKeyboardState;
+        MouseState currentMouseState;
+        MouseState prevMouseState;
+
 
         private MainMenuScene mainScene;
         private DraftScene draftScene;
@@ -49,7 +57,12 @@ namespace GameJam2017 {
                 scene.Initialize();
             }
             Core.Initialize();
+
             base.Initialize();
+            graphics.ApplyChanges();
+            field = new Field();
+            Vector2 playerPos = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
+            field.Initialize(Content.Load<Texture2D> ("Units\\stage"), Content.Load<Texture2D>("Units\\player"), playerPos, Content.Load<Texture2D>("Units\\cursor"));
         }
 
         /// <summary>
@@ -89,6 +102,12 @@ namespace GameJam2017 {
             // TODO: Add your update logic here
             activeScene.Update(gameTime);
 
+            currentMouseState = Mouse.GetState();
+            var mousePosition = new Vector2(currentMouseState.X, currentMouseState.Y);
+            if (currentMouseState.LeftButton == ButtonState.Pressed) {
+                field.Click(mousePosition);
+            }
+            field.Update(gameTime, mousePosition);
             base.Update(gameTime);
         }
 
@@ -102,6 +121,9 @@ namespace GameJam2017 {
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             activeScene.Draw(gameTime, spriteBatch);
+            spriteBatch.Begin();
+
+            field.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);

@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace GameJam2017.Scene {
     class GameScene : Scene {
+        SpriteBatch spriteBatch;
+        Texture2D field;
+        public GameScene() {
+        }
         public override void Initialize() {
             base.Initialize();
         }
@@ -27,5 +31,6 @@ namespace GameJam2017.Scene {
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch) {
             base.Draw(gameTime, spriteBatch);
         }
+
     }
 }

@@ -55,6 +55,9 @@
     <Compile Include="Scene\GameScene.cs" />
     <Compile Include="Scene\MainMenuScene.cs" />
     <Compile Include="Scene\Scene.cs" />
+    <Compile Include="Unit\Cursor.cs" />
+    <Compile Include="Unit\Field.cs" />
+    <Compile Include="Unit\Player.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
