@@ -13,7 +13,8 @@ namespace GameJam2017.Scene {
         Game,
         MainMenu
     }
-    class Scene : IDrawable {
+
+    public class Scene : IDrawable {
         public List<Entity> entities = new List<Entity>();
 
         public virtual void Initialize() {
@@ -34,7 +35,7 @@ namespace GameJam2017.Scene {
             }
         }
 
-        public virtual void Reset() {
+        public virtual void MakeActive(GameTime gameTime) {
             foreach (var entity in entities) {
                 entity.Reset();
             }

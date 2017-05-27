@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam2017 {
-    class Core {
+    public class Core {
         public static Game1 Game;
         public static Random rnd = new Random();
         public static SpriteFont freestyle12;

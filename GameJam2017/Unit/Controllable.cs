@@ -10,7 +10,7 @@ namespace GameJam2017.Unit {
     /**
      * Represents any unit which is controllable by the player
      */
-    abstract class Controllable : Unit {
+    public abstract class Controllable : Unit {
 
         Vector2 Target;
         bool selected;
@@ -42,9 +42,9 @@ namespace GameJam2017.Unit {
                 Pos = Pos + diff * MoveSpeed;
             }
             if (diff.X == 0) {
-                angle = 0;
+                Angle = 0;
             }
-            angle = (float)(Math.Atan2(diff.Y, diff.X) + Math.PI);
+            Angle = (float)(Math.Atan2(diff.Y, diff.X) + Math.PI);
         }
         
     }

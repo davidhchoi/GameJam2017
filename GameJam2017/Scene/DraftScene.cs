@@ -18,6 +18,7 @@ namespace GameJam2017.Scene {
             deck = new Deck(new Vector2((int)(Core.ScreenWidth * .8), 50), new Vector2((int)(Core.ScreenWidth * .2), Core.ScreenHeight - 100));
             toGame = new Button(delegate {
                 Core.Game.ChangeScene(SceneTypes.Game);
+                Core.Game.gameScene.SetDeck(deck);
             }, new Vector2(Core.ScreenWidth / 2 - 100, Core.ScreenHeight * 3 / 4), new Vector2(200, 60));
             entities.Add(deck);
             entities.Add(toGame);
@@ -39,9 +40,9 @@ namespace GameJam2017.Scene {
             }
         }
 
-        public override void Reset() {
+        public override void MakeActive(GameTime gameTime) {
             GenerateCards();
-            base.Reset();
+            base.MakeActive(gameTime);
         }
 
         public override void Update(GameTime gameTime) {

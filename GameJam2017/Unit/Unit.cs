@@ -11,10 +11,10 @@ namespace GameJam2017.Unit {
     /**
      * Represents any unit on the field
      */
-    abstract class Unit : Entity {
+    public abstract class Unit : Entity {
         protected Texture2D Texture;
         protected float MoveSpeed;
-        protected float angle;
+        public float Angle { get; set; }
 
         protected Field f;
 
@@ -22,14 +22,14 @@ namespace GameJam2017.Unit {
             this.f = f;
             Texture = texture;
             MoveSpeed = movespeed;
-            angle = 0;
+            Angle = 0;
         }
 
         public Unit(Texture2D texture, Vector2 position, Vector2 size, float movespeed, Field f) : base(position, size, Vector2.Zero) {
             this.f = f;
             Texture = texture;
             MoveSpeed = movespeed;
-            angle = 0;
+            Angle = 0;
         }
 
         public virtual Vector2 getPos() { return new Vector2(Pos.X + Width / 2, Pos.Y + Height / 2); }
@@ -40,7 +40,7 @@ namespace GameJam2017.Unit {
         }
 
         public virtual void Draw(SpriteBatch sb) {
-            sb.Draw(Texture, new Rectangle(Pos.ToPoint(), Size.ToPoint()), null, Color.White, angle, Vector2.Zero, SpriteEffects.None, 0f);
+            sb.Draw(Texture, new Rectangle(Pos.ToPoint(), Size.ToPoint()), null, Color.White, Angle, Vector2.Zero, SpriteEffects.None, 0f);
         }
     }
 }

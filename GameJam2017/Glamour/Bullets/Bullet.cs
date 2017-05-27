@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam2017.Glamour.Bullets {
-    class Bullet : Unit.Unit {
+    public class Bullet : Unit.Unit {
         private int damage;
         private Core.Colours colour;
         List<StatusEffect> statusEffects = new List<StatusEffect>();
@@ -22,7 +22,7 @@ namespace GameJam2017.Glamour.Bullets {
             this.colour = colour;
             while (angle < 0) angle += (float) (Math.PI * 2);
             while (angle > (float) (Math.PI * 2)) angle -= (float) (Math.PI * 2);
-            this.angle = angle;
+            this.Angle = angle;
         }
 
         public static void Initialize() {
@@ -32,7 +32,7 @@ namespace GameJam2017.Glamour.Bullets {
         }
 
         public override void Update(GameTime gameTime) {
-            Pos += new Vector2((float)Math.Sin(angle) * MoveSpeed, (float)Math.Cos(angle) * MoveSpeed);
+            Pos += new Vector2((float)Math.Sin(Angle) * MoveSpeed, (float)Math.Cos(Angle) * MoveSpeed);
             base.Update(gameTime);
         }
 

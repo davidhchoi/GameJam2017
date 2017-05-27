@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GameJam2017.Content;
+using GameJam2017.Unit;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam2017.Glamour {
-    class Deck : Entity {
+    public class Deck : Entity {
         List<Glamour> glamours = new List<Glamour>();
 
         public Deck(Vector2 pos, Vector2 size) : base(pos, size, Vector2.Zero) {
@@ -25,6 +26,12 @@ namespace GameJam2017.Glamour {
                 glamour.Draw(gameTime, spriteBatch);
             }
             base.Draw(gameTime, spriteBatch);
+        }
+
+        public void CastNext(Vector2 pos, float angle, Field f) {
+            if (glamours.Count == 0) return;
+            glamours[0].Cast(pos, angle, f);
+            glamours.RemoveAt(0);
         }
     }
 }

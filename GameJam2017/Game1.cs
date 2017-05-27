@@ -2,6 +2,7 @@
 using System.Diagnostics.Eventing.Reader;
 using GameJam2017.Component;
 using GameJam2017.Glamour;
+using GameJam2017.Glamour.Bullets;
 using GameJam2017.Scene;
 using GameJam2017.Unit;
 
@@ -20,13 +21,15 @@ namespace GameJam2017 {
 
         private MainMenuScene mainScene;
         private DraftScene draftScene;
-        private GameScene gameScene;
+        public GameScene gameScene;
 
         MouseState currentMouseState;
         MouseState prevMouseState;
 
         KeyboardState currentKeyboardState;
         KeyboardState previousKeyboardState;
+
+        private GameTime lastGameTime;
 
         private Scene.Scene[] scenes;
         private Scene.Scene activeScene;
@@ -79,9 +82,9 @@ namespace GameJam2017 {
                 scene.LoadContent();
             }
             Glamour.Glamour.Initialize();
+            Bullet.Initialize();
             Button.Initialize();
             cursor = Content.Load<Texture2D>("menucursor");
-            draftScene.Reset();
             // TODO: use this.Content to load your game content here
         }
 
@@ -125,6 +128,7 @@ namespace GameJam2017 {
                     activeScene = mainScene;
                     break;
             }
+            activeScene.MakeActive(lastGameTime);
         }
 
         /// <summary>
@@ -139,6 +143,7 @@ namespace GameJam2017 {
             // TODO: Add your update logic here
             activeScene.Update(gameTime);
 
+            lastGameTime = gameTime;
             prevMouseState = currentMouseState;
             currentMouseState = Mouse.GetState();
             previousKeyboardState = currentKeyboardState;

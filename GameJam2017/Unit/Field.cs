@@ -7,9 +7,9 @@ using GameJam2017.Content;
 using Microsoft.Xna.Framework.Input;
 
 namespace GameJam2017.Unit {
-    class Field : Entity {
+    public class Field : Entity {
         Vector2 pos = new Vector2(0, 0);
-        Player player;
+        public Player player;
         Cursor cursor;
         List<Controllable> selected;
         List<Unit> units;

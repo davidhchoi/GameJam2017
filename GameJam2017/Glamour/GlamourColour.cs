@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam2017.Glamour {
-    class GlamourColour {
+    public class GlamourColour {
         public static GlamourColour [] GlamourColours = new GlamourColour[Enum.GetValues(typeof(Core.Colours)).Length];
 
         public Core.Colours C { get; }

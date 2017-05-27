@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam2017.Glamour {
-    class Glamour : Entity {
+    public class Glamour : Entity {
         private GlamourColour c;
         private Shape s;
         private Effect e;
@@ -66,8 +66,9 @@ namespace GameJam2017.Glamour {
                     break;
             }
             for (; startAngle < endAngle; startAngle += increment) {
-                Bullet b = new Bullet(10, c.C, 5, startAngle, pos, new Vector2(5, 5), f);
+                Bullet b = new Bullet(10, c.C, 5, startAngle, pos, new Vector2(20, 20), f);
                 bullets.Add(b);
+                f.AddUnit(b);
             }
             return bullets;
         }
