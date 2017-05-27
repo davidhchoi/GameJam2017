@@ -62,14 +62,14 @@ namespace GameJam2017.Unit {
             selected = new List<Controllable>();
             units = new List<Unit>();
             AddUnit(player);
-            for (int i = 0; i < 1; i ++) {
+            for (int i = 0; i < 5; i ++) {
                 var x = Core.rnd.Next(100, Width - 100);
                 var y = Core.rnd.Next(100, Height - 100);
                 var minion = new Minion(new Vector2(x, y), this);
                 AddUnit(minion);
             }
 
-            for (int i = 0; i < 1; i ++) {
+            for (int i = 0; i < 5; i ++) {
                 var x = Core.rnd.Next(100, Width - 100);
                 var y = Core.rnd.Next(100, Height - 100);
                 var enemy = new Enemy(new Vector2(x, y), this);

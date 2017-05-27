@@ -37,12 +37,13 @@ namespace GameJam2017.Glamour {
 
         public override void Draw(GameTime g, SpriteBatch spriteBatch) {
             Rectangle destination = new Rectangle(Pos.ToPoint(), Size.ToPoint());
+
             c.Draw(spriteBatch, destination);
             spriteBatch.Draw(Core.Rectangles[(int)Core.Colours.White], new Rectangle(
                 destination.Left + destination.Width / 10, destination.Top + destination.Height * 6 / 10,
-                destination.Width * 8 / 10, destination.Height * 3 / 10), Color.White * .4f);
+                destination.Width * 8 / 10, destination.Height * 3 / 10), Color.White * .8f);
             spriteBatch.DrawString(Core.freestyle12, ToString(),
-                new Vector2(destination.Left, destination.Top), Color.Black);
+                new Vector2(destination.Left + destination.Width / 8, destination.Top + destination.Height *7/10), Color.Black, 0, new Vector2(0,0), 1.5f, SpriteEffects.None, 0);
         }
 
         public List<Bullet> Cast(Vector2 pos, float angle, Field f) {

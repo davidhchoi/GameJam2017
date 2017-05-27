@@ -17,7 +17,7 @@ namespace GameJam2017.Glamour {
 
         public void AddGlamour(Glamour g) {
             g.Pos = new Vector2(Pos.X, Pos.Y + Size.X * glamours.Count / 30);
-            g.Size = new Vector2(Size.X, Size.Y / 30);
+            //g.Size = new Vector2(Size.X, Size.Y);
             glamours.Add(g);
         }
 
