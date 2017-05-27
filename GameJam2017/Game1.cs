@@ -61,7 +61,7 @@ namespace GameJam2017 {
             graphics.ApplyChanges();
             field = new Field();
             Vector2 playerPos = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
-            field.Initialize(Content.Load<Texture2D> ("Units\\stage"), Content.Load<Texture2D>("Units\\player"), playerPos, Content.Load<Texture2D>("Units\\cursor"));
+            field.Initialize(playerPos);
         }
 
         /// <summary>
@@ -104,10 +104,21 @@ namespace GameJam2017 {
             // TODO: Add your update logic here
             activeScene.Update(gameTime);
 
+            prevMouseState = currentMouseState;
             currentMouseState = Mouse.GetState();
             var mousePosition = new Vector2(currentMouseState.X, currentMouseState.Y);
-            if (currentMouseState.LeftButton == ButtonState.Pressed) {
-                field.Click(mousePosition);
+            if (currentMouseState.RightButton == ButtonState.Pressed) {
+                field.RightClick(mousePosition);
+            }
+            if (currentMouseState.LeftButton == ButtonState.Pressed &&
+                prevMouseState.LeftButton != ButtonState.Pressed
+                ) {
+                field.BeginSelection(mousePosition);
+            }
+            if (currentMouseState.LeftButton == ButtonState.Released && 
+                prevMouseState.LeftButton != ButtonState.Released
+                ) {
+                field.EndSelection(mousePosition);
             }
             field.Update(gameTime, mousePosition);
             base.Update(gameTime);

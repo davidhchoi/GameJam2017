@@ -10,12 +10,14 @@ namespace GameJam2017.Unit {
     class Cursor {
         public Texture2D CursorTexture;
         public Vector2 Position;
-        public bool Active;
-        float playerMoveSpeed;
 
-        public void Initialize(Texture2D texture, Vector2 position) {
-            CursorTexture= texture;
+        public void Initialize(Vector2 position) {
+            CursorTexture = Core.Game.Content.Load<Texture2D>("Units\\cursor");
             Position = position;
+        }
+
+        public Vector2 getPos() {
+            return Position;
         }
 
         public void Update(GameTime time, Vector2 pos) {
