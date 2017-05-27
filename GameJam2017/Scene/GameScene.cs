@@ -43,11 +43,6 @@ namespace GameJam2017.Scene {
         public override void Update(GameTime gameTime) {
             base.Update(gameTime);
 
-            if (gameTime.TotalGameTime.Seconds - lastSpellTime > 1) {
-                d.CastNext(field.player.Pos, field.player.Angle, field);
-                lastSpellTime = gameTime.TotalGameTime.Seconds;
-            }
-
             var mousePosition = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
             if (Core.Game.MouseRightBecame(ButtonState.Pressed)) {
                 field.RightClick(mousePosition);
@@ -69,6 +64,14 @@ namespace GameJam2017.Scene {
 
             if (Core.Game.KeyboardBecame(Keys.A, KeyState.Down)) {
                 field.AMoveSelected(mousePosition);
+            }
+
+            var diff = Mouse.GetState().Position - field.player.GetPos.ToPoint();
+            field.player.Angle = (float)(Math.Atan2(diff.Y, diff.X) + Math.PI);
+
+            if (gameTime.TotalGameTime.Seconds - lastSpellTime > 1) {
+                d.CastNext(field.player.GetPos, (float)(Math.Atan2(diff.X, diff.Y)), field);
+                lastSpellTime = gameTime.TotalGameTime.Seconds;
             }
             field.AddNewUnits();
         }
