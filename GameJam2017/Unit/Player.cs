@@ -9,7 +9,7 @@ namespace GameJam2017.Unit {
         }
 
         public override void Draw(SpriteBatch sb) {
-            sb.Draw(Texture, position: Position, origin: new Vector2(22, Height-26), rotation: angle); 
+            sb.Draw(Texture, destinationRectangle: new Rectangle(Pos.ToPoint(), Size.ToPoint()), origin: new Vector2(22, Height-26), rotation: angle); 
         }
 
     }

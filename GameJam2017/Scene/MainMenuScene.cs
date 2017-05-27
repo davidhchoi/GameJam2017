@@ -13,7 +13,7 @@ namespace GameJam2017.Scene {
         public override void Initialize() {
             toDraft = new Button(delegate {
                 Core.Game.ChangeScene(SceneTypes.Deck);
-            }, new Rectangle(Core.ScreenWidth / 2 - 100, Core.ScreenHeight * 3 / 4, 200, 60));
+            }, new Vector2(Core.ScreenWidth / 2 - 100, Core.ScreenHeight * 3 / 4), new Vector2(200, 60));
             entities.Add(toDraft);
             base.Initialize();
         }

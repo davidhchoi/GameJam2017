@@ -20,7 +20,7 @@ namespace GameJam2017.Unit {
             var diff = Target - getPos();
             if (diff.Length() > 1) {
                 diff.Normalize();
-                Position = Position + diff * MoveSpeed;
+                Pos = Pos + diff * MoveSpeed;
             }
         }
     }

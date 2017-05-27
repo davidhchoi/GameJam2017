@@ -15,7 +15,7 @@ namespace GameJam2017.Glamour.Bullets {
 
         public static Texture2D[] textures = new Texture2D[Enum.GetValues(typeof(Core.Colours)).Length];
 
-        public Bullet(int damage, Core.Colours colour, Rectangle pos, Vector2 vel) : base(pos, vel) {
+        public Bullet(int damage, Core.Colours colour, Vector2 pos, Vector2 size, Vector2 vel) : base(pos, size, vel) {
             this.damage = damage;
             this.colour = colour;
         }
@@ -27,7 +27,7 @@ namespace GameJam2017.Glamour.Bullets {
         }
 
         public override void Update(GameTime gameTime) {
-            Pos = new Rectangle(Pos.Location + Vel.ToPoint(), Pos.Size);
+            Pos += Vel;
             base.Update(gameTime);
         }
 

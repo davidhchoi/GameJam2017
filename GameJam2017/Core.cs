@@ -38,6 +38,10 @@ namespace GameJam2017 {
             ScreenHeight = Game.Height;
         }
 
+        public static Vector2 ToVector2(Point point) {
+            return new Vector2(point.X, point.Y);
+        }
+
         public static Texture2D ReColor(Texture2D source, Colours c) {
 
             Texture2D target = new Texture2D(Core.Game.GraphicsDevice, source.Width, source.Height);

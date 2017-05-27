@@ -13,26 +13,30 @@ namespace GameJam2017.Unit {
      */
     abstract class Unit : Entity {
         protected Texture2D Texture;
-        protected Vector2 Position;
         protected float MoveSpeed;
         protected float angle;
 
-        public int Width { get { return Texture.Width; } }
-        public int Height { get { return Texture.Height; } }
+        public int Width { get { return (int)Size.X; } }
+        public int Height { get { return (int)Size.Y; } }
+
+        public Unit() : base(Vector2.Zero, Vector2.Zero, Vector2.Zero) {
+            
+        }
 
         public virtual void Initialize(Texture2D texture, Vector2 position, float movespeed) {
             Texture = texture;
-            Position = position;
+            Pos = position;
+            Size = new Vector2(Texture.Width, Texture.Height);
             MoveSpeed = movespeed;
             angle = 0;
         }
 
-        public Vector2 getPos() { return Position + new Vector2(Width, Height); }
+        public Vector2 getPos() { return new Vector2(Pos.X + Width / 2, Pos.Y + Height / 2); }
 
         abstract public void Update(GameTime time, List<Unit> other);
 
         public virtual void Draw(SpriteBatch sb) {
-            sb.Draw(Texture, Position, null, Color.White, angle, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            sb.Draw(Texture, new Rectangle(Pos.ToPoint(), Size.ToPoint()), null, Color.White, angle, Vector2.Zero, SpriteEffects.None, 0f);
         }
     }
 }

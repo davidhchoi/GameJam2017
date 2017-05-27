@@ -24,7 +24,7 @@ namespace GameJam2017.Component {
             texture = Core.Game.Content.Load<Texture2D>("button");
         }
 
-        public Button(Action callback, Rectangle pos) : base(pos, Vector2.Zero) {
+        public Button(Action callback, Vector2 pos, Vector2 size) : base(pos, size, Vector2.Zero) {
             this.callback = callback;
             state = BState.Unpressed;
         }

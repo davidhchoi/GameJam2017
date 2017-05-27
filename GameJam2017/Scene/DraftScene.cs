@@ -15,10 +15,10 @@ namespace GameJam2017.Scene {
         private Deck deck;
         private Button toGame;
         public override void Initialize() {
-            deck = new Deck(new Rectangle((int)(Core.ScreenWidth * .8), 50, (int)(Core.ScreenWidth * .2), Core.ScreenHeight - 100));
+            deck = new Deck(new Vector2((int)(Core.ScreenWidth * .8), 50), new Vector2((int)(Core.ScreenWidth * .2), Core.ScreenHeight - 100));
             toGame = new Button(delegate {
                 Core.Game.ChangeScene(SceneTypes.Game);
-            }, new Rectangle(Core.ScreenWidth / 2 - 100, Core.ScreenHeight * 3 / 4, 200, 60));
+            }, new Vector2(Core.ScreenWidth / 2 - 100, Core.ScreenHeight * 3 / 4), new Vector2(200, 60));
             entities.Add(deck);
             entities.Add(toGame);
             base.Initialize();
@@ -34,7 +34,7 @@ namespace GameJam2017.Scene {
 
         protected void GenerateCards() {
             for (int i = 0; i < activeCards.Length; i++) {
-                activeCards[i] = Glamour.Glamour.RandomGlamour(new Rectangle(50 + i * 400, 50, 300, 420));
+                activeCards[i] = Glamour.Glamour.RandomGlamour(new Vector2(50 + i * 400, 50), new Vector2(300, 420));
                 entities.Add(activeCards[i]);
             }
         }

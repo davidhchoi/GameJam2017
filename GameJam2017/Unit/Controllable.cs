@@ -23,10 +23,10 @@ namespace GameJam2017.Unit {
         }
 
         public override void Update(GameTime time, List<Unit> other) {
-            var diff = Target - Position;
+            var diff = Target - Pos;
             if (diff.Length() > 5) {
                 diff.Normalize();
-                Position = Position + diff * MoveSpeed;
+                Pos = Pos + diff * MoveSpeed;
             }
             if (diff.X == 0) {
                 angle = 0;

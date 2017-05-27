@@ -8,11 +8,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam2017.Content {
     class Entity {
-        public Rectangle Pos { get; set; }
-        public Vector2 Vel { get; set;  }
+        public Vector2 Vel { get; set; }
+        public Vector2 Pos { get; set; }
+        public Vector2 Size { get; set; }
 
-        public Entity(Rectangle pos, Vector2 vel) {
+        public Entity(Vector2 pos, Vector2 size, Vector2 vel) {
             this.Pos = pos;
+            this.Size = size;
             this.Vel = vel;
         }
 
@@ -35,7 +37,7 @@ namespace GameJam2017.Content {
         }
 
         public virtual bool Intersect(Point pos) {
-            return this.Pos.Intersects(new Rectangle(pos, Point.Zero));
+            return new Rectangle(Pos.ToPoint(), Size.ToPoint()).Intersects(new Rectangle(pos, Point.Zero));
         }
     }
 }

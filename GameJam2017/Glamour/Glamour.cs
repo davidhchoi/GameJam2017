@@ -16,7 +16,7 @@ namespace GameJam2017.Glamour {
         private Effect e;
         private Alter [] a;
 
-        public Glamour(GlamourColour c, Shape s, Effect e, Alter[] a, Rectangle pos) : base(pos, Vector2.Zero) {
+        public Glamour(GlamourColour c, Shape s, Effect e, Alter[] a, Vector2 pos, Vector2 size) : base(pos, size, Vector2.Zero) {
             this.c = c;
             this.s = s;
             this.e = e;
@@ -34,7 +34,7 @@ namespace GameJam2017.Glamour {
         }
 
         public override void Draw(GameTime g, SpriteBatch spriteBatch) {
-            Rectangle destination = Pos;
+            Rectangle destination = new Rectangle(Pos.ToPoint(), Size.ToPoint());
             c.Draw(spriteBatch, destination);
             spriteBatch.Draw(Core.Rectangles[(int)Core.Colours.White], new Rectangle(
                 destination.Left + destination.Width / 10, destination.Top + destination.Height * 6 / 10,
@@ -43,7 +43,7 @@ namespace GameJam2017.Glamour {
                 new Vector2(destination.Left, destination.Top), Color.Black);
         }
 
-        public static Glamour RandomGlamour(Rectangle pos) {
+        public static Glamour RandomGlamour(Vector2 pos, Vector2 size) {
             int i = Core.rnd.Next(GlamourColour.GlamourColours.Length);
             GlamourColour c = GlamourColour.GlamourColours[i];
             i = Core.rnd.Next(Shape.shapes.Length);
@@ -52,7 +52,7 @@ namespace GameJam2017.Glamour {
             Effect e = Effect.effects[i];
 
             
-            return new Glamour(c, s, e, new Alter[0], pos);
+            return new Glamour(c, s, e, new Alter[0], pos, size);
         }
 
         public static void Initialize() {

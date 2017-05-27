@@ -11,11 +11,12 @@ namespace GameJam2017.Glamour {
     class Deck : Entity {
         List<Glamour> glamours = new List<Glamour>();
 
-        public Deck(Rectangle pos) : base(pos, Vector2.Zero) {
+        public Deck(Vector2 pos, Vector2 size) : base(pos, size, Vector2.Zero) {
         }
 
         public void AddGlamour(Glamour g) {
-            g.Pos = new Rectangle(Pos.X, Pos.Y + Pos.Height * glamours.Count / 30, Pos.Width, Pos.Height / 30);
+            g.Pos = new Vector2(Pos.X, Pos.Y + Size.X * glamours.Count / 30);
+            g.Size = new Vector2(Size.X, Size.Y / 30);
             glamours.Add(g);
         }
 
