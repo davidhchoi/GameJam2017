@@ -2,13 +2,14 @@
     public class Effect {
         public static Effect [] effects = new Effect[1];
 
-        enum Type {
+        public enum Type {
             Damage
         };
 
-        private Type t;
+        public Type T { get; }
+
         private Effect(Type t) {
-            this.t = t;
+            this.T = t;
         }
 
         public static void Initialize() {

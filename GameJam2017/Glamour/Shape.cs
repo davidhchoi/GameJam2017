@@ -2,15 +2,16 @@
     public class Shape {
         public static Shape [] shapes = new Shape[3];
 
-        enum Type {
+        public enum Type {
             Bullet,
             Cone,
             Circle
         };
 
-        private Type t;
+        public Type T { get; }
+
         private Shape(Type t) {
-            this.t = t;
+            this.T = t;
         }
 
         public static void Initialize() {

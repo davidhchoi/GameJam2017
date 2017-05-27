@@ -1,12 +1,14 @@
 ﻿namespace GameJam2017.Glamour {
     public class Alter {
         public static Alter [] alters = new Alter[0];
-        enum Type {
+
+        public enum Type {
         };
 
-        private Type t;
+        public Type T { get; }
+
         private Alter(Type t) {
-            this.t = t;
+            this.T = t;
         }
 
         public static void Initialize() {

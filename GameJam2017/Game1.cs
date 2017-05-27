@@ -1,4 +1,5 @@
 ﻿using GameJam2017.Glamour;
+using GameJam2017.Scene;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -11,6 +12,13 @@ namespace GameJam2017 {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        private MainMenuScene mainScene;
+        private DraftScene draftScene;
+        private GameScene gameScene;
+
+        private Scene.Scene[] scenes;
+        private Scene.Scene activeScene;
+
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -18,6 +26,13 @@ namespace GameJam2017 {
             graphics.PreferredBackBufferHeight = 1080;   // set this value to the desired height of your window
             graphics.ApplyChanges();
             Window.IsBorderless = true;
+
+            mainScene = new MainMenuScene();
+            draftScene = new DraftScene();
+            gameScene = new GameScene();
+            scenes = new Scene.Scene[]{mainScene, draftScene, gameScene};
+
+            activeScene = draftScene;
         }
 
         /// <summary>
@@ -30,6 +45,10 @@ namespace GameJam2017 {
             // TODO: Add your initialization logic here
 
             Glamour.Glamour.Initialize();
+            foreach (var scene in scenes) {
+                scene.Initialize();
+            }
+            Core.Initialize();
             base.Initialize();
         }
 
@@ -40,7 +59,9 @@ namespace GameJam2017 {
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            foreach (var scene in scenes) {
+                scene.LoadContent();
+            }
             // TODO: use this.Content to load your game content here
         }
 
@@ -50,6 +71,10 @@ namespace GameJam2017 {
         /// </summary>
         protected override void UnloadContent() {
             // TODO: Unload any non ContentManager content here
+
+            foreach (var scene in scenes) {
+                scene.UnloadContent();
+            }
         }
 
         /// <summary>
@@ -62,6 +87,7 @@ namespace GameJam2017 {
                 Exit();
 
             // TODO: Add your update logic here
+            activeScene.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -74,6 +100,9 @@ namespace GameJam2017 {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            spriteBatch.Begin();
+            activeScene.Draw(gameTime, spriteBatch);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }

@@ -1,14 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam2017 {
     class Core {
         public static Game Game;
         public static Random rnd = new Random();
+        public static SpriteFont freestyle12;
+
+        public static void Initialize() {
+            freestyle12 = Game.Content.Load<SpriteFont>("freestyle12");
+        }
 
         public enum Colours {
             Red,

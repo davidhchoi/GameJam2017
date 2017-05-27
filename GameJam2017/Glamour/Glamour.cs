@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GameJam2017.Scene;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam2017.Glamour {
     class Glamour {
@@ -18,6 +20,12 @@ namespace GameJam2017.Glamour {
             this.s = s;
             this.e = e;
             Array.Copy(this.a, a, a.Length);
+        }
+
+        public void Draw(SpriteBatch spriteBatch, Rectangle destination) {
+            c.Draw(spriteBatch, destination);
+            spriteBatch.DrawString(Core.freestyle12, c.C.ToString() + "\n" + s.T.ToString() + "\n" + e.T.ToString(),
+                new Vector2(destination.Left, destination.Top), Color.Black);
         }
 
         public static Glamour RandomGlamour() {

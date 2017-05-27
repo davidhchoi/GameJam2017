@@ -10,10 +10,10 @@ namespace GameJam2017.Glamour {
     class GlamourColour {
         public static GlamourColour [] GlamourColours = new GlamourColour[6];
 
-        private Core.Colours c;
+        public Core.Colours C { get; }
         private Texture2D cardBack;
         protected GlamourColour(Core.Colours c) {
-            this.c = c;
+            this.C = c;
             cardBack = Core.Game.Content.Load<Texture2D>("cardback");
 
             Color[] data = new Color[cardBack.Width * cardBack.Height];

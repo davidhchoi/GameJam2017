@@ -17,6 +17,10 @@ namespace GameJam2017.Scene {
         public virtual void UnloadContent() {
         }
 
+        public virtual void Reset() {
+            
+        }
+
         public virtual void Update(GameTime gameTime) {
         }
 
