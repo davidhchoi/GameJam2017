@@ -30,19 +30,31 @@ namespace GameJam2017.Unit {
         public int Width { get { return (int)Size.X; } }
         public int Height { get { return (int)Size.Y; } }
 
-        public Unit(Texture2D texture, Vector2 position, float movespeed, Field f) : base(position, new Vector2(texture.Width, texture.Height), Vector2.Zero) {
-            this.f = f;
-            Texture = texture;
-            MoveSpeed = movespeed;
-            Angle = 0;
+        public enum Factions {
+            P1,
+            Enemy
+        }
+        public Factions Faction { get; set; }
+        public Core.Colours Colour { get; set; }
+        protected bool selected;
+
+        public Unit(string texture, Vector2 position, float movespeed, Factions factions, Core.Colours c, Field f) : 
+            this(texture, position, new Vector2(Core.Game.Content.Load<Texture2D>(texture).Width, Core.Game.Content.Load<Texture2D>(texture).Height), movespeed, factions, c, f) {
         }
 
-        public Unit(Texture2D texture, Vector2 position, Vector2 size, float movespeed, Field f) : base(position, size, Vector2.Zero) {
+        public Unit(string texture, Vector2 position, Vector2 size, float movespeed, Factions factions, Core.Colours c, Field f) 
+            : this(Core.GetRecoloredCache(texture, c), position, size, movespeed, factions, c, f) {
+        }
+
+        public Unit(Texture2D texture, Vector2 position, Vector2 size, float movespeed, Factions factions, Core.Colours c, Field f)
+            : base(position, size, Vector2.Zero) {
             this.f = f;
             Texture = texture;
             MoveSpeed = movespeed;
             Angle = 0;
             currentStrategy = Strategy.HOLD_POS;
+            Faction = factions;
+            Colour = c;
         }
 
         public virtual Vector2 GetPos {
@@ -55,8 +67,8 @@ namespace GameJam2017.Unit {
         }
 
         public virtual void Draw(SpriteBatch sb) {
-            sb.Draw(Texture, new Rectangle((Pos + Size / 2).ToPoint(), Size.ToPoint()), null, Color.White, Angle, Size / 2, SpriteEffects.None, 0f);
-            sb.Draw(Core.Rectangles[2], new Rectangle((Pos + Size / 2 - new Vector2(5, 5)).ToPoint(), new Point(10, 10)), Color.White);
+            sb.Draw(Texture, new Rectangle((Pos + Size / 2).ToPoint(), Size.ToPoint()), null, selected ? Color.White * .5f : Color.White, Angle, Size / 2, SpriteEffects.None, 0f);
+            sb.Draw(Core.Rectangles[2], new Rectangle((Pos + Size / 2 - new Vector2(5, 5)).ToPoint(), new Point(10, 10)), selected ? Color.White * .5f : Color.White);
         }
     }
 }

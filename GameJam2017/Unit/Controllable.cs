@@ -10,109 +10,101 @@ namespace GameJam2017.Unit {
 
         Vector2 Target;
         Unit TargetEnemy;
-        bool selected;
         protected int range = 200;
 
 
-        public Controllable(Texture2D texture, Vector2 position, float movespeed, Field f) : base(texture, position, movespeed, f) {
+        public Controllable(string texture, Vector2 position, float movespeed, Factions faction, Core.Colours c, Field f) : 
+            base(texture, position, movespeed, faction, c, f) {
             Target = position;
             Unselect();
         }
 
         public virtual void Select() {
             selected = true;
-            Texture = Core.ReColor(Texture, Core.Colours.LightGreen);
         }
         public virtual void Unselect() {
             selected = false;
-            Texture = Core.ReColor(Texture, Core.Colours.Green);
         }
 
-        public void ChangeTarget(Vector2 target) {
-            var toMid = new Vector2(Width / 2, Height / 2);
-            Target = target - toMid;
+        public void Move(Vector2 target) {
+            Target = target;
             currentStrategy = Strategy.MOVE;
+            TargetEnemy = null;
         }
-        
 
         /**
          * Set the current strategy to stop
          */
         public void Stop() {
             currentStrategy = Strategy.STOP;
+            TargetEnemy = null;
         }
 
         public void HoldPos() {
             currentStrategy = Strategy.HOLD_POS;
+            TargetEnemy = null;
         }
 
         public void Attack(Unit u) {
             // If the target unit is an enemy, move to attack it
-            if (u is Enemy) {
+            if (u.Faction != Faction) {
                 currentStrategy = Strategy.ATTACK;
                 TargetEnemy = u;
             } else { // Else if it's an ally, just move to it
                 currentStrategy = Strategy.MOVE;
-                Target = u.GetPos;
+                TargetEnemy = u;
             }
         }
 
         public void AttackMove(Vector2 target) {
             currentStrategy = Strategy.ATTACK_MOVE;
+            TargetEnemy = null;
             Target = target;
         }
 
         protected abstract void Shoot(Unit u);
 
+        protected bool Move() {
+            if (TargetEnemy != null) Target = TargetEnemy.GetPos;
+            var diff = Target - Pos;
+            if (diff.Length() < 5) return false;
+
+            diff.Normalize();
+            Pos = Pos + diff * MoveSpeed;
+            Angle = (float)(Math.Atan2(diff.Y, diff.X) + Math.PI);
+            return true;
+        }
+
         public override void Update(GameTime time) {
+            Unit enemy = f.ClosestEnemy(this);
             switch (currentStrategy) {
                 case Unit.Strategy.ATTACK_MOVE:
-                    Unit enemy = f.ClosestEnemy(GetPos);
-                    Vector2 diff;
                     if (enemy != null && (enemy.GetPos - GetPos).Length() < range) {
-                        Shoot(enemy);
-                    } else {
-                        diff = Target - Pos;
-                        if (diff.Length() > 5) {
-                            diff.Normalize();
-                            Pos = Pos + diff * MoveSpeed;
-                            if (diff.X == 0) {
-                                Angle = 0;
-                            }
-                            Angle = (float)(Math.Atan2(diff.Y, diff.X) + Math.PI);
-                        }
+                        Attack(enemy);
+                    } else if (!Move()) {
+                        Stop();
                     }
                     break;
                 case Unit.Strategy.ATTACK:
-                    if (f.IsEnemyInRange(GetPos, TargetEnemy, range)) {
+                    if ((TargetEnemy.GetPos - GetPos).Length() < range) {
                         Shoot(TargetEnemy);
+                    } else if ((TargetEnemy.GetPos - GetPos).Length() > 2 * range) {
+                        Stop();
                     } else {
-                        diff = Target - Pos;
-                        if (diff.Length() > 5) {
-                            diff.Normalize();
-                            Pos = Pos + diff * MoveSpeed;
-                            if (diff.X == 0) {
-                                Angle = 0;
-                            }
-                            Angle = (float)(Math.Atan2(diff.Y, diff.X) + Math.PI);
-                        }
+                        Move();
                     }
                     break;
                 case Unit.Strategy.MOVE:
-                    diff = Target - Pos;
-                    if (diff.Length() > 5) {
-                        diff.Normalize();
-                        Pos = Pos + diff * MoveSpeed;
-                        if (diff.X == 0) {
-                            Angle = 0;
-                        }
-                        Angle = (float)(Math.Atan2(diff.Y, diff.X) + Math.PI);
+                    if (!Move()) {
+                        Stop();
                     }
                     break;
                 case Unit.Strategy.STOP:
+                    if (enemy != null && (enemy.GetPos - GetPos).Length() < range) {
+                        Attack(enemy);
+                    }
                     break;
                 case Unit.Strategy.HOLD_POS:
-                    enemy = f.ClosestEnemy(GetPos);
                     if (enemy != null && (enemy.GetPos - GetPos).Length() < range) {
                         Shoot(enemy);
                     }

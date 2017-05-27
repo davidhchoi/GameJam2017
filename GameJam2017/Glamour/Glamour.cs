@@ -67,7 +67,7 @@ namespace GameJam2017.Glamour {
                     break;
             }
             for (; startAngle < endAngle; startAngle += increment) {
-                Bullet b = new Bullet(10, c.C, 5, startAngle, pos, new Vector2(20, 20), f);
+                Bullet b = new Bullet(10, c.C, 5, startAngle, pos, new Vector2(20, 20), Unit.Unit.Factions.P1, f);
                 bullets.Add(b);
                 f.AddUnit(b);
             }

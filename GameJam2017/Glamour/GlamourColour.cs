@@ -14,7 +14,7 @@ namespace GameJam2017.Glamour {
         private Texture2D cardBack;
         protected GlamourColour(Core.Colours c) {
             this.C = c;
-            cardBack = Core.ReColor(Core.Game.Content.Load<Texture2D>("cardback"), c);
+            cardBack = Core.GetRecoloredCache("cardback", c);
         }
 
         public static void Initialize() {

@@ -70,6 +70,7 @@ namespace GameJam2017.Scene {
             if (Core.Game.KeyboardBecame(Keys.A, KeyState.Down)) {
                 field.AMoveSelected(mousePosition);
             }
+            field.AddNewUnits();
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch) {

@@ -43,6 +43,17 @@ namespace GameJam2017 {
             return new Vector2(point.X, point.Y);
         }
 
+        private static Dictionary<string, Texture2D> previousColored = new Dictionary<string, Texture2D>();
+        public static Texture2D GetRecoloredCache(string s, Colours c) {
+            string key = s + c.ToString();
+            if (previousColored.ContainsKey(key)) return previousColored[key];
+
+            Texture2D source = Game.Content.Load<Texture2D>(s);
+
+            previousColored[key] = ReColor(source, c);
+            return previousColored[key];
+        }
+
         public static Texture2D ReColor(Texture2D source, Colours c) {
 
             Texture2D target = new Texture2D(Core.Game.GraphicsDevice, source.Width, source.Height);
@@ -56,6 +67,10 @@ namespace GameJam2017 {
                 RgbColor r = new RgbColor(data[x].R, data[x].G, data[x].B);
                 HsvColor h = RgbToHsv(r);
                 h.h = newColor;
+                if (h.v > 10 && c == Colours.White) {
+                    h.s = 0;
+                    h.v = 255;
+                }
                 r = HsvToRgb(h);
                 data[x].R = (byte)r.r;
                 data[x].G = (byte)r.g;

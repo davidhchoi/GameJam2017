@@ -11,15 +11,13 @@ using Microsoft.Xna.Framework.Graphics;
 namespace GameJam2017.Glamour.Bullets {
     public class Bullet : Unit.Unit {
         private int damage;
-        private Core.Colours colour;
         List<StatusEffect> statusEffects = new List<StatusEffect>();
 
         public static Texture2D[] textures = new Texture2D[Enum.GetValues(typeof(Core.Colours)).Length];
 
-        public Bullet(int damage, Core.Colours colour, float moveSpeed, float angle, Vector2 pos, Vector2 size, Field f) : 
-            base(textures[(int)colour], pos, size, moveSpeed, f) {
+        public Bullet(int damage, Core.Colours colour, float moveSpeed, float angle, Vector2 pos, Vector2 size, Factions factions, Field f) : 
+            base(textures[(int)colour], pos, size, moveSpeed, factions, colour, f) {
             this.damage = damage;
-            this.colour = colour;
             while (angle < 0) angle += (float) (Math.PI * 2);
             while (angle > (float) (Math.PI * 2)) angle -= (float) (Math.PI * 2);
             this.Angle = angle;
@@ -27,7 +25,7 @@ namespace GameJam2017.Glamour.Bullets {
 
         public static void Initialize() {
             foreach (Core.Colours colour in Enum.GetValues(typeof(Core.Colours))) {
-                textures[(int) colour] = Core.ReColor(Core.Game.Content.Load<Texture2D>("bullet"), colour);
+                textures[(int) colour] = Core.GetRecoloredCache("bullet", colour);
             }
         }
 
@@ -37,7 +35,7 @@ namespace GameJam2017.Glamour.Bullets {
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch) {
-            spriteBatch.Draw(textures[(int)colour], Pos, Color.White);
+            spriteBatch.Draw(textures[(int)Colour], Pos, Color.White);
             base.Draw(gameTime, spriteBatch);
         }
     }

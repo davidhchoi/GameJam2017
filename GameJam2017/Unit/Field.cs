@@ -12,6 +12,7 @@ namespace GameJam2017.Unit {
         public Player player;
         Cursor cursor;
         List<Controllable> selected;
+        private List<Controllable> controllables;
         List<Unit> units;
         Vector2 selectBegin;
         List<Unit> toAddUnits;
@@ -28,28 +29,18 @@ namespace GameJam2017.Unit {
 
         public void AddUnit(Unit u) {
             toAddUnits.Add(u);
-            scene.toAddEntities.Add(u);
         }
         
-        public Unit ClosestUnit(Vector2 pos) {
-            return units.Where(u => !(u is Enemy))
-                .OrderBy(u => (u.GetPos - pos).Length())
+        public Unit ClosestAlly(Unit u1) {
+            return controllables.Where(u => u.Faction == u1.Faction)
+                .OrderBy(u => (u.GetPos - u1.GetPos).Length())
                 .FirstOrDefault();
         }
 
-        public Unit ClosestEnemy(Vector2 pos) {
-            return units.Where(u => u is Enemy)
-                .OrderBy(u => (u.GetPos - pos).Length())
+        public Unit ClosestEnemy(Unit u1) {
+            return controllables.Where(u => u.Faction != u1.Faction)
+                .OrderBy(u => (u.GetPos - u1.GetPos).Length())
                 .FirstOrDefault();
-        }
-
-        public bool IsEnemyInRange(Vector2 pos, Unit enemy, int range) {
-            foreach (Unit u in units) {
-                if (u.Equals(enemy)) {
-                    return (u.GetPos - pos).Length() < range;
-                }
-            }
-            return false;
         }
 
         public override void Initialize() {
@@ -61,18 +52,19 @@ namespace GameJam2017.Unit {
             cursor.Initialize(playerPos);
             selected = new List<Controllable>();
             units = new List<Unit>();
+            controllables = new List<Controllable>();
             AddUnit(player);
             for (int i = 0; i < 5; i ++) {
                 var x = Core.rnd.Next(100, Width - 100);
                 var y = Core.rnd.Next(100, Height - 100);
-                var minion = new Minion(new Vector2(x, y), this);
+                var minion = new Minion("Units\\minion", new Vector2(x, y), Unit.Factions.P1, Core.Colours.Green, this);
                 AddUnit(minion);
             }
 
             for (int i = 0; i < 5; i ++) {
                 var x = Core.rnd.Next(100, Width - 100);
                 var y = Core.rnd.Next(100, Height - 100);
-                var enemy = new Enemy(new Vector2(x, y), this);
+                var enemy = new Minion("Units\\enemy", new Vector2(x, y), Unit.Factions.Enemy, Core.Colours.Red, this);
                 AddUnit(enemy);
             }
 
@@ -80,8 +72,16 @@ namespace GameJam2017.Unit {
             selected.Add(player);
         }
         public void RightClick(Vector2 click) {
+            foreach (var unit in units) {
+                if (unit.Intersects(click.ToPoint())) {
+                    foreach (Controllable u in selected) {
+                        u.Attack(unit);
+                    }
+                    return;
+                }
+            }
             foreach (Controllable unit in selected) {
-                unit.ChangeTarget(click);
+                unit.Move(click);
             }
         }
 
@@ -97,7 +97,7 @@ namespace GameJam2017.Unit {
         public void EndSelection(Vector2 click) {
             Rectangle r = new Rectangle(selectBegin.ToPoint(), (click - selectBegin).ToPoint());
             foreach (Unit unit in units) {
-                if (unit is Controllable && unit.Intersects(r)) {
+                if (unit.Faction == Unit.Factions.P1 && unit.Intersects(r)) {
                     ((Controllable)unit).Select();
                     selected.Add((Controllable)unit);
                 }
@@ -128,8 +128,14 @@ namespace GameJam2017.Unit {
                 unit.Update(time);
             }
             cursor.Update(time, new Vector2(Mouse.GetState().X, Mouse.GetState().Y));
+        }
+
+        public void AddNewUnits() {
             foreach (var unit in toAddUnits) {
                 units.Add(unit);
+                scene.entities.Add(unit);
+                if (unit is Controllable)
+                    controllables.Add((Controllable)unit);
             }
             toAddUnits.Clear();
         }
