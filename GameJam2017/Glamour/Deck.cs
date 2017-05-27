@@ -11,8 +11,7 @@ namespace GameJam2017.Glamour {
     class Deck : Entity {
         List<Glamour> glamours = new List<Glamour>();
 
-        public Deck(Rectangle pos) {
-            Pos = pos;
+        public Deck(Rectangle pos) : base(pos, Vector2.Zero) {
         }
 
         public void AddGlamour(Glamour g) {

@@ -11,6 +11,11 @@ namespace GameJam2017.Content {
         public Rectangle Pos { get; set; }
         public Vector2 Vel { get; set;  }
 
+        public Entity(Rectangle pos, Vector2 vel) {
+            this.Pos = pos;
+            this.Vel = vel;
+        }
+
         public virtual void Initialize() {
         }
 

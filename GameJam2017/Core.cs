@@ -46,19 +46,17 @@ namespace GameJam2017 {
             Color[] data = new Color[target.Width * target.Height];
             Core.Game.Content.Load<Texture2D>("cardback").GetData(data);
 
-            Color newColor = ColourNameToColour(c);
+            int newColor = ColourNameToHue(c);
             for (int x = 0; x < target.Width * target.Height; x++) {
-                if (Math.Abs(data[x].R - data[x].B) < 20
-                    && Math.Abs(data[x].R - data[x].G) < 20
-                    && Math.Abs(data[x].G - data[x].B) < 20) {
-                    continue;
-                }
-                double amount = data[x].B / 255.0;
-                data[x].B = (byte)((newColor.B * amount));
-                data[x].R = (byte)((newColor.R * amount));
-                data[x].G = (byte)((newColor.G * amount));
+                RgbColor r = new RgbColor(data[x].R, data[x].G, data[x].B);
+                HsvColor h = RgbToHsv(r);
+                h.h = newColor;
+                r = HsvToRgb(h);
+                data[x].R = (byte)r.r;
+                data[x].G = (byte)r.g;
+                data[x].B = (byte)r.b;
+
             }
-            Color tmp = Core.ColourNameToColour(c);
 
             target.SetData(data);
             return target;
@@ -82,6 +80,136 @@ namespace GameJam2017 {
                     return Color.White;
             }
             throw new Exception("Something bad happened");
+        }
+
+        public static int ColourNameToHue(Colours color) {
+            switch (color) {
+                case Colours.Red:
+                    return 0;
+                case Colours.Yellow:
+                    return 60 * 256 / 360;
+                case Colours.Blue:
+                    return 240 * 256 / 360;
+                case Colours.Green:
+                    return 120 * 256 / 360;
+                case Colours.Orange:
+                    return 30 * 256 / 360;
+                case Colours.Purple:
+                    return 300 * 256 / 360;
+                case Colours.White:
+                    return 0;
+            }
+            throw new Exception("Something bad happened");
+        }
+
+
+
+        public struct RgbColor {
+            public int r;
+            public int g;
+            public int b;
+
+            public RgbColor(int r, int g, int b) {
+                this.r = r;
+                this.g = g;
+                this.b = b;
+            }
+        }
+
+        public struct HsvColor {
+            public int h;
+            public int s;
+            public int v;
+
+            public HsvColor(int r, int g, int b) {
+                this.h = r;
+                this.s = g;
+                this.v = b;
+            }
+        }
+
+        public static RgbColor HsvToRgb(HsvColor hsv) {
+            RgbColor rgb;
+            int region, remainder, p, q, t;
+
+            if (hsv.s == 0) {
+                rgb.r = hsv.v;
+                rgb.g = hsv.v;
+                rgb.b = hsv.v;
+                return rgb;
+            }
+
+            region = (int)(hsv.h / 43);
+            remainder = (int)((hsv.h - (region * 43)) * 6);
+
+            p = (int)((hsv.v * (255 - hsv.s)) >> 8);
+            q = (int)((hsv.v * (255 - ((hsv.s * remainder) >> 8))) >> 8);
+            t = (int)((hsv.v * (255 - ((hsv.s * (255 - remainder)) >> 8))) >> 8);
+
+            switch (region) {
+                case 0:
+                    rgb.r = hsv.v;
+                    rgb.g = t;
+                    rgb.b = p;
+                    break;
+                case 1:
+                    rgb.r = q;
+                    rgb.g = hsv.v;
+                    rgb.b = p;
+                    break;
+                case 2:
+                    rgb.r = p;
+                    rgb.g = hsv.v;
+                    rgb.b = t;
+                    break;
+                case 3:
+                    rgb.r = p;
+                    rgb.g = q;
+                    rgb.b = hsv.v;
+                    break;
+                case 4:
+                    rgb.r = t;
+                    rgb.g = p;
+                    rgb.b = hsv.v;
+                    break;
+                default:
+                    rgb.r = hsv.v;
+                    rgb.g = p;
+                    rgb.b = q;
+                    break;
+            }
+
+            return rgb;
+        }
+
+        public static HsvColor RgbToHsv(RgbColor rgb) {
+            HsvColor hsv;
+            int rgbMin, rgbMax;
+
+            rgbMin = rgb.r < rgb.g ? (rgb.r < rgb.b ? rgb.r : rgb.b) : (rgb.g < rgb.b ? rgb.g : rgb.b);
+            rgbMax = rgb.r > rgb.g ? (rgb.r > rgb.b ? rgb.r : rgb.b) : (rgb.g > rgb.b ? rgb.g : rgb.b);
+
+            hsv.v = rgbMax;
+            if (hsv.v == 0) {
+                hsv.h = 0;
+                hsv.s = 0;
+                return hsv;
+            }
+
+            hsv.s = (int)(255 * (int)(rgbMax - rgbMin) / hsv.v);
+            if (hsv.s == 0) {
+                hsv.h = 0;
+                return hsv;
+            }
+
+            if (rgbMax == rgb.r)
+                hsv.h = (int)(0 + 43 * (rgb.g - rgb.b) / (rgbMax - rgbMin));
+            else if (rgbMax == rgb.g)
+                hsv.h = (int)(85 + 43 * (rgb.b - rgb.r) / (rgbMax - rgbMin));
+            else
+                hsv.h = (int)(171 + 43 * (rgb.r - rgb.g) / (rgbMax - rgbMin));
+
+            return hsv;
         }
     }
 }

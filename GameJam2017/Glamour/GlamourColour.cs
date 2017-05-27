@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam2017.Glamour {
     class GlamourColour {
-        public static GlamourColour [] GlamourColours = new GlamourColour[7];
+        public static GlamourColour [] GlamourColours = new GlamourColour[Enum.GetValues(typeof(Core.Colours)).Length];
 
         public Core.Colours C { get; }
         private Texture2D cardBack;

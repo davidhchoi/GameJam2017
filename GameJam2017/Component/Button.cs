@@ -24,10 +24,9 @@ namespace GameJam2017.Component {
             texture = Core.Game.Content.Load<Texture2D>("button");
         }
 
-        public Button(Action callback, Rectangle pos) {
+        public Button(Action callback, Rectangle pos) : base(pos, Vector2.Zero) {
             this.callback = callback;
             state = BState.Unpressed;
-            this.Pos = pos;
         }
 
         public override void Update(GameTime gameTime) {

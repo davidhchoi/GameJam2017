@@ -46,6 +46,8 @@
     <Compile Include="Core.cs" />
     <Compile Include="Drawable.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Glamour\Bullets\Bullet.cs" />
+    <Compile Include="Glamour\Bullets\StatusEffect.cs" />
     <Compile Include="Glamour\Deck.cs" />
     <Compile Include="Glamour\GlamourColour.cs" />
     <Compile Include="Glamour\Effect.cs" />

@@ -16,12 +16,11 @@ namespace GameJam2017.Glamour {
         private Effect e;
         private Alter [] a;
 
-        public Glamour(GlamourColour c, Shape s, Effect e, Alter[] a, Rectangle pos) {
+        public Glamour(GlamourColour c, Shape s, Effect e, Alter[] a, Rectangle pos) : base(pos, Vector2.Zero) {
             this.c = c;
             this.s = s;
             this.e = e;
             this.a = new Alter[a.Length];
-            this.Pos = pos;
             Array.Copy(this.a, a, a.Length);
         }
 
