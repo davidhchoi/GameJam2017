@@ -49,7 +49,7 @@ namespace GameJam2017 {
 
 
             Color[] data = new Color[target.Width * target.Height];
-            Core.Game.Content.Load<Texture2D>("cardback").GetData(data);
+            source.GetData(data);
 
             int newColor = ColourNameToHue(c);
             for (int x = 0; x < target.Width * target.Height; x++) {
@@ -99,6 +99,8 @@ namespace GameJam2017 {
                     return 240 * 256 / 360;
                 case Colours.Green:
                     return 120 * 256 / 360;
+                case Colours.LightGreen:
+                    return 175 * 256 / 360;
                 case Colours.Orange:
                     return 30 * 256 / 360;
                 case Colours.Purple:

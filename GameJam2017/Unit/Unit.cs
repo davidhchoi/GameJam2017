@@ -31,7 +31,7 @@ namespace GameJam2017.Unit {
             angle = 0;
         }
 
-        public Vector2 getPos() { return new Vector2(Pos.X + Width / 2, Pos.Y + Height / 2); }
+        public virtual Vector2 getPos() { return new Vector2(Pos.X + Width / 2, Pos.Y + Height / 2); }
 
         abstract public void Update(GameTime time, List<Unit> other);
 

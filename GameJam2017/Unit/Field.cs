@@ -53,14 +53,29 @@ namespace GameJam2017.Unit {
 
         public void BeginSelection(Vector2 click) {
             selecting = true;
+            foreach (Controllable unit in selected) {
+                unit.Unselect();
+            }
             selected.Clear();
             selectBegin = click;
         }
 
         public void EndSelection(Vector2 click) {
-            foreach (Unit unit in units) {
-                if (unit is Controllable && IsInBox(selectBegin, click, unit.getPos())) {
-                    selected.Add((Controllable) unit);
+            // If the box is small, treat it as a click and select whatever is under the cursor
+            if ((selectBegin - click).Length() < 5) {
+                foreach (Unit unit in units) {
+                    if ((unit.getPos() - click).Length() < 100) {
+                        ((Controllable)unit).Select();
+                        selected.Add((Controllable)unit);
+                        break;
+                    }
+                }
+            } else { // Otherwise, select everthing in the box
+                foreach (Unit unit in units) {
+                    if (unit is Controllable && IsInBox(selectBegin, click, unit.getPos())) {
+                        ((Controllable)unit).Select();
+                        selected.Add((Controllable)unit);
+                    }
                 }
             }
             selecting = false;

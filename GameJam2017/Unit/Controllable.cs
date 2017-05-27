@@ -17,13 +17,16 @@ namespace GameJam2017.Unit {
         public override void Initialize(Texture2D texture, Vector2 position, float movespeed) {
             base.Initialize(texture, position, movespeed);
             Target = position;
+            Unselect();
         }
 
-        public abstract void Select() {
+        public virtual void Select() {
             selected = true;
+            Texture = Core.ReColor(Texture, Core.Colours.LightGreen);
         }
-        public abstract void Unselect() {
+        public virtual void Unselect() {
             selected = false;
+            Texture = Core.ReColor(Texture, Core.Colours.Green);
         }
         public void ChangeTarget(Vector2 target) {
             var toMid = new Vector2(Width / 2, Height / 2);
