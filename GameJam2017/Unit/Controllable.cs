@@ -11,7 +11,7 @@ namespace GameJam2017.Unit {
         Vector2 Target;
         Unit TargetEnemy;
         bool selected;
-        int range = 200;
+        protected int range = 200;
 
 
         public Controllable(Texture2D texture, Vector2 position, float movespeed, Field f) : base(texture, position, movespeed, f) {
@@ -62,9 +62,7 @@ namespace GameJam2017.Unit {
             Target = target;
         }
 
-        public void Shoot(Unit u) {
-            return;
-        }
+        protected abstract void Shoot(Unit u);
 
         public override void Update(GameTime time) {
             switch (currentStrategy) {

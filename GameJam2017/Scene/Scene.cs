@@ -16,6 +16,7 @@ namespace GameJam2017.Scene {
 
     public class Scene : IDrawable {
         public List<Entity> entities = new List<Entity>();
+        public List<Entity> toAddEntities = new List<Entity>();
 
         public virtual void Initialize() {
             foreach (var entity in entities) {
@@ -45,6 +46,10 @@ namespace GameJam2017.Scene {
             foreach (var entity in entities) {
                 entity.Update(gameTime);
             }
+            foreach(var entity in toAddEntities) {
+                entities.Add(entity);
+            }
+            toAddEntities.Clear();
         }
 
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch) {

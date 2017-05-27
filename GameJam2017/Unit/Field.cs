@@ -14,6 +14,7 @@ namespace GameJam2017.Unit {
         List<Controllable> selected;
         List<Unit> units;
         Vector2 selectBegin;
+        List<Unit> toAddUnits;
         bool selecting = false;
         public Texture2D FieldTexture;
 
@@ -22,11 +23,12 @@ namespace GameJam2017.Unit {
         public Field(Scene.Scene scene) : base(Vector2.Zero, new Vector2(Core.ScreenWidth, Core.ScreenHeight),
             Vector2.Zero) {
             this.scene = scene;
+            toAddUnits = new List<Unit>();
         }
 
         public void AddUnit(Unit u) {
-            units.Add(u);
-            scene.entities.Add(u);
+            toAddUnits.Add(u);
+            scene.toAddEntities.Add(u);
         }
         
         public Unit ClosestUnit(Vector2 pos) {
@@ -60,14 +62,14 @@ namespace GameJam2017.Unit {
             selected = new List<Controllable>();
             units = new List<Unit>();
             AddUnit(player);
-            for (int i = 0; i < 5; i ++) {
+            for (int i = 0; i < 1; i ++) {
                 var x = Core.rnd.Next(100, Width - 100);
                 var y = Core.rnd.Next(100, Height - 100);
                 var minion = new Minion(new Vector2(x, y), this);
                 AddUnit(minion);
             }
 
-            for (int i = 0; i < 5; i ++) {
+            for (int i = 0; i < 1; i ++) {
                 var x = Core.rnd.Next(100, Width - 100);
                 var y = Core.rnd.Next(100, Height - 100);
                 var enemy = new Enemy(new Vector2(x, y), this);
@@ -126,6 +128,10 @@ namespace GameJam2017.Unit {
                 unit.Update(time);
             }
             cursor.Update(time, new Vector2(Mouse.GetState().X, Mouse.GetState().Y));
+            foreach (var unit in toAddUnits) {
+                units.Add(unit);
+            }
+            toAddUnits.Clear();
         }
 
         public override void Draw(GameTime g, SpriteBatch sb) {
