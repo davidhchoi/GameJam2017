@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam2017 {
     class Core {
-        public static Game Game;
+        public static Game1 Game;
         public static Random rnd = new Random();
         public static SpriteFont freestyle12;
 
@@ -25,6 +25,8 @@ namespace GameJam2017 {
             White
         };
 
+        public static int ScreenWidth, ScreenHeight;
+
         public static void Initialize() {
             freestyle12 = Game.Content.Load<SpriteFont>("freestyle12");
 
@@ -32,6 +34,8 @@ namespace GameJam2017 {
                 Rectangles[(int)colour] = new Texture2D(Game.GraphicsDevice, 1, 1);
                 Rectangles[(int)colour].SetData(new[] { ColourNameToColour(colour) });
             }
+            ScreenWidth = Game.Width;
+            ScreenHeight = Game.Height;
         }
 
         public static Texture2D ReColor(Texture2D source, Colours c) {

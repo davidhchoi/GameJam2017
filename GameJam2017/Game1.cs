@@ -1,4 +1,5 @@
-﻿using GameJam2017.Glamour;
+﻿using System.Diagnostics.Eventing.Reader;
+using GameJam2017.Glamour;
 using GameJam2017.Scene;
 using GameJam2017.Unit;
 
@@ -27,11 +28,14 @@ namespace GameJam2017 {
         private Scene.Scene[] scenes;
         private Scene.Scene activeScene;
 
+        public int Width = 1920;
+        public int Height = 1080;
+
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            graphics.PreferredBackBufferWidth = 1920;  // set this value to the desired width of your window
-            graphics.PreferredBackBufferHeight = 1080;   // set this value to the desired height of your window
+            graphics.PreferredBackBufferWidth = Width;  // set this value to the desired width of your window
+            graphics.PreferredBackBufferHeight = Height;   // set this value to the desired height of your window
             graphics.ApplyChanges();
             Window.IsBorderless = true;
 
@@ -92,6 +96,22 @@ namespace GameJam2017 {
             }
         }
 
+        public bool MouseLeftBecame(ButtonState state) {
+            return currentMouseState.LeftButton == state && prevMouseState.LeftButton != state;
+        }
+
+        public bool MouseRightBecame(ButtonState state) {
+            return currentMouseState.RightButton == state && prevMouseState.RightButton != state;
+        }
+
+        public bool KeyboardBecame(Keys key, KeyState state) {
+            if (state == KeyState.Down) {
+                return currentKeyboardState.IsKeyDown(key) && previousKeyboardState.IsKeyUp(key);
+            } else {
+                return currentKeyboardState.IsKeyUp(key) && previousKeyboardState.IsKeyDown(key);
+            }
+        }
+
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -106,6 +126,8 @@ namespace GameJam2017 {
 
             prevMouseState = currentMouseState;
             currentMouseState = Mouse.GetState();
+            previousKeyboardState = currentKeyboardState;
+            currentKeyboardState = Keyboard.GetState();
             var mousePosition = new Vector2(currentMouseState.X, currentMouseState.Y);
             if (currentMouseState.RightButton == ButtonState.Pressed) {
                 field.RightClick(mousePosition);

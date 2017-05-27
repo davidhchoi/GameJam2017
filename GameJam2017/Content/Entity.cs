@@ -28,5 +28,9 @@ namespace GameJam2017.Content {
 
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch) {
         }
+
+        public virtual bool Intersect(Point pos) {
+            return this.Pos.Intersects(new Rectangle(pos, Point.Zero));
+        }
     }
 }

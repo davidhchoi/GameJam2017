@@ -5,10 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GameJam2017.Glamour;
+using Microsoft.Xna.Framework.Input;
 
 namespace GameJam2017.Scene {
     class DraftScene : Scene {
         private Glamour.Glamour[] activeCards = new Glamour.Glamour[3];
+        Deck deck = new Deck(new Rectangle((int)(Core.ScreenWidth * .8), 50, (int)(Core.ScreenWidth * .2), Core.ScreenHeight - 100));
         public override void Initialize() {
             base.Initialize();
         }
@@ -24,6 +27,7 @@ namespace GameJam2017.Scene {
         protected void GenerateCards() {
             for (int i = 0; i < activeCards.Length; i++) {
                 activeCards[i] = Glamour.Glamour.RandomGlamour(new Rectangle(50 + i * 400, 50, 300, 420));
+                entities.Add(activeCards[i]);
             }
         }
 
@@ -33,13 +37,20 @@ namespace GameJam2017.Scene {
         }
 
         public override void Update(GameTime gameTime) {
+            for (int i = 0; i < activeCards.Length; i++) {
+                if (activeCards[i].Intersect(Mouse.GetState().Position)) {
+                    deck.AddGlamour(activeCards[i]);
+                    GenerateCards();
+                }
+            }
             base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch) {
             for (int i = 0; i < activeCards.Length; i++) {
-                activeCards[i].Draw(spriteBatch);
+                activeCards[i].Draw(gameTime, spriteBatch);
             }
+            deck.Draw(gameTime, spriteBatch);
             base.Draw(gameTime, spriteBatch);
         }
     }

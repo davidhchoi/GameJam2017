@@ -9,7 +9,7 @@ using GameJam2017.Content;
 
 namespace GameJam2017.Scene {
     class Scene : IDrawable {
-        List<Entity> entities = new List<Entity>();
+        protected List<Entity> entities = new List<Entity>();
 
         public virtual void Initialize() {
             foreach (var entity in entities) {

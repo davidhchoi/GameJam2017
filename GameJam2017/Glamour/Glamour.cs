@@ -4,18 +4,17 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GameJam2017.Content;
 using GameJam2017.Scene;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam2017.Glamour {
-    class Glamour {
+    class Glamour : Entity {
         private GlamourColour c;
         private Shape s;
         private Effect e;
         private Alter [] a;
-
-        public Rectangle Pos { get; set; }
 
         public Glamour(GlamourColour c, Shape s, Effect e, Alter[] a, Rectangle pos) {
             this.c = c;
@@ -35,7 +34,7 @@ namespace GameJam2017.Glamour {
             return st;
         }
 
-        public void Draw(SpriteBatch spriteBatch) {
+        public override void Draw(GameTime g, SpriteBatch spriteBatch) {
             Rectangle destination = Pos;
             c.Draw(spriteBatch, destination);
             spriteBatch.Draw(Core.Rectangles[(int)Core.Colours.White], new Rectangle(
