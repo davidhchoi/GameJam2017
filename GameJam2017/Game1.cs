@@ -18,7 +18,7 @@ namespace GameJam2017 {
         KeyboardState previousKeyboardState;
         MouseState currentMouseState;
         MouseState prevMouseState;
-
+        private Texture2D cursor;
 
         private MainMenuScene mainScene;
         private DraftScene draftScene;
@@ -52,7 +52,6 @@ namespace GameJam2017 {
         protected override void Initialize() {
             // TODO: Add your initialization logic here
 
-            Glamour.Glamour.Initialize();
             foreach (var scene in scenes) {
                 scene.Initialize();
             }
@@ -75,6 +74,9 @@ namespace GameJam2017 {
             foreach (var scene in scenes) {
                 scene.LoadContent();
             }
+            Glamour.Glamour.Initialize();
+            cursor = Content.Load<Texture2D>("menucursor");
+            draftScene.Reset();
             // TODO: use this.Content to load your game content here
         }
 
@@ -121,9 +123,9 @@ namespace GameJam2017 {
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             activeScene.Draw(gameTime, spriteBatch);
-            spriteBatch.Begin();
 
-            field.Draw(spriteBatch);
+            //field.Draw(spriteBatch);
+            spriteBatch.Draw(cursor, new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y), Color.White);
             spriteBatch.End();
 
             base.Draw(gameTime);

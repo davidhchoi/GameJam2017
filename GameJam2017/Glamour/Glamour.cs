@@ -15,20 +15,37 @@ namespace GameJam2017.Glamour {
         private Effect e;
         private Alter [] a;
 
-        public Glamour(GlamourColour c, Shape s, Effect e, Alter[] a) {
+        public Rectangle Pos { get; set; }
+
+        public Glamour(GlamourColour c, Shape s, Effect e, Alter[] a, Rectangle pos) {
             this.c = c;
             this.s = s;
             this.e = e;
+            this.a = new Alter[a.Length];
+            this.Pos = pos;
             Array.Copy(this.a, a, a.Length);
         }
 
-        public void Draw(SpriteBatch spriteBatch, Rectangle destination) {
+        public override String ToString() {
+            String st = "";
+            for (int i = 0; i < a.Length; i++) {
+                st += a.ToString() + " ";
+            }
+            st += c.C.ToString() + " " + s.T.ToString() + " " + e.T.ToString();
+            return st;
+        }
+
+        public void Draw(SpriteBatch spriteBatch) {
+            Rectangle destination = Pos;
             c.Draw(spriteBatch, destination);
-            spriteBatch.DrawString(Core.freestyle12, c.C.ToString() + "\n" + s.T.ToString() + "\n" + e.T.ToString(),
+            spriteBatch.Draw(Core.Rectangles[(int)Core.Colours.White], new Rectangle(
+                destination.Left + destination.Width / 10, destination.Top + destination.Height * 6 / 10,
+                destination.Width * 8 / 10, destination.Height * 3 / 10), Color.White * .4f);
+            spriteBatch.DrawString(Core.freestyle12, ToString(),
                 new Vector2(destination.Left, destination.Top), Color.Black);
         }
 
-        public static Glamour RandomGlamour() {
+        public static Glamour RandomGlamour(Rectangle pos) {
             int i = Core.rnd.Next(GlamourColour.GlamourColours.Length);
             GlamourColour c = GlamourColour.GlamourColours[i];
             i = Core.rnd.Next(Shape.shapes.Length);
@@ -37,7 +54,7 @@ namespace GameJam2017.Glamour {
             Effect e = Effect.effects[i];
 
             
-            return new Glamour(c, s, e, new Alter[0]);
+            return new Glamour(c, s, e, new Alter[0], pos);
         }
 
         public static void Initialize() {

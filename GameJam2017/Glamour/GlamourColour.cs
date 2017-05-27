@@ -8,24 +8,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam2017.Glamour {
     class GlamourColour {
-        public static GlamourColour [] GlamourColours = new GlamourColour[6];
+        public static GlamourColour [] GlamourColours = new GlamourColour[7];
 
         public Core.Colours C { get; }
         private Texture2D cardBack;
         protected GlamourColour(Core.Colours c) {
             this.C = c;
-            cardBack = Core.Game.Content.Load<Texture2D>("cardback");
-
-            Color[] data = new Color[cardBack.Width * cardBack.Height];
-            cardBack.GetData(data);
-
-            for (int x = 0; x < cardBack.Width * cardBack.Height; x++) {
-                if (data[x] == Color.Black) {
-                    data[x] = Core.ColourNameToColour(c);
-                }
-            }
-
-            cardBack.SetData(data);
+            cardBack = Core.ReColor(Core.Game.Content.Load<Texture2D>("cardback"), c);
         }
 
         public static void Initialize() {
