@@ -1,22 +1,33 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace GameJam2017.Unit {
     class Enemy : Unit {
-        Vector2 Target;
+        Unit Target;
+        int range = 50;
         public Enemy(Vector2 position, Field f) : base(Core.Game.Content.Load<Texture2D>("Units\\enemy"), position, 2.0f, f) { }
 
-        public override void Update(GameTime time) {
-            // Move towards the nearest unit
-            Unit moveTo = f.ClosestUnit(getPos());
-            Target = moveTo.getPos();
+        public void Shoot(Unit u) {
+            return;
+        }
 
-            var diff = Target - getPos();
-            if (diff.Length() > 1) {
-                diff.Normalize();
-                Pos = Pos + diff * MoveSpeed;
+        public override void Update(GameTime time) {
+            Target = f.ClosestUnit(getPos());
+            if (f.IsEnemyInRange(getPos(), Target, range)) {
+                Shoot(Target);
+            } else {
+                var diff = Target.getPos() - Pos;
+                if (diff.Length() > 5) {
+                    diff.Normalize();
+                    Pos = Pos + diff * MoveSpeed;
+                    if (diff.X == 0) {
+                        Angle = 0;
+                    }
+                    Angle = (float)(Math.Atan2(diff.Y, diff.X) + Math.PI);
+                }
             }
         }
     }

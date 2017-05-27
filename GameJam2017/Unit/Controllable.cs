@@ -31,6 +31,7 @@ namespace GameJam2017.Unit {
         public void ChangeTarget(Vector2 target) {
             var toMid = new Vector2(Width / 2, Height / 2);
             Target = target - toMid;
+            currentStrategy = Strategy.MOVE;
         }
 
 
@@ -68,7 +69,7 @@ namespace GameJam2017.Unit {
         public override void Update(GameTime time) {
             switch (currentStrategy) {
                 case Unit.Strategy.ATTACK_MOVE:
-                    Unit enemy = f.ClosestUnit(getPos());
+                    Unit enemy = f.ClosestEnemy(getPos());
                     Vector2 diff;
                     if (enemy != null && (enemy.getPos() - getPos()).Length() < range) {
                         Shoot(enemy);
@@ -113,7 +114,7 @@ namespace GameJam2017.Unit {
                 case Unit.Strategy.STOP:
                     break;
                 case Unit.Strategy.HOLD_POS:
-                    enemy = f.ClosestUnit(getPos());
+                    enemy = f.ClosestEnemy(getPos());
                     if (enemy != null && (enemy.getPos() - getPos()).Length() < range) {
                         Shoot(enemy);
                     }

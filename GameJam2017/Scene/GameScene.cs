@@ -58,6 +58,18 @@ namespace GameJam2017.Scene {
             if (Core.Game.MouseLeftBecame(ButtonState.Released)) {
                 field.EndSelection(mousePosition);
             }
+
+            if (Core.Game.KeyboardBecame(Keys.S, KeyState.Down)) {
+                field.StopSelected();
+            }
+
+            if (Core.Game.KeyboardBecame(Keys.H, KeyState.Down)) {
+                field.HoldSelected();
+            }
+
+            if (Core.Game.KeyboardBecame(Keys.A, KeyState.Down)) {
+                field.AMoveSelected(mousePosition);
+            }
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch) {

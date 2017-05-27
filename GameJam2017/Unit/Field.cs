@@ -35,6 +35,12 @@ namespace GameJam2017.Unit {
                 .FirstOrDefault();
         }
 
+        public Unit ClosestEnemy(Vector2 pos) {
+            return units.Where(u => u is Enemy)
+                .OrderBy(u => (u.getPos() - pos).Length())
+                .FirstOrDefault();
+        }
+
         public bool IsEnemyInRange(Vector2 pos, Unit enemy, int range) {
             foreach (Unit u in units) {
                 if (u.Equals(enemy)) {
@@ -106,6 +112,25 @@ namespace GameJam2017.Unit {
             }
             selecting = false;
         }
+
+        public void HoldSelected() {
+            foreach (Controllable unit in selected) {
+                unit.HoldPos();
+            }
+        }
+
+        public void StopSelected() {
+            foreach (Controllable unit in selected) {
+                unit.Stop();
+            }
+        }
+
+        public void AMoveSelected(Vector2 target) {
+            foreach (Controllable unit in selected) {
+                unit.AttackMove(target);
+            }
+        }
+
 
         /**
          * Return true if pos is in the box formed by corner1 and corner2
