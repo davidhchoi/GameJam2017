@@ -104,14 +104,14 @@ namespace GameJam2017.Glamour {
                         Alter a = Alter.alters[Core.rnd.Next(Alter.alters.Length)];
                         if (wasUsed[(int)a.T])
                             continue;
-                        if (a.Cost() + g.Cost < maxCost) {
+                        if (a.Cost() + g.Cost <= maxCost) {
                             g.A.Add(a);
                             g.CalcCost();
                             wasUsed[(int)a.T] = true;
                         }
                     }
                 }
-                if (g.Cost < maxCost)
+                if (g.Cost <= maxCost)
                     return g;
             }
             return new SpellGlamour(UnitData.SpellDamage, curColour, Shape.shapes[(int)Shape.Type.Bullet], Effect.effects[(int)Effect.Type.Damage],

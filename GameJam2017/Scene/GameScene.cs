@@ -145,15 +145,15 @@ namespace GameJam2017.Scene {
                     remainingTime = 5;
                 } else {
                     // Spawn some more enemies to fight
-                    field.SpawnEnemies(1);
                 }
                 if (remainingTime == 0 && timingOut == true) {
-                    Core.currentLevel++;
-                    timingOut = false;
-                    Core.Game.ChangeScene(SceneTypes.Deck);
+//                    Core.currentLevel++;
+//                    timingOut = false;
+//                    Core.Game.ChangeScene(SceneTypes.Deck);
                 } else {
                     remainingTime -= 1;
                 }
+                field.SpawnEnemies(5);
             }
             spellIndicator.UpdateProgress(spellProgress);
             field.AddNewUnits();
