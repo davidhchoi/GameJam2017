@@ -145,7 +145,7 @@ namespace GameJam2017.Scene {
                     remainingTime = 5;
                 } else {
                     // Spawn some more enemies to fight
-                    field.SpawnEnemies(Core.currentLevel * 10);
+                    field.SpawnEnemies(1);
                 }
                 if (remainingTime == 0 && timingOut == true) {
                     Core.currentLevel++;

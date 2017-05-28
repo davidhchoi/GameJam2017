@@ -118,7 +118,7 @@ namespace GameJam2017.Unit {
 
             // Spawn 50 * (the current level) enemies
             RemainingEnemiesCount = 0;
-            SpawnEnemies(20 * Core.currentLevel);
+            SpawnEnemies(10);
 
             CentreCamera();
             selected.Add(player);
@@ -229,10 +229,7 @@ namespace GameJam2017.Unit {
                 }
 
                 int type = Core.rnd.Next(0, 3);
-                UnitData enemyType =
-                    type == 0 ? enemyType = UnitData.EnemyMinionBasic
-                    : type == 1 ?  enemyType = UnitData.EnemyMinionCone
-                    : enemyType = UnitData.EnemyMinionCircle;
+                UnitData enemyType = UnitData.EnemyMinionBasic;
 
                 var enemy = new Minion(enemyType, new Vector2(x, y), Unit.Factions.Enemy, (Core.Colours)Core.AllowedColours[colour], this);
                 AddUnit(enemy);
