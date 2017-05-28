@@ -66,6 +66,7 @@
     <Compile Include="Scene\MainMenuScene.cs" />
     <Compile Include="Scene\Scene.cs" />
     <Compile Include="Unit\Minion.cs" />
+    <Compile Include="Unit\SpellIndicator.cs" />
     <Compile Include="Unit\Unit.cs" />
     <Compile Include="Unit\Controllable.cs" />
     <Compile Include="Unit\Cursor.cs" />

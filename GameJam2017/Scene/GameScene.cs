@@ -25,6 +25,8 @@ namespace GameJam2017.Scene {
         bool amoveBtnPressed;
         Texture2D icontray;
 
+        private SpellIndicator spellIndicator;
+
         private TimeSpan lastSpellTime;
         
         public GameScene() {
@@ -53,6 +55,8 @@ namespace GameJam2017.Scene {
 
             icontray = Core.Game.Content.Load<Texture2D>("Icons\\icontray");
 
+            spellIndicator = new SpellIndicator(new Vector2(0, 0), new Vector2(50, 50));
+            entities.Add(spellIndicator);
         }
 
         public override void LoadContent() {
@@ -64,7 +68,7 @@ namespace GameJam2017.Scene {
         }
 
         public override void MakeActive(GameTime gameTime) {
-            entities.RemoveWhere(x => !(x is Deck || x is Button));
+            entities.RemoveWhere(x => (x is Unit.Unit));
             field = new Field(this);
             field.Initialize();
             entities.Add(field);
@@ -128,7 +132,8 @@ namespace GameJam2017.Scene {
             var diff = Mouse.GetState().Position + Core.Game.camera.GetTopLeft().ToPoint() - field.player.GetPos.ToPoint();
             field.player.Angle = (float)(Math.Atan2(diff.Y, diff.X) + Math.PI);
 
-            if ((gameTime.TotalGameTime.Duration() - lastSpellTime).Seconds > 1) {
+            var spellProgress = (gameTime.TotalGameTime.Duration() - lastSpellTime).TotalMilliseconds / Core.TimePerSpell / 1000.0;
+            if (spellProgress > 1) {
                 d.CastNext(field.player.GetPos, (float)(Math.Atan2(diff.X, diff.Y)), field);
                 lastSpellTime = gameTime.TotalGameTime.Duration();
 
@@ -138,6 +143,7 @@ namespace GameJam2017.Scene {
                     Core.Game.ChangeScene(SceneTypes.Deck);
                 }
             }
+            spellIndicator.UpdateProgress(spellProgress);
             field.AddNewUnits();
             field.RemoveKilledUnits();
         }
@@ -156,6 +162,9 @@ namespace GameJam2017.Scene {
             holdBtn.Draw(gameTime, spriteBatch);
             stopBtn.Draw(gameTime, spriteBatch);
             amoveBtn.Draw(gameTime, spriteBatch);
+
+            spellIndicator.Pos = new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y);
+            spellIndicator.Draw(gameTime, spriteBatch);
 
             // Draw the game icons
         }
