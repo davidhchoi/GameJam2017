@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using GameJam2017.Content;
@@ -12,13 +13,28 @@ namespace GameJam2017.Glamour {
     public class Deck : Entity {
         List<Glamour> glamours = new List<Glamour>();
 
+        public GlamourColour LastColour { get; private set; }
+        public int[] MaxCosts { get; private set; }
+
         public Deck(Vector2 pos, Vector2 size) : base(pos, size, Vector2.Zero) {
+            MaxCosts = new int[Enum.GetValues(typeof(Core.Colours)).Length];
+            for (int i = 0; i < MaxCosts.Length; i++) {
+                MaxCosts[i] = 0;
+            }
         }
+
+        public int Count { get { return glamours.Count;  } }
 
         public void AddGlamour(Glamour g) {
             g.Pos = new Vector2(Pos.X, Pos.Y + Size.X * glamours.Count / 30);
             //g.Size = new Vector2(Size.X, Size.Y);
             glamours.Add(g);
+
+            ColourGlamour cg = g as ColourGlamour;
+            if (cg != null) {
+                LastColour = cg.C;
+                MaxCosts[(int)cg.C.C]++;
+            }
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch) {

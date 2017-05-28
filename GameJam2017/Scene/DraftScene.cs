@@ -11,9 +11,13 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GameJam2017.Scene {
     class DraftScene : Scene {
-        private Glamour.Glamour[] activeCards = new Glamour.Glamour[3];
+        private List<Glamour.Glamour> activeCards = new List<Glamour.Glamour>();
         private Deck deck;
         private Button toGame;
+
+        private int NumCardsEachDraft = 3;
+        private int[] AllowedColours = {(int) Core.Colours.Blue, (int) Core.Colours.Red, (int) Core.Colours.Yellow};
+
         public override void Initialize() {
             deck = new Deck(new Vector2((int)(Core.ScreenWidth * .8), 50), new Vector2((int)(Core.ScreenWidth * .2), Core.ScreenHeight - 100));
             toGame = new Button(delegate {
@@ -34,9 +38,23 @@ namespace GameJam2017.Scene {
         }
 
         protected void GenerateCards() {
-            for (int i = 0; i < activeCards.Length; i++) {
-                activeCards[i] = Glamour.Glamour.RandomGlamour(new Vector2(50 + i * 400, 50), new Vector2(300, 420));
-                entities.Add(activeCards[i]);
+            for (int i = 0; i < activeCards.Count; i++) {
+                entities.Remove(activeCards[i]);
+            }
+            activeCards.Clear();
+            Glamour.Glamour g;
+            for (int i = 0; i < 3; i++) {
+                g = Glamour.Glamour.RandomColourGlamour(new Vector2(50 + i * 400, 50), new Vector2(300, 420), AllowedColours);
+                activeCards.Add(g);
+                entities.Add(g);
+            }
+            if (deck.Count > 0) {
+                for (int i = 0; i < 3; i++) {
+                    g = Glamour.Glamour.RandomSpellGlamour(new Vector2(50 + i * 400, 500), new Vector2(300, 420), 
+                        deck.MaxCosts[(int)deck.LastColour.C], deck.LastColour);
+                    activeCards.Add(g);
+                    entities.Add(g);
+                }
             }
         }
 
@@ -46,19 +64,20 @@ namespace GameJam2017.Scene {
         }
 
         public override void Update(GameTime gameTime) {
+            base.Update(gameTime);
             if (Core.Game.MouseLeftBecame(ButtonState.Pressed)) {
-                for (int i = 0; i < activeCards.Length; i++) {
+                for (int i = 0; i < activeCards.Count; i++) {
                     if (activeCards[i].Intersects(Mouse.GetState().Position)) {
                         deck.AddGlamour(activeCards[i]);
                         GenerateCards();
+                        return;
                     }
                 }
             }
-            base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch) {
-            for (int i = 0; i < activeCards.Length; i++) {
+            for (int i = 0; i < activeCards.Count; i++) {
                 activeCards[i].Draw(gameTime, spriteBatch);
             }
             deck.Draw(gameTime, spriteBatch);

@@ -1,17 +1,28 @@
-﻿namespace GameJam2017.Glamour {
+﻿using System;
+
+namespace GameJam2017.Glamour {
     public class Effect {
         public static Effect [] effects = new Effect[3];
 
         public enum Type {
             Damage,
-            ColourEnemy,
+            MindControl,
             Spawn
-        };
+        }
 
         public Type T { get; }
 
         private Effect(Type t) {
             this.T = t;
+        }
+
+        public int Cost() {
+            switch (T) {
+                case Type.Damage: return 1; 
+                case Type.MindControl: return 0;
+                case Type.Spawn: return 2;
+            }
+            throw new Exception("Something went wrong");
         }
 
         public static void Initialize() {

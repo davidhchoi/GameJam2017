@@ -12,7 +12,7 @@ namespace GameJam2017.Unit {
         public Player player;
         Cursor cursor;
         List<Controllable> selected;
-        private List<Controllable> controllables;
+        public List<Controllable> Controllables { get; set; }
         List<Unit> units;
         Vector2 selectBegin;
         List<Unit> toAddUnits;
@@ -38,13 +38,13 @@ namespace GameJam2017.Unit {
         }
         
         public Unit ClosestAlly(Unit u1) {
-            return controllables.Where(u => u.Faction == u1.Faction)
+            return Controllables.Where(u => u.Faction == u1.Faction)
                 .OrderBy(u => (u.GetPos - u1.GetPos).Length())
                 .FirstOrDefault();
         }
 
         public Unit ClosestEnemy(Unit u1) {
-            return controllables.Where(u => u.Faction != u1.Faction)
+            return Controllables.Where(u => u.Faction != u1.Faction)
                 .OrderBy(u => (u.GetPos - u1.GetPos).Length())
                 .FirstOrDefault();
         }
@@ -58,7 +58,7 @@ namespace GameJam2017.Unit {
             cursor.Initialize(playerPos);
             selected = new List<Controllable>();
             units = new List<Unit>();
-            controllables = new List<Controllable>();
+            Controllables = new List<Controllable>();
             AddUnit(player);
             for (int i = 0; i < 5; i ++) {
                 var x = Core.rnd.Next(100, Width - 100);
@@ -102,7 +102,7 @@ namespace GameJam2017.Unit {
 
         public void EndSelection(Vector2 click) {
             Rectangle r = new Rectangle(selectBegin.ToPoint(), (click - selectBegin).ToPoint());
-            foreach (Controllable unit in controllables) {
+            foreach (Controllable unit in Controllables) {
                 if (unit.Faction == Unit.Factions.P1 && unit.Intersects(r)) {
                     (unit).Select();
                     selected.Add(unit);
@@ -132,19 +132,19 @@ namespace GameJam2017.Unit {
         public override void Update(GameTime time) {
             cursor.Update(time, new Vector2(Mouse.GetState().X, Mouse.GetState().Y));
 
-            for (int i = 0; i < controllables.Count; i++) {
-                controllables[i].Vel = Vector2.Zero;
-                for (int j = 0; j < controllables.Count; j++) {
+            for (int i = 0; i < Controllables.Count; i++) {
+                Controllables[i].Vel = Vector2.Zero;
+                for (int j = 0; j < Controllables.Count; j++) {
                     if (i == j) continue;
-                    Vector2 diff = controllables[i].GetPos - controllables[j].GetPos;
-                    var dist = diff.Length() - controllables[i].Height / 4 - controllables[i].Width / 4 -
-                               controllables[j].Height / 4
-                               - controllables[j].Width / 4;
+                    Vector2 diff = Controllables[i].GetPos - Controllables[j].GetPos;
+                    var dist = diff.Length() - Controllables[i].Height / 4 - Controllables[i].Width / 4 -
+                               Controllables[j].Height / 4
+                               - Controllables[j].Width / 4;
                     if (dist > 20) continue;
                     diff.Normalize();
                     dist = (float)(1.0 / Math.Pow(Math.Max(dist, -9.5f) + 10, 1));
                     
-                    controllables[i].Vel += diff * dist;
+                    Controllables[i].Vel += diff * dist;
                 }
             }
 
@@ -157,7 +157,7 @@ namespace GameJam2017.Unit {
                 units.Add(unit);
                 scene.entities.Add(unit);
                 if (unit is Controllable)
-                    controllables.Add((Controllable)unit);
+                    Controllables.Add((Controllable)unit);
             }
             toAddUnits.Clear();
         }
@@ -167,7 +167,7 @@ namespace GameJam2017.Unit {
                 units.Remove(unit);
                 scene.entities.Remove(unit);
                 if (unit is Controllable)
-                    controllables.Remove((Controllable)unit);
+                    Controllables.Remove((Controllable)unit);
             }
             toRemoveUnits.Clear();
         }

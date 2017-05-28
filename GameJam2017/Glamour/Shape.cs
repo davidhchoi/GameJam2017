@@ -1,4 +1,6 @@
-﻿namespace GameJam2017.Glamour {
+﻿using System;
+
+namespace GameJam2017.Glamour {
     public class Shape {
         public static Shape [] shapes = new Shape[3];
 
@@ -9,6 +11,18 @@
         };
 
         public Type T { get; }
+
+        public int Cost() {
+            switch (T) {
+                case Type.Bullet:
+                    return 0;
+                case Type.Cone:
+                    return 4;
+                case Type.Circle:
+                    return 7;
+            }
+            throw new Exception("Something went wrong");
+        }
 
         private Shape(Type t) {
             this.T = t;

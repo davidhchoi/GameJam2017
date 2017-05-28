@@ -44,8 +44,13 @@ namespace GameJam2017 {
         }
 
         private static Dictionary<string, Texture2D> previousColored = new Dictionary<string, Texture2D>();
+
+        public static string GetTextureName(string s, Colours c) {
+            return s + c;
+        }
+
         public static Texture2D GetRecoloredCache(string s, Colours c) {
-            string key = s + c.ToString();
+            string key = GetTextureName(s, c);
             if (previousColored.ContainsKey(key)) return previousColored[key];
 
             Texture2D source = Game.Content.Load<Texture2D>(s);

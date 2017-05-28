@@ -49,12 +49,14 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Glamour\Bullets\Bullet.cs" />
     <Compile Include="Glamour\Bullets\StatusEffect.cs" />
+    <Compile Include="Glamour\ColourGlamour.cs" />
     <Compile Include="Glamour\Deck.cs" />
     <Compile Include="Glamour\GlamourColour.cs" />
     <Compile Include="Glamour\Effect.cs" />
     <Compile Include="Glamour\Glamour.cs" />
     <Compile Include="Glamour\Shape.cs" />
     <Compile Include="Glamour\Alter.cs" />
+    <Compile Include="Glamour\SpellGlamour.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scene\DraftScene.cs" />

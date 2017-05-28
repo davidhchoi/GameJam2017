@@ -11,6 +11,10 @@
             this.T = t;
         }
 
+        public int Cost() {
+            return 0;
+        }
+
         public static void Initialize() {
             for (int i = 0; i < alters.Length; i++) {
                 alters[i] = new Alter((Type)i);

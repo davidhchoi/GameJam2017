@@ -17,6 +17,10 @@ namespace GameJam2017.Glamour {
             cardBack = Core.GetRecoloredCache("cardback", c);
         }
 
+        public int Cost() {
+            return 0;
+        }
+
         public static void Initialize() {
             foreach (Core.Colours colour in Enum.GetValues(typeof(Core.Colours))) { 
                 GlamourColours[(int)colour] = new GlamourColour(colour);

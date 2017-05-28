@@ -16,7 +16,7 @@ namespace GameJam2017.Glamour.Bullets {
         public static Texture2D[] textures = new Texture2D[Enum.GetValues(typeof(Core.Colours)).Length];
 
         public Bullet(int damage, Core.Colours colour, float moveSpeed, float angle, Vector2 pos, Vector2 size, Factions factions, Field f) : 
-            base(textures[(int)colour], pos, size, moveSpeed, factions, colour, f) {
+            base("bullet", pos, size, moveSpeed, factions, colour, f) {
             this.damage = damage;
             while (angle < 0) angle += (float) (Math.PI * 2);
             while (angle > (float) (Math.PI * 2)) angle -= (float) (Math.PI * 2);

@@ -12,105 +12,40 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam2017.Glamour {
-    public class Glamour : Entity {
-        private GlamourColour c;
-        private Shape s;
-        private Effect e;
-        private Alter [] a;
+    public abstract class Glamour : Entity {
 
-        public Glamour(GlamourColour c, Shape s, Effect e, Alter[] a, Vector2 pos, Vector2 size) : base(pos, size, Vector2.Zero) {
-            this.c = c;
-            this.s = s;
-            this.e = e;
-            this.a = new Alter[a.Length];
-            Array.Copy(this.a, a, a.Length);
+        protected Glamour(Vector2 pos, Vector2 size) : base(pos, size, Vector2.Zero) {
         }
 
-        public override String ToString() {
-            String st = "";
-            for (int i = 0; i < a.Length; i++) {
-                st += a.ToString() + " ";
-            }
-            st += c.C.ToString() + " " + s.T.ToString() + " " + e.T.ToString();
-            return st;
-        }
+
+        public abstract override String ToString();
 
         public override void Draw(GameTime g, SpriteBatch spriteBatch) {
-            Rectangle destination = new Rectangle(Pos.ToPoint(), Size.ToPoint());
-
-            c.Draw(spriteBatch, destination);
-            spriteBatch.Draw(Core.Rectangles[(int)Core.Colours.White], new Rectangle(
-                destination.Left + destination.Width / 10, destination.Top + destination.Height * 6 / 10,
-                destination.Width * 8 / 10, destination.Height * 3 / 10), Color.White * .8f);
-            spriteBatch.DrawString(Core.freestyle12, ToString(),
-                new Vector2(destination.Left + destination.Width / 8, destination.Top + destination.Height *7/10), Color.Black, 0, new Vector2(0,0), 1.5f, SpriteEffects.None, 0);
         }
 
-        public List<Unit.Unit> Cast(Vector2 pos, float angle, Field f) {
-            List<Unit.Unit> newEntities = new List<Unit.Unit>();
-            float startAngle = 0, endAngle = 0, increment = 0;
-            switch (s.T) {
-                case Shape.Type.Bullet:
-                    startAngle = angle;
-                    endAngle = angle + 0.5f;
-                    increment = 1;
-                    break;
-                case Shape.Type.Circle:
-                    startAngle = angle;
-                    endAngle = angle + (float)(2 * Math.PI);
-                    switch (e.T) {
-                        case Effect.Type.Spawn:
-                            increment = (float)(Math.PI / 4);
-                            break;
-                        case Effect.Type.Damage:
-                            increment = (float)(Math.PI / 10);
-                            break;
-                        case Effect.Type.ColourEnemy:
-                            increment = (float)(Math.PI / 3);
-                            break;
-                    }
-                    break;
-                case Shape.Type.Cone:
-                    startAngle = angle - (float)(Math.PI / 4);
-                    endAngle = angle + (float)(Math.PI / 4);
-                    switch (e.T) {
-                        case Effect.Type.Spawn:
-                            increment = (float)(Math.PI / 12);
-                            break;
-                        case Effect.Type.Damage:
-                            increment = (float)(Math.PI / 30);
-                            break;
-                        case Effect.Type.ColourEnemy:
-                            increment = (float)(Math.PI / 9);
-                            break;
-                    }
-                    break;
+        public abstract void Cast(Vector2 pos, float angle, Field f);
+
+        public static Glamour RandomSpellGlamour(Vector2 pos, Vector2 size, int maxCost, GlamourColour curColour) {
+            int i;
+            for (int num = 0; num < 1000; num++) {
+                i = Core.rnd.Next(Effect.effects.Length);
+                Effect e = Effect.effects[i];
+                i = Core.rnd.Next(Shape.shapes.Length);
+                Shape s = Shape.shapes[i];
+
+                SpellGlamour g = new SpellGlamour(curColour, s, e, new Alter[0], pos, size);
+                if (g.Cost < maxCost)
+                    return g;
             }
-            for (; startAngle < endAngle; startAngle += increment) {
-                Unit.Unit ent;
-                if (e.T != Effect.Type.Spawn) {
-                    ent = new Bullet(10, c.C, 5, startAngle, pos, new Vector2(20, 20), Unit.Unit.Factions.P1, f);
-                } else {
-                    ent = new Minion("Units\\minion", 
-                        pos + new Vector2((float)Math.Sin(startAngle) * 10, (float)Math.Cos(startAngle) * 10), 
-                        Unit.Unit.Factions.P1, c.C, f);
-                }
-                newEntities.Add(ent);
-                f.AddUnit(ent);
-            }
-            return newEntities;
+            return new SpellGlamour(curColour, Shape.shapes[(int)Shape.Type.Bullet], Effect.effects[(int)Effect.Type.MindControl],
+                new Alter[0], pos, size);
         }
 
-        public static Glamour RandomGlamour(Vector2 pos, Vector2 size) {
-            int i = Core.rnd.Next(GlamourColour.GlamourColours.Length);
-            GlamourColour c = GlamourColour.GlamourColours[i];
-            i = Core.rnd.Next(Shape.shapes.Length);
-            Shape s = Shape.shapes[i];
-            i = Core.rnd.Next(Effect.effects.Length);
-            Effect e = Effect.effects[i];
+        public static Glamour RandomColourGlamour(Vector2 pos, Vector2 size, int [] allowedColours) {
+            int i = Core.rnd.Next(allowedColours.Length);
+            GlamourColour c = GlamourColour.GlamourColours[allowedColours[i]];
 
-            
-            return new Glamour(c, s, e, new Alter[0], pos, size);
+            return new ColourGlamour(c, pos, size);
         }
 
         public static void Initialize() {

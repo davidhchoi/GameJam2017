@@ -13,6 +13,7 @@ namespace GameJam2017.Unit {
      */
     public abstract class Unit : Entity {
         protected Texture2D Texture;
+        protected string TextureName;
         
         protected float MoveSpeed;
         public float Angle { get; set; }
@@ -30,9 +31,6 @@ namespace GameJam2017.Unit {
 
         protected Strategy currentStrategy;
 
-        public int Width { get { return (int)Size.X; } }
-        public int Height { get { return (int)Size.Y; } }
-
         public enum Factions {
             P1,
             Enemy
@@ -46,13 +44,14 @@ namespace GameJam2017.Unit {
         }
 
         public Unit(string texture, Vector2 position, Vector2 size, float movespeed, Factions factions, Core.Colours c, Field f) 
-            : this(Core.GetRecoloredCache(texture, c), position, size, movespeed, factions, c, f) {
+            : this(texture, Core.GetRecoloredCache(texture, c), position, size, movespeed, factions, c, f) {
         }
 
-        public Unit(Texture2D texture, Vector2 position, Vector2 size, float movespeed, Factions factions, Core.Colours c, Field f)
+        public Unit(string textureName, Texture2D texture, Vector2 position, Vector2 size, float movespeed, Factions factions, Core.Colours c, Field f)
             : base(position, size, Vector2.Zero) {
             this.f = f;
             Texture = texture;
+            TextureName = textureName;
             MoveSpeed = movespeed;
             Angle = 0;
             currentStrategy = Strategy.STOP;
@@ -62,7 +61,7 @@ namespace GameJam2017.Unit {
 
         public virtual void ReColor(Core.Colours c) {
             Colour = c;
-//            Texture = Core.GetRecoloredCache()
+            Texture = Core.GetRecoloredCache(TextureName, c);
         }
 
         public virtual Vector2 GetPos {
