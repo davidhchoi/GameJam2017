@@ -44,7 +44,7 @@ namespace GameJam2017 {
             Content.RootDirectory = "Content";
             graphics.PreferredBackBufferWidth = Width;  // set this value to the desired width of your window
             graphics.PreferredBackBufferHeight = Height;   // set this value to the desired height of your window
-            this.TargetElapsedTime = TimeSpan.FromSeconds(1.0f / 60.0f);
+            this.TargetElapsedTime = TimeSpan.FromSeconds(1.0f / (float)Core.FPS);
             graphics.ApplyChanges();
             Window.IsBorderless = true;
 

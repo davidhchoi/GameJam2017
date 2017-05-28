@@ -15,7 +15,11 @@ namespace GameJam2017.Scene {
     }
 
     public class Scene : IDrawable {
-        public List<Entity> entities = new List<Entity>();
+        public HashSet<Entity> entities = new HashSet<Entity>();
+
+        public HashSet<Entity> toAdd = new HashSet<Entity>();
+        public HashSet<Entity> toRemove = new HashSet<Entity>();
+
 
         public virtual void Initialize() {
             foreach (var entity in entities) {
@@ -45,9 +49,24 @@ namespace GameJam2017.Scene {
             foreach (var entity in entities) {
                 entity.Update(gameTime);
             }
+            foreach (var entity in toRemove) {
+                entities.Remove(entity);
+            }
+            foreach (var entity in toAdd) {
+                entities.Add(entity);
+            }
+            toAdd.Clear();
+            toRemove.Clear();
         }
 
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch) {
+            // TODO: this is garbage. as is a lot of this code
+            foreach (var entity in entities) {
+                Particle.Particle p = entity as Particle.Particle;
+                if (p != null) {
+                    p.Draw(gameTime, spriteBatch);
+                }
+            }
         }
 
         public virtual void DrawUI(GameTime gameTime, SpriteBatch spriteBatch) {

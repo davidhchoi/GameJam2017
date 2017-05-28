@@ -58,6 +58,7 @@
     <Compile Include="Glamour\Shape.cs" />
     <Compile Include="Glamour\Alter.cs" />
     <Compile Include="Glamour\SpellGlamour.cs" />
+    <Compile Include="Particle\Particle.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scene\DraftScene.cs" />

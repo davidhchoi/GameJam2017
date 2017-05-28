@@ -31,7 +31,7 @@ namespace GameJam2017.Unit {
             RIGHT
         };
 
-        private Scene.Scene scene;
+        public Scene.Scene scene { get; }
 
         public Field(Scene.Scene scene) : base(Vector2.Zero, new Vector2(Core.ScreenWidth*2, Core.ScreenHeight)*2,
             Vector2.Zero) {
@@ -106,7 +106,7 @@ namespace GameJam2017.Unit {
                 AddUnit(minion);
             }
 
-            for (int i = 0; i < 5; i ++) {
+            for (int i = 0; i < 50; i ++) {
                 var x = Core.rnd.Next(100, Width - 100);
                 var y = Core.rnd.Next(100, Height - 100);
                 var enemy = new Minion("Units\\enemy", new Vector2(x, y), Unit.Factions.Enemy, Core.Colours.Yellow, this);

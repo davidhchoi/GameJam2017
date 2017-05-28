@@ -32,7 +32,7 @@ namespace GameJam2017.Scene {
         }
 
         public override void MakeActive(GameTime gameTime) {
-            entities = entities.Where(x => (x is Deck)).ToList();
+            entities.RemoveWhere(x => !(x is Deck));
             field = new Field(this);
             field.Initialize();
             entities.Add(field);
@@ -107,7 +107,7 @@ namespace GameJam2017.Scene {
         }
 
         public void SetDeck(Deck d) {
-            entities = entities.Where(x => !(x is Deck)).ToList();
+            entities.RemoveWhere(x => (x is Deck));
             this.d = d;
             entities.Add(d);
         }

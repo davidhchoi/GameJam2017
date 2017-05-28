@@ -7,6 +7,7 @@ using GameJam2017.Content;
 using GameJam2017.Unit;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using GameJam2017.Particle;
 
 namespace GameJam2017.Glamour.Bullets {
     public class Bullet : Unit.Unit {
@@ -29,6 +30,7 @@ namespace GameJam2017.Glamour.Bullets {
             foreach (var statusEffect in StatusEffects) {
                 u.AddStatus(statusEffect);
             }
+            Particle.Particle.CreateParticles(GetPos, f.scene, 5);
 
             // Knockback
             u.Vel += new Vector2((float)Math.Sin(Angle) * MoveSpeed * 5, (float)Math.Cos(Angle) * MoveSpeed * 5);
