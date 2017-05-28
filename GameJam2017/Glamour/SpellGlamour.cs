@@ -28,6 +28,9 @@ namespace GameJam2017.Glamour {
             this.A = a;
 
             DamageMult = damageMult;
+            if (DamageMult > 1000) {
+                throw new Exception();
+            }
             CalcCost();
         }
 
@@ -134,13 +137,13 @@ namespace GameJam2017.Glamour {
             for (; startAngle < endAngle; startAngle += increment) {
                 Unit.Unit ent;
                 if (E.T != Effect.Type.Spawn) {
-                    DamageMult = (int)(C.C == Core.Colours.Yellow ? 1.5 * DamageMult : DamageMult);
-                    ent = (new Bullet(DamageMult, C.C, 5, startAngle, pos, new Vector2(20, 20), Unit.Unit.Factions.P1, f)).SetAlters(A);
+                    var tmpDamage = (int)(C.C == Core.Colours.Yellow ? 1.5 * DamageMult : DamageMult);
+                    ent = (new Bullet(tmpDamage, C.C, 5, startAngle, pos, new Vector2(20, 20), Unit.Unit.Factions.P1, f)).SetAlters(A);
 
                     if (C.C == Core.Colours.Red) {
-                        (ent as Bullet).StatusEffects.Add(new StatusEffect(1, DamageMult, Core.Colours.Red));
+                        (ent as Bullet).StatusEffects.Add(new StatusEffect(1, tmpDamage, Core.Colours.Red));
                     } else if (C.C == Core.Colours.Blue) {
-                        (ent as Bullet).StatusEffects.Add(new StatusEffect(DamageMult * 4 / 100, 120, Core.Colours.Blue));
+                        (ent as Bullet).StatusEffects.Add(new StatusEffect(tmpDamage * 4 / 100, 120, Core.Colours.Blue));
                     }
                     
                 } else {

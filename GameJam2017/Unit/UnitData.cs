@@ -26,9 +26,9 @@ namespace GameJam2017.Unit {
             Reload = reload;
         }
 
-        public static UnitData PlayerUnitData = new UnitData(300, 50000, 50000, "Units\\player", 
+        public static UnitData PlayerUnitData = new UnitData(300, 500, 500, "Units\\player", 
             new SpellGlamour(20, Shape.shapes[(int)Shape.Type.Bullet], Effect.effects[(int)Effect.Type.Damage], 
-                new List<Alter>(new Alter[]{Alter.alters[1]})), 120);
+                new List<Alter>(new Alter[]{})), 120);
 
         public static UnitData EnemyMinionBasic = new UnitData(300, 100, 100, "Units\\enemy",
             new SpellGlamour(20, Shape.shapes[(int)Shape.Type.Bullet], Effect.effects[(int)Effect.Type.Damage], new List<Alter>()), 120);

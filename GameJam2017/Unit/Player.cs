@@ -33,6 +33,7 @@ namespace GameJam2017.Unit {
         }
 
         public override void Kill() {
+            Core.Game.Exit();
             Core.Game.ChangeScene(Scene.SceneTypes.MainMenu);
         }
     }

@@ -20,6 +20,9 @@ namespace GameJam2017.Glamour.Bullets {
         public Bullet(int damage, Core.Colours colour, float moveSpeed, float angle, Vector2 pos, Vector2 size, Factions factions, Field f) : 
             base("bullet", pos, size, moveSpeed, factions, colour, f) {
             this.damage = damage;
+            if (damage > 1000) {
+                throw new Exception("awheh");
+            }
             while (angle < 0) angle += (float) (Math.PI * 2);
             while (angle > (float) (Math.PI * 2)) angle -= (float) (Math.PI * 2);
             this.Angle = angle;
