@@ -55,13 +55,21 @@ namespace GameJam2017.Glamour {
                     Color.Black, 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0);
 
                 int curY = destination.Top + destination.Height / 20 + Core.freestyle12.LineSpacing;
-                int curX = destination.Left + destination.Width / 15;
+                int curX = destination.Left + destination.Width / 15 + 2;
+                if (Cost > 0) {
+                    spriteBatch.Draw(Core.Rectangles[(int)Core.Colours.White], new Rectangle(
+                        curX - 2, curY - 2,
+                        destination.Width * 13 / 15, destination.Height / 20), Color.White * .8f);
+                }
                 for (int i = 0; i < Cost; i++) {
                     spriteBatch.Draw(mana, new Rectangle(curX, curY, destination.Height / 20 - 4, destination.Height / 20 - 4), Color.White);
                     curX += destination.Height / 20;
                     if (curX > destination.Left + destination.Width * 13 / 15) {
-                        curY += destination.Height / 20;
-                        curX = destination.Left + destination.Width / 15;
+                        curY += destination.Height / 20 ;
+                        curX = destination.Left + destination.Width / 15 + 2;
+                        spriteBatch.Draw(Core.Rectangles[(int)Core.Colours.White], new Rectangle(
+                            curX, curY,
+                            destination.Width * 13 / 15, Core.freestyle12.LineSpacing - 4), Color.White * .8f);
                     }
                 }
             } else {

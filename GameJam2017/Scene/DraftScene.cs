@@ -15,7 +15,7 @@ namespace GameJam2017.Scene {
         private Deck deck;
         private Button toGame;
         private int numDrafted;
-        const int DECK_MULTIPLIER = 2;
+        const int DECK_MULTIPLIER = 30;
 
         private int NumCardsEachDraft = 3;
         private Texture2D title;
