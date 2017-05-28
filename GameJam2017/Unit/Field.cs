@@ -199,6 +199,12 @@ namespace GameJam2017.Unit {
                     Controllables[i].Vel += diff * dist;
                 }
             }
+            for (int i = 0; i < Controllables.Count; i++) {
+                if (Controllables[i].X < 0) Controllables[i].Vel += new Vector2(5, 0);
+                if (Controllables[i].Y < 0) Controllables[i].Vel += new Vector2(0, 5);
+                if (Controllables[i].X + Controllables[i].Width > STAGE_WIDTH) Controllables[i].Vel += new Vector2(-5, 0);
+                if (Controllables[i].Y + Controllables[i].Height > STAGE_HEIGHT) Controllables[i].Vel += new Vector2(0, -5);
+            }
         }
 
         public void AddNewUnits() {
