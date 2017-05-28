@@ -90,7 +90,7 @@ namespace GameJam2017.Unit {
             Unit enemy = f.ClosestEnemy(this);
 
             // For enemies, if there is nothing in range, go after the player
-            if (Faction == Factions.Enemy && ((enemy.GetPos - GetPos).Length() > range)) {
+            if (Faction == Factions.Enemy && enemy != null && ((enemy.GetPos - GetPos).Length() > range)) {
                 Target = f.GetPlayer().GetPos;
                 TargetEnemy = f.GetPlayer();
             }

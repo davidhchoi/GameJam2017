@@ -8,8 +8,8 @@ namespace GameJam2017 {
         }
         public Vector2 Position { get; private set; }
 
-        const int ViewportWidth = 1920;
-        const int ViewportHeight = 1080;
+        public const int ViewportWidth = 1920;
+        public const int ViewportHeight = 1080;
         const int MapWidth = 1920 * 2;
         const int MapHeight = 1080 * 2;
 

@@ -24,6 +24,8 @@ namespace GameJam2017.Scene {
         Button amoveBtn; 
         bool amoveBtnPressed;
         Texture2D icontray;
+        int remainingTime;
+        bool timingOut;
 
         private SpellIndicator spellIndicator;
 
@@ -57,6 +59,7 @@ namespace GameJam2017.Scene {
 
             spellIndicator = new SpellIndicator(new Vector2(0, 0), new Vector2(50, 50));
             entities.Add(spellIndicator);
+            timingOut = false;
         }
 
         public override void LoadContent() {
@@ -137,11 +140,17 @@ namespace GameJam2017.Scene {
                 d.CastNext(field.player.GetPos, (float)(Math.Atan2(diff.X, diff.Y)), field);
                 lastSpellTime = gameTime.TotalGameTime.Duration();
 
-                // When we run out of spells, the level is finished
-//                if (d.Count == 0) {
-//                    Core.currentLevel++;
-//                    Core.Game.ChangeScene(SceneTypes.Deck);
-//                }
+                if (d.Count == 0 && timingOut == false) {
+                    timingOut = true;
+                    remainingTime = 5;
+                }
+                if (remainingTime == 0 && timingOut == true) {
+                    Core.currentLevel++;
+                    timingOut = false;
+                    Core.Game.ChangeScene(SceneTypes.Deck);
+                } else {
+                    remainingTime -= 1;
+                }
             }
             spellIndicator.UpdateProgress(spellProgress);
             field.AddNewUnits();
@@ -166,7 +175,12 @@ namespace GameJam2017.Scene {
             spellIndicator.Pos = new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y);
             spellIndicator.Draw(gameTime, spriteBatch);
 
-            // Draw the game icons
+            if (timingOut) {
+                spriteBatch.DrawString(Core.freestyle70,
+                    remainingTime.ToString(),
+                    new Vector2(Core.ScreenWidth / 2, Core.ScreenHeight / 2),
+                    Color.Black, 0, new Vector2(0, 0), 5.0f, SpriteEffects.None, 0);
+            }
         }
 
         public void SetDeck(Deck d) {

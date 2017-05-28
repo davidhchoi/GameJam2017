@@ -21,6 +21,7 @@ namespace GameJam2017.Unit {
         public Texture2D ClickTexture;
         public int STAGE_HEIGHT = 1080 * 2;
         public int STAGE_WIDTH = 1920 * 2;
+        public int RemainingEnemiesCount = 0;
 
         int DisplayClick = 0;
 
@@ -111,14 +112,8 @@ namespace GameJam2017.Unit {
             }
 
             // Spawn 50 * (the current level) enemies
-            for (int i = 0; i < 50*(Core.currentLevel); i ++) {
-                var x = Core.rnd.Next(100, Width - 100);
-                var y = Core.rnd.Next(100, Height - 100);
-                int colour = Core.rnd.Next(0, 3);
-                var enemy = new Minion(UnitData.EnemyMinion, new Vector2(x, y), Unit.Factions.Enemy, (Core.Colours)colour, this);
-                AddUnit(enemy);
-            }
-
+            RemainingEnemiesCount = 0;
+            SpawnEnemies(50 * Core.currentLevel);
 
             CentreCamera();
             selected.Add(player);
@@ -207,6 +202,21 @@ namespace GameJam2017.Unit {
             }
         }
 
+        public void SpawnEnemies(int numEnemies) {
+            for (int i = 0; i < numEnemies; i++) {
+                
+                // Make sure they are outside of the camera
+                var topLeft = Core.Game.camera.GetTopLeft();
+                var x = Core.rnd.Next(100, STAGE_WIDTH - 100);
+                var y = Core.rnd.Next(100, STAGE_HEIGHT- 100);
+
+                int colour = Core.rnd.Next(0, 3);
+                var enemy = new Minion(UnitData.EnemyMinion, new Vector2(x, y), Unit.Factions.Enemy, (Core.Colours)colour, this);
+                AddUnit(enemy);
+            }
+            RemainingEnemiesCount += numEnemies;
+        }
+
         public void AddNewUnits() {
             foreach (var unit in toAddUnits) {
                 units.Add(unit);
@@ -219,6 +229,9 @@ namespace GameJam2017.Unit {
 
         public void RemoveKilledUnits() {
             foreach (var unit in toRemoveUnits) {
+                if (unit.Faction == Unit.Factions.Enemy && unit is Controllable) {
+                    RemainingEnemiesCount--;
+                }
                 units.Remove(unit);
                 scene.entities.Remove(unit);
                 if (unit is Controllable)
@@ -242,7 +255,7 @@ namespace GameJam2017.Unit {
                 rect.SetData(data);
 
                 Vector2 topLeft = new Vector2(Math.Min(selectBegin.X, cursor.getPos().X), Math.Min(selectBegin.Y, cursor.getPos().Y));
-                sb.Draw(rect, topLeft, Color.White);
+                sb.Draw(rect, topLeft, Color.White * 0.5f);
             }
 
 
