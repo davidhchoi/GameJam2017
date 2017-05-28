@@ -63,7 +63,7 @@ namespace GameJam2017.Unit {
             for (int i = 0; i < 5; i ++) {
                 var x = Core.rnd.Next(100, Width - 100);
                 var y = Core.rnd.Next(100, Height - 100);
-                var minion = new Minion("Units\\enemy", new Vector2(x, y), Unit.Factions.P1, Core.Colours.Green, this);
+                var minion = new Minion("Units\\minion", new Vector2(x, y), Unit.Factions.P1, Core.Colours.White, this);
                 AddUnit(minion);
             }
 
@@ -147,6 +147,9 @@ namespace GameJam2017.Unit {
                     controllables[i].Vel += diff * dist;
                 }
             }
+
+            // Every 5 seconds, spawn between 1-5 enemies
+
         }
 
         public void AddNewUnits() {
