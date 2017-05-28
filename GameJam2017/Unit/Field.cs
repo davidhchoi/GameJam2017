@@ -8,7 +8,6 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GameJam2017.Unit {
     public class Field : Entity {
-        Vector2 pos = new Vector2(0, 0);
         public Player player;
         Cursor cursor;
         List<Controllable> selected;
@@ -19,10 +18,19 @@ namespace GameJam2017.Unit {
         List<Unit> toRemoveUnits;
         bool selecting = false;
         public Texture2D FieldTexture;
+        public int STAGE_HEIGHT = 1080 * 2;
+        public int STAGE_WIDTH = 1920 * 2;
+
+        public enum Direction {
+            UP,
+            DOWN,
+            LEFT,
+            RIGHT
+        };
 
         private Scene.Scene scene;
 
-        public Field(Scene.Scene scene) : base(Vector2.Zero, new Vector2(Core.ScreenWidth, Core.ScreenHeight),
+        public Field(Scene.Scene scene) : base(Vector2.Zero, new Vector2(Core.ScreenWidth*2, Core.ScreenHeight)*2,
             Vector2.Zero) {
             this.scene = scene;
             toAddUnits = new List<Unit>();
@@ -49,8 +57,35 @@ namespace GameJam2017.Unit {
                 .FirstOrDefault();
         }
 
+        public void CentreCamera() {
+            Core.Game.camera.CenterOn(player.GetPos);
+
+            Vector2 topleft = Core.Game.camera.GetTopLeft();
+
+            Vector2 newState = topleft + Mouse.GetState().Position.ToVector2();
+            cursor.Update(newState);
+        }
+
+        public void MoveCamera(Direction d) {
+            switch (d) {
+                case Direction.UP:
+                    Core.Game.camera.MoveCamera(new Vector2(0, -100));
+                    break;
+                case Direction.DOWN:
+                    Core.Game.camera.MoveCamera(new Vector2(0, 100));
+                    break;
+                case Direction.LEFT:
+                    Core.Game.camera.MoveCamera(new Vector2(-100, 0));
+                    break;
+                case Direction.RIGHT:
+                    Core.Game.camera.MoveCamera(new Vector2(100, 0));
+                    break;
+            }
+        }
+
         public override void Initialize() {
-            Vector2 playerPos = new Vector2(Width / 2, Height / 2);
+
+            Vector2 playerPos = new Vector2(STAGE_WIDTH / 2, STAGE_HEIGHT / 2);
             FieldTexture = Core.Game.Content.Load<Texture2D>("Units\\stage");
             player = new Player(playerPos, this);
             cursor = new Cursor();
@@ -61,8 +96,8 @@ namespace GameJam2017.Unit {
             Controllables = new List<Controllable>();
             AddUnit(player);
             for (int i = 0; i < 5; i ++) {
-                var x = Core.rnd.Next(100, Width - 100);
-                var y = Core.rnd.Next(100, Height - 100);
+                var x = Core.rnd.Next(100, STAGE_WIDTH - 100);
+                var y = Core.rnd.Next(100, STAGE_HEIGHT - 100);
                 var minion = new Minion("Units\\minion", new Vector2(x, y), Unit.Factions.P1, Core.Colours.White, this);
                 AddUnit(minion);
             }
@@ -75,9 +110,11 @@ namespace GameJam2017.Unit {
             }
 
 
+            CentreCamera();
             selected.Add(player);
         }
-        public void RightClick(Vector2 click) {
+        public void RightClick(Vector2 _click) {
+            var click = _click + Core.Game.camera.GetTopLeft();
             foreach (var unit in units) {
                 if (unit.Intersects(click.ToPoint())) {
                     foreach (Controllable u in selected) {
@@ -91,16 +128,19 @@ namespace GameJam2017.Unit {
             }
         }
 
-        public void BeginSelection(Vector2 click) {
+        public void BeginSelection(Vector2 _click) {
+            var click = _click + Core.Game.camera.GetTopLeft();
+            selectBegin = click;
             selecting = true;
             foreach (Controllable unit in selected) {
                 unit.Unselect();
             }
             selected.Clear();
-            selectBegin = click;
         }
 
-        public void EndSelection(Vector2 click) {
+        public void EndSelection(Vector2 _click) {
+            var click = _click + Core.Game.camera.GetTopLeft();
+            var endPos = click;
             Rectangle r = new Rectangle(selectBegin.ToPoint(), (click - selectBegin).ToPoint());
             foreach (Controllable unit in Controllables) {
                 if (unit.Faction == Unit.Factions.P1 && unit.Intersects(r)) {
@@ -130,8 +170,9 @@ namespace GameJam2017.Unit {
         }
         
         public override void Update(GameTime time) {
-            cursor.Update(time, new Vector2(Mouse.GetState().X, Mouse.GetState().Y));
+            cursor.Update(new Vector2(Mouse.GetState().X, Mouse.GetState().Y) + Core.Game.camera.GetTopLeft());
 
+            // Update all the controllables
             for (int i = 0; i < Controllables.Count; i++) {
                 Controllables[i].Vel = Vector2.Zero;
                 for (int j = 0; j < Controllables.Count; j++) {
@@ -147,9 +188,6 @@ namespace GameJam2017.Unit {
                     Controllables[i].Vel += diff * dist;
                 }
             }
-
-            // Every 5 seconds, spawn between 1-5 enemies
-
         }
 
         public void AddNewUnits() {
@@ -173,8 +211,10 @@ namespace GameJam2017.Unit {
         }
 
         public override void Draw(GameTime g, SpriteBatch sb) {
-            sb.Draw(FieldTexture, pos, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            // Draw the field
+            sb.Draw(FieldTexture, Pos);
 
+            // Draw the selection box if it exists
             Vector2 size = cursor.getPos() - selectBegin;
             int boxWidth = (int)Math.Abs(size.X);
             int boxHeight = (int)Math.Abs(size.Y);
@@ -188,10 +228,10 @@ namespace GameJam2017.Unit {
                 sb.Draw(rect, topLeft, Color.White);
             }
 
+            // Draw each unit
             foreach (var unit in units) {
                 unit.Draw(sb);
             }
-            cursor.Draw(sb);
         }
     }
 }

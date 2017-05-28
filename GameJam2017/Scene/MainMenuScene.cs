@@ -29,10 +29,11 @@ namespace GameJam2017.Scene {
         }
 
         public override void Update(GameTime gameTime) {
+            Core.Game.camera.CenterOn(new Vector2(1920 / 2, 1080 / 2));
             base.Update(gameTime);
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch) {
+        public override void DrawUI(GameTime gameTime, SpriteBatch spriteBatch) {
             spriteBatch.Draw(title, new Vector2(0, 0));
             toDraft.Draw(gameTime, spriteBatch);
             base.Draw(gameTime, spriteBatch);

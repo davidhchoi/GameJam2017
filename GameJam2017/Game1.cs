@@ -29,6 +29,8 @@ namespace GameJam2017 {
         KeyboardState currentKeyboardState;
         KeyboardState previousKeyboardState;
 
+        public Camera camera = new Camera();
+
         private GameTime lastGameTime;
 
         private Scene.Scene[] scenes;
@@ -160,9 +162,12 @@ namespace GameJam2017 {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            spriteBatch.Begin();
+            spriteBatch.Begin(transformMatrix: camera.TranslationMatrix);
             activeScene.Draw(gameTime, spriteBatch);
+            spriteBatch.End();
 
+            spriteBatch.Begin();
+            activeScene.DrawUI(gameTime, spriteBatch);
             spriteBatch.Draw(cursor, new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y), Color.White);
             spriteBatch.End();
 

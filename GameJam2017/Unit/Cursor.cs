@@ -13,7 +13,7 @@ namespace GameJam2017.Unit {
             return Position;
         }
 
-        public void Update(GameTime time, Vector2 pos) {
+        public void Update(Vector2 pos) {
             Position = pos;
         }
         public void Draw(SpriteBatch sb) {

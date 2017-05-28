@@ -77,7 +77,7 @@ namespace GameJam2017.Scene {
             }
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch) {
+        public override void DrawUI(GameTime gameTime, SpriteBatch spriteBatch) {
             for (int i = 0; i < activeCards.Count; i++) {
                 activeCards[i].Draw(gameTime, spriteBatch);
             }

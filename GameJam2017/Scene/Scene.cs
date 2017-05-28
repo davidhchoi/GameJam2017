@@ -49,5 +49,8 @@ namespace GameJam2017.Scene {
 
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch) {
         }
+
+        public virtual void DrawUI(GameTime gameTime, SpriteBatch spriteBatch) {
+        }
     }
 }

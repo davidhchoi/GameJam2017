@@ -66,7 +66,24 @@ namespace GameJam2017.Scene {
                 field.AMoveSelected(mousePosition);
             }
 
-            var diff = Mouse.GetState().Position - field.player.GetPos.ToPoint();
+            if (Core.Game.KeyboardBecame(Keys.Space, KeyState.Down)) {
+                field.CentreCamera();
+            }
+
+            if (Core.Game.KeyboardBecame(Keys.Up, KeyState.Down)) {
+                field.MoveCamera(Field.Direction.UP);
+            }
+            if (Core.Game.KeyboardBecame(Keys.Down, KeyState.Down)) {
+                field.MoveCamera(Field.Direction.DOWN);
+            }
+            if (Core.Game.KeyboardBecame(Keys.Right, KeyState.Down)) {
+                field.MoveCamera(Field.Direction.RIGHT);
+            }
+            if (Core.Game.KeyboardBecame(Keys.Left, KeyState.Down)) {
+                field.MoveCamera(Field.Direction.LEFT);
+            }
+
+            var diff = Mouse.GetState().Position + Core.Game.camera.GetTopLeft().ToPoint() - field.player.GetPos.ToPoint();
             field.player.Angle = (float)(Math.Atan2(diff.Y, diff.X) + Math.PI);
 
             if (gameTime.TotalGameTime.Seconds - lastSpellTime > 1) {
@@ -81,6 +98,9 @@ namespace GameJam2017.Scene {
             field.Draw(gameTime, spriteBatch);
             d.Draw(gameTime, spriteBatch);
             base.Draw(gameTime, spriteBatch);
+        }
+        public override void DrawUI(GameTime gameTime, SpriteBatch spriteBatch) {
+            d.Draw(gameTime, spriteBatch);
         }
 
         public void SetDeck(Deck d) {
