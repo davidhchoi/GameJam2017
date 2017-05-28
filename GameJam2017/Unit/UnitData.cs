@@ -30,8 +30,14 @@ namespace GameJam2017.Unit {
             new SpellGlamour(20, Shape.shapes[(int)Shape.Type.Bullet], Effect.effects[(int)Effect.Type.Damage], 
                 new List<Alter>(new Alter[]{})), 120);
 
-        public static UnitData EnemyMinion = new UnitData(300, 100, 100, "Units\\enemy",
+        public static UnitData EnemyMinionBasic = new UnitData(300, 100, 100, "Units\\enemy",
             new SpellGlamour(20, Shape.shapes[(int)Shape.Type.Bullet], Effect.effects[(int)Effect.Type.Damage], new List<Alter>()), 120);
+
+        public static UnitData EnemyMinionCircle = new UnitData(300, 100, 100, "Units\\enemy",
+            new SpellGlamour(20, Shape.shapes[(int)Shape.Type.Circle], Effect.effects[(int)Effect.Type.Damage], new List<Alter>()), 120);
+
+        public static UnitData EnemyMinionCone= new UnitData(300, 100, 100, "Units\\enemy",
+            new SpellGlamour(20, Shape.shapes[(int)Shape.Type.Cone], Effect.effects[(int)Effect.Type.Damage], new List<Alter>()), 120);
 
         public static UnitData AllyMinion = new UnitData(300, 100, 100, "Units\\minion",
             new SpellGlamour(20, Shape.shapes[(int)Shape.Type.Bullet], Effect.effects[(int)Effect.Type.Damage], new List<Alter>()), 120);

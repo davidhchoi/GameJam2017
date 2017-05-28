@@ -228,7 +228,13 @@ namespace GameJam2017.Unit {
                     y = Core.rnd.Next(100, STAGE_HEIGHT - 100);
                 }
 
-                var enemy = new Minion(UnitData.EnemyMinion, new Vector2(x, y), Unit.Factions.Enemy, (Core.Colours)Core.AllowedColours[colour], this);
+                int type = Core.rnd.Next(0, 3);
+                UnitData enemyType =
+                    type == 0 ? enemyType = UnitData.EnemyMinionBasic
+                    : type == 1 ?  enemyType = UnitData.EnemyMinionCone
+                    : enemyType = UnitData.EnemyMinionCircle;
+
+                var enemy = new Minion(enemyType, new Vector2(x, y), Unit.Factions.Enemy, (Core.Colours)Core.AllowedColours[colour], this);
                 AddUnit(enemy);
             }
             RemainingEnemiesCount += numEnemies;
