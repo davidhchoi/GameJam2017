@@ -18,6 +18,7 @@ namespace GameJam2017.Scene {
             entities.Add(toDraft);
             title = Core.Game.Content.Load<Texture2D>("mainmenu");
             base.Initialize();
+            toDraft.Initialize();
         }
 
         public override void LoadContent() {

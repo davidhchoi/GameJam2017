@@ -26,6 +26,7 @@ namespace GameJam2017.Scene {
             entities.Add(deck);
             entities.Add(toGame);
             base.Initialize();
+            toGame.Initialize();
         }
 
         public override void LoadContent() {

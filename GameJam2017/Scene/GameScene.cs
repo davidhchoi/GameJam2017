@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GameJam2017.Glamour;
+using GameJam2017.Component;
+using static GameJam2017.Core;
 
 namespace GameJam2017.Scene {
     public class GameScene : Scene {
@@ -15,12 +17,42 @@ namespace GameJam2017.Scene {
         Field field;
         private Deck d;
 
+        Button holdBtn;
+        bool holdBtnPressed;
+        Button stopBtn;
+        bool stopBtnPressed;
+        Button amoveBtn; 
+        bool amoveBtnPressed;
+        Texture2D icontray;
+
         private Double lastSpellTime;
         
         public GameScene() {
         }
         public override void Initialize() {
             base.Initialize();
+
+            // Initialize the buttons
+            amoveBtn = new Button(delegate {
+                amoveBtnPressed = true;
+            }, new Vector2(20, Core.ScreenHeight- 85), new Vector2(75, 75) ,"Icons\\attackmove");
+            amoveBtn.Initialize();
+            entities.Add(amoveBtn);
+
+            holdBtn = new Button(delegate {
+                holdBtnPressed = true;
+            }, new Vector2(110, Core.ScreenHeight- 85), new Vector2(75, 75) , "Icons\\hold" );
+            holdBtn.Initialize();
+            entities.Add(holdBtn);
+
+            stopBtn = new Button(delegate {
+                stopBtnPressed = true;
+            }, new Vector2(200, Core.ScreenHeight- 85), new Vector2(75, 75) , "Icons\\stop");
+            stopBtn.Initialize();
+            entities.Add(stopBtn);
+
+            icontray = Core.Game.Content.Load<Texture2D>("Icons\\icontray");
+
         }
 
         public override void LoadContent() {
@@ -54,16 +86,22 @@ namespace GameJam2017.Scene {
                 field.EndSelection(mousePosition);
             }
 
-            if (Core.Game.KeyboardBecame(Keys.S, KeyState.Down)) {
+            if (Core.Game.KeyboardBecame(Keys.S, KeyState.Down)
+                || stopBtnPressed) {
                 field.StopSelected();
+                stopBtnPressed = false;
             }
 
-            if (Core.Game.KeyboardBecame(Keys.H, KeyState.Down)) {
+            if (Core.Game.KeyboardBecame(Keys.H, KeyState.Down)
+                || holdBtnPressed) {
                 field.HoldSelected();
+                holdBtnPressed = false;
             }
 
-            if (Core.Game.KeyboardBecame(Keys.A, KeyState.Down)) {
+            if (Core.Game.KeyboardBecame(Keys.A, KeyState.Down)
+                || amoveBtnPressed) {
                 field.AMoveSelected(mousePosition);
+                amoveBtnPressed = false;
             }
 
             if (Core.Game.KeyboardBecame(Keys.Space, KeyState.Down)) {
@@ -103,7 +141,17 @@ namespace GameJam2017.Scene {
             base.Draw(gameTime, spriteBatch);
         }
         public override void DrawUI(GameTime gameTime, SpriteBatch spriteBatch) {
+            // Draw the deck
             d.Draw(gameTime, spriteBatch);
+
+            // Draw a background for the buttons
+            spriteBatch.Draw(icontray, new Vector2(0, Core.ScreenHeight - 100));
+
+            holdBtn.Draw(gameTime, spriteBatch);
+            stopBtn.Draw(gameTime, spriteBatch);
+            amoveBtn.Draw(gameTime, spriteBatch);
+
+            // Draw the game icons
         }
 
         public void SetDeck(Deck d) {

@@ -85,7 +85,6 @@ namespace GameJam2017 {
             }
             Glamour.Glamour.Initialize();
             Bullet.Initialize();
-            Button.Initialize();
             cursor = Content.Load<Texture2D>("menucursor");
             // TODO: use this.Content to load your game content here
         }

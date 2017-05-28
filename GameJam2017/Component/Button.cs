@@ -18,15 +18,23 @@ namespace GameJam2017.Component {
         }
 
         private BState state;
-        private static Texture2D texture;
+        private Texture2D texture;
+        private String Texture;
 
-        public static void Initialize() {
-            texture = Core.Game.Content.Load<Texture2D>("button");
+        public void Initialize() {
+            texture = Core.Game.Content.Load<Texture2D>(Texture);
         }
 
         public Button(Action callback, Vector2 pos, Vector2 size) : base(pos, size, Vector2.Zero) {
             this.callback = callback;
             state = BState.Unpressed;
+            Texture = "button";
+        }
+
+        public Button(Action callback, Vector2 pos, Vector2 size, String texture) : base(pos, size, Vector2.Zero) {
+            this.callback = callback;
+            state = BState.Unpressed;
+            Texture = texture;
         }
 
         public override void Update(GameTime gameTime) {
