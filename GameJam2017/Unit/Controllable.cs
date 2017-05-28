@@ -90,6 +90,8 @@ namespace GameJam2017.Unit {
                         Attack(enemy);
                     } else if (!Move()) {
                         Stop();
+                    } else {
+                        TargetEnemy = null;
                     }
                     break;
                 case Unit.Strategy.ATTACK:
