@@ -15,10 +15,13 @@ namespace GameJam2017.Scene {
         private Deck deck;
         private Button toGame;
         private int numDrafted;
-        const int DECK_SIZE = 5;
+        const int DECK_MULTIPLIER = 20;
 
         private int NumCardsEachDraft = 3;
         private Texture2D title;
+        private int getMaxDeckSize() {
+            return DECK_MULTIPLIER * Core.currentLevel;
+        }
 
         public override void Initialize() {
             deck = new Deck(new Vector2((int)(Core.ScreenWidth * .8), 50), new Vector2((int)(Core.ScreenWidth * .2), Core.ScreenHeight - 100));
@@ -75,7 +78,7 @@ namespace GameJam2017.Scene {
                 for (int i = 0; i < activeCards.Count; i++) {
                     if (activeCards[i].Intersects(Mouse.GetState().Position)) {
                         deck.AddGlamour(activeCards[i]);
-                        if (++numDrafted >= DECK_SIZE) {
+                        if (++numDrafted >= getMaxDeckSize()) {
                             toGame.Enable();
                             activeCards.Clear();
                         } else {

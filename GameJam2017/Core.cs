@@ -15,6 +15,9 @@ namespace GameJam2017 {
         public static int[] AllowedColours = { (int)Core.Colours.Blue, (int)Core.Colours.Red, (int)Core.Colours.Yellow };
         public static int FPS = 60;
 
+        // Global for current level
+        public static int currentLevel = 1;
+
         public static Texture2D [] Rectangles = new Texture2D[Enum.GetValues(typeof(Core.Colours)).Length];
 
         public enum Colours {

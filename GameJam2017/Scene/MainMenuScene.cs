@@ -19,6 +19,9 @@ namespace GameJam2017.Scene {
             entities.Add(toDraft);
             base.Initialize();
             toDraft.Initialize();
+
+            // Set up the current level
+            Core.currentLevel = 1;
         }
 
         public override void LoadContent() {

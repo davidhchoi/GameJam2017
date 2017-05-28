@@ -106,7 +106,8 @@ namespace GameJam2017.Unit {
                 AddUnit(minion);
             }
 
-            for (int i = 0; i < 50; i ++) {
+            // Spawn 50 * (the current level) enemies
+            for (int i = 0; i < 50*(Core.currentLevel); i ++) {
                 var x = Core.rnd.Next(100, Width - 100);
                 var y = Core.rnd.Next(100, Height - 100);
                 var enemy = new Minion("Units\\enemy", new Vector2(x, y), Unit.Factions.Enemy, Core.Colours.Yellow, this);

@@ -131,6 +131,12 @@ namespace GameJam2017.Scene {
             if ((gameTime.TotalGameTime.Duration() - lastSpellTime).Seconds > 1) {
                 d.CastNext(field.player.GetPos, (float)(Math.Atan2(diff.X, diff.Y)), field);
                 lastSpellTime = gameTime.TotalGameTime.Duration();
+
+                // When we run out of spells, the level is finished
+                if (d.Count == 0) {
+                    Core.currentLevel++;
+                    Core.Game.ChangeScene(SceneTypes.Deck);
+                }
             }
             field.AddNewUnits();
             field.RemoveKilledUnits();
