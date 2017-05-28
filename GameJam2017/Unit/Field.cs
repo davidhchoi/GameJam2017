@@ -38,13 +38,13 @@ namespace GameJam2017.Unit {
         }
         
         public Unit ClosestAlly(Unit u1) {
-            return Controllables.Where(u => u.Faction == u1.Faction)
+            return Controllables.Where(u => u.Colour == u1.Colour)
                 .OrderBy(u => (u.GetPos - u1.GetPos).Length())
                 .FirstOrDefault();
         }
 
         public Unit ClosestEnemy(Unit u1) {
-            return Controllables.Where(u => u.Faction != u1.Faction)
+            return Controllables.Where(u => u.Colour != u1.Colour)
                 .OrderBy(u => (u.GetPos - u1.GetPos).Length())
                 .FirstOrDefault();
         }

@@ -59,6 +59,7 @@ namespace GameJam2017.Scene {
         }
 
         public override void MakeActive(GameTime gameTime) {
+            deck.Reset();
             GenerateCards();
             base.MakeActive(gameTime);
         }

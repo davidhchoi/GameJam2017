@@ -77,6 +77,8 @@ namespace GameJam2017.Unit {
 
         public override void Update(GameTime time) {
             base.Update(time);
+            // Stop attacking enemies if you are now allies
+            if (TargetEnemy != null && TargetEnemy.Colour == Colour) Stop();
             Unit enemy = f.ClosestEnemy(this);
             switch (currentStrategy) {
                 case Unit.Strategy.ATTACK_MOVE:
