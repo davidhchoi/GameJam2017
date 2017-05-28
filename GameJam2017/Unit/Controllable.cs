@@ -1,4 +1,5 @@
 ﻿using System;
+using GameJam2017.Glamour.Bullets;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -70,7 +71,10 @@ namespace GameJam2017.Unit {
             if (diff.Length() < 5) return false;
 
             diff.Normalize();
-            Pos = Pos + diff * MoveSpeed;
+
+            StatusEffect blue = colourStatusEffects[(int) Core.Colours.Blue];
+            var speed = blue != null ? Math.Max(MoveSpeed - blue.Strength, 0) : MoveSpeed;
+            Pos = Pos + diff * speed;
             Angle = (float)(Math.Atan2(diff.Y, diff.X) + Math.PI/2);
             return true;
         }
@@ -78,7 +82,7 @@ namespace GameJam2017.Unit {
         public override void Update(GameTime time) {
             base.Update(time);
             // Stop attacking enemies if you are now allies
-            if (TargetEnemy != null && TargetEnemy.Colour == Colour) Stop();
+            if (TargetEnemy != null && (TargetEnemy.Health <= 0 || TargetEnemy.Colour == Colour)) Stop();
             Unit enemy = f.ClosestEnemy(this);
             switch (currentStrategy) {
                 case Unit.Strategy.ATTACK_MOVE:

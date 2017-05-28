@@ -12,6 +12,7 @@ namespace GameJam2017 {
         public static Game1 Game;
         public static Random rnd = new Random();
         public static SpriteFont freestyle12;
+        public static int[] AllowedColours = { (int)Core.Colours.Blue, (int)Core.Colours.Red, (int)Core.Colours.Yellow };
 
         public static Texture2D [] Rectangles = new Texture2D[Enum.GetValues(typeof(Core.Colours)).Length];
 

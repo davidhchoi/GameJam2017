@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace GameJam2017.Glamour.Bullets {
     public class Bullet : Unit.Unit {
         private int damage;
-        List<StatusEffect> statusEffects = new List<StatusEffect>();
+        public List<StatusEffect> StatusEffects { get; } = new List<StatusEffect>();
 
         public static Texture2D[] textures = new Texture2D[Enum.GetValues(typeof(Core.Colours)).Length];
 
@@ -25,13 +25,14 @@ namespace GameJam2017.Glamour.Bullets {
 
         public void Apply(Unit.Unit u) {
             u.Health -= damage;
-            if (u.Health <= 0) {
-                u.Kill();
-            }
             Kill();
-            foreach (var statusEffect in statusEffects) {
-                statusEffect.Apply(u);
+            foreach (var statusEffect in StatusEffects) {
+                u.AddStatus(statusEffect);
             }
+
+            // Knockback
+            u.Vel += new Vector2((float)Math.Sin(Angle) * MoveSpeed * 5, (float)Math.Cos(Angle) * MoveSpeed * 5);
+
         }
 
         public static void Initialize() {

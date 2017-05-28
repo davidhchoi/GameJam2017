@@ -5,17 +5,23 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace GameJam2017.Glamour.Bullets {
-    class StatusEffect {
+    public class StatusEffect {
         private bool isColorEffect;
-        private Core.Colours colour;
+        public Core.Colours Colour { get; }
 
-        public StatusEffect(Core.Colours colour) {
-            this.colour = colour;
+        public int Strength { get; }
+        public int Duration { get; private set; }
+
+
+        public StatusEffect(int strength, int duration, Core.Colours colour) {
+            this.Strength = strength;
+            this.Duration = duration;
+            this.Colour = colour;
             isColorEffect = true;
         }
 
-        public void Apply(Unit.Unit u) {
-            
+        public void Update() {
+            Duration--;
         }
     }
 }

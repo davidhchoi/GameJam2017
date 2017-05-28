@@ -16,7 +16,6 @@ namespace GameJam2017.Scene {
         private Button toGame;
 
         private int NumCardsEachDraft = 3;
-        private int[] AllowedColours = {(int) Core.Colours.Blue, (int) Core.Colours.Red, (int) Core.Colours.Yellow};
 
         public override void Initialize() {
             deck = new Deck(new Vector2((int)(Core.ScreenWidth * .8), 50), new Vector2((int)(Core.ScreenWidth * .2), Core.ScreenHeight - 100));
@@ -44,7 +43,7 @@ namespace GameJam2017.Scene {
             activeCards.Clear();
             Glamour.Glamour g;
             for (int i = 0; i < 3; i++) {
-                g = Glamour.Glamour.RandomColourGlamour(new Vector2(50 + i * 400, 50), new Vector2(300, 420), AllowedColours);
+                g = Glamour.Glamour.RandomColourGlamour(new Vector2(50 + i * 400, 50), new Vector2(300, 420), Core.AllowedColours);
                 activeCards.Add(g);
                 entities.Add(g);
             }

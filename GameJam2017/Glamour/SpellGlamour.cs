@@ -99,6 +99,12 @@ namespace GameJam2017.Glamour {
                 Unit.Unit ent;
                 if (E.T != Effect.Type.Spawn) {
                     ent = new Bullet(10, C.C, 5, startAngle, pos, new Vector2(20, 20), Unit.Unit.Factions.P1, f);
+
+                    if (C.C == Core.Colours.Red) {
+                        (ent as Bullet).StatusEffects.Add(new StatusEffect(1, 120, Core.Colours.Red));
+                    } else if (C.C == Core.Colours.Blue) {
+                        (ent as Bullet).StatusEffects.Add(new StatusEffect(4, 120, Core.Colours.Blue));
+                    }
                 } else {
                     ent = new Minion("Units\\minion",
                         pos + new Vector2((float)Math.Sin(startAngle) * 10, (float)Math.Cos(startAngle) * 10),

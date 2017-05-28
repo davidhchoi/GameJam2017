@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using GameJam2017.Content;
+using GameJam2017.Glamour.Bullets;
 
 namespace GameJam2017.Unit {
     /**
@@ -39,6 +40,8 @@ namespace GameJam2017.Unit {
         public Core.Colours Colour { get; set; }
         protected bool selected;
 
+        protected StatusEffect[] colourStatusEffects = new StatusEffect[Enum.GetValues(typeof(Core.Colours)).Length];
+
         public Unit(string texture, Vector2 position, float movespeed, Factions factions, Core.Colours c, Field f) : 
             this(texture, position, new Vector2(Core.Game.Content.Load<Texture2D>(texture).Width, Core.Game.Content.Load<Texture2D>(texture).Height), movespeed, factions, c, f) {
         }
@@ -57,6 +60,8 @@ namespace GameJam2017.Unit {
             currentStrategy = Strategy.STOP;
             Faction = factions;
             Colour = c;
+            Health = 1;
+            MaxHealth = 1;
         }
 
         public virtual void ReColor(Core.Colours c) {
@@ -69,7 +74,23 @@ namespace GameJam2017.Unit {
         }
 
         public override void Update(GameTime time) {
+            for (int i = 0; i < colourStatusEffects.Length; i++) {
+                if (colourStatusEffects[i] != null) {
+                    colourStatusEffects[i].Update();
+                    if (colourStatusEffects[i].Duration <= 0) {
+                        colourStatusEffects[i] = null;
+                    }
+                }
+            }
             Pos += Vel;
+
+            StatusEffect red = colourStatusEffects[(int)Core.Colours.Red];
+            if (red != null) {
+                Health -= red.Strength;
+            }
+            if (Health <= 0) {
+                Kill();
+            }
             base.Update(time);
         }
 
@@ -86,6 +107,12 @@ namespace GameJam2017.Unit {
                     new Rectangle((Pos - new Vector2(0, 10)).ToPoint(),
                     new Point((int)(((float)Health) / MaxHealth * Width), 5)), Color.Red);
             }
+        }
+
+        public void AddStatus(StatusEffect s) {
+            if (colourStatusEffects[(int)s.Colour] != null)
+                colourStatusEffects[(int)s.Colour] = null;
+            colourStatusEffects[(int) s.Colour] = s;
         }
     }
 }

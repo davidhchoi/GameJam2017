@@ -109,7 +109,7 @@ namespace GameJam2017.Unit {
             for (int i = 0; i < 5; i ++) {
                 var x = Core.rnd.Next(100, Width - 100);
                 var y = Core.rnd.Next(100, Height - 100);
-                var enemy = new Minion("Units\\enemy", new Vector2(x, y), Unit.Factions.Enemy, Core.Colours.Red, this);
+                var enemy = new Minion("Units\\enemy", new Vector2(x, y), Unit.Factions.Enemy, Core.Colours.Yellow, this);
                 AddUnit(enemy);
             }
 
@@ -176,10 +176,10 @@ namespace GameJam2017.Unit {
         
         public override void Update(GameTime time) {
             cursor.Update(new Vector2(Mouse.GetState().X, Mouse.GetState().Y) + Core.Game.camera.GetTopLeft());
-
-            // Update all the controllables
+            
+            // Stop units from overlapping
             for (int i = 0; i < Controllables.Count; i++) {
-                Controllables[i].Vel = Vector2.Zero;
+                Controllables[i].Vel /= 2;
                 for (int j = 0; j < Controllables.Count; j++) {
                     if (i == j) continue;
                     Vector2 diff = Controllables[i].GetPos - Controllables[j].GetPos;
