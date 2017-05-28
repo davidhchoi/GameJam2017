@@ -22,6 +22,7 @@ namespace GameJam2017.Glamour.Bullets {
             while (angle < 0) angle += (float) (Math.PI * 2);
             while (angle > (float) (Math.PI * 2)) angle -= (float) (Math.PI * 2);
             this.Angle = angle;
+            MaxHealth = 0;
         }
 
         public void Apply(Unit.Unit u) {

@@ -15,7 +15,7 @@ namespace GameJam2017.Scene {
         private Deck deck;
         private Button toGame;
         private int numDrafted;
-        const int DECK_SIZE = 30;
+        const int DECK_SIZE = 5;
 
         private int NumCardsEachDraft = 3;
 
