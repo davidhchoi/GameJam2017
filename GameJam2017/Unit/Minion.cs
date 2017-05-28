@@ -15,6 +15,7 @@ namespace GameJam2017.Unit {
         protected override void Shoot(Unit u) {
             var diff = u.GetPos - GetPos;
             var dir = (float)(Math.Atan2(diff.X, diff.Y));
+            Angle = (float)(-dir + Math.PI);
 
             if (timeSinceLastShot <= 0) {
                 Bullet b = new Bullet(20, Colour, 8f, dir, GetPos, new Vector2(20, 20), Faction, f);

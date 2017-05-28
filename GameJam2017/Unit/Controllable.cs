@@ -17,6 +17,7 @@ namespace GameJam2017.Unit {
         public Controllable(string texture, Vector2 position, float movespeed, Factions faction, Core.Colours c, Field f) : 
             base(texture, position, movespeed, faction, c, f) {
             Target = position;
+
             Unselect();
         }
 
@@ -48,7 +49,7 @@ namespace GameJam2017.Unit {
 
         public void Attack(Unit u) {
             // If the target unit is an enemy, move to attack it
-            if (u.Faction != Faction) {
+            if (u.Colour != Colour) {
                 currentStrategy = Strategy.ATTACK;
                 TargetEnemy = u;
             } else { // Else if it's an ally, just move to it
@@ -81,9 +82,19 @@ namespace GameJam2017.Unit {
 
         public override void Update(GameTime time) {
             base.Update(time);
+
+
             // Stop attacking enemies if you are now allies
             if (TargetEnemy != null && (TargetEnemy.Health <= 0 || TargetEnemy.Colour == Colour)) Stop();
+
             Unit enemy = f.ClosestEnemy(this);
+
+            // For enemies, if there is nothing in range, go after the player
+            if (Faction == Factions.Enemy && ((enemy.GetPos - GetPos).Length() > range)) {
+                Target = f.GetPlayer().GetPos;
+                TargetEnemy = f.GetPlayer();
+            }
+
             switch (currentStrategy) {
                 case Unit.Strategy.ATTACK_MOVE:
                     if (enemy != null && (enemy.GetPos - GetPos).Length() < range) {

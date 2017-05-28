@@ -60,6 +60,10 @@ namespace GameJam2017.Unit {
                 .FirstOrDefault();
         }
 
+        public Unit GetPlayer() {
+            return player;
+        }
+
         public void CentreCamera() {
             Core.Game.camera.CenterOn(player.GetPos);
 
@@ -110,7 +114,8 @@ namespace GameJam2017.Unit {
             for (int i = 0; i < 50*(Core.currentLevel); i ++) {
                 var x = Core.rnd.Next(100, Width - 100);
                 var y = Core.rnd.Next(100, Height - 100);
-                var enemy = new Minion("Units\\enemy", new Vector2(x, y), Unit.Factions.Enemy, Core.Colours.Yellow, this);
+                int colour = Core.rnd.Next(0, 3);
+                var enemy = new Minion("Units\\enemy", new Vector2(x, y), Unit.Factions.Enemy, (Core.Colours)colour, this);
                 AddUnit(enemy);
             }
 
