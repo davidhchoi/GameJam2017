@@ -46,7 +46,7 @@ namespace GameJam2017.Glamour.Bullets {
         
         public void Apply(Unit.Unit u) {
             if (explode) {
-                List<Controllable> allHit = f.AllEnemyWithin(u, 200);
+                List<Controllable> allHit = f.AllEnemyWithin(this, 200);
                 foreach (var u1 in allHit) {
                     u1.Health -= damage;
                 }
