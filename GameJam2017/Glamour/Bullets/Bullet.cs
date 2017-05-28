@@ -31,7 +31,7 @@ namespace GameJam2017.Glamour.Bullets {
             foreach (var statusEffect in StatusEffects) {
                 u.AddStatus(statusEffect);
             }
-            Particle.Particle.CreateParticles(GetPos, f.scene, 5);
+            Particle.Particle.CreateParticles(GetPos, f.scene, 5, 20);
 
             // Knockback
             u.Vel += new Vector2((float)Math.Sin(Angle) * MoveSpeed * 5, (float)Math.Cos(Angle) * MoveSpeed * 5);

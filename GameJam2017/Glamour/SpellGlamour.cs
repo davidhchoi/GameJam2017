@@ -13,7 +13,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam2017.Glamour {
     public class SpellGlamour : Glamour {
-        public GlamourColour C { get; }
         public Shape S { get; }
         public Effect E { get; }
         public Alter[] A { get; }
@@ -43,16 +42,36 @@ namespace GameJam2017.Glamour {
             return st;
         }
 
-        public override void Draw(GameTime g, SpriteBatch spriteBatch) {
-            base.Draw(g, spriteBatch);
-            Rectangle destination = new Rectangle(Pos.ToPoint(), Size.ToPoint());
-
-            C.Draw(spriteBatch, destination);
-            spriteBatch.Draw(Core.Rectangles[(int)Core.Colours.White], new Rectangle(
-                destination.Left + destination.Width / 10, destination.Top + destination.Height * 6 / 10,
-                destination.Width * 8 / 10, destination.Height * 3 / 10), Color.White * .8f);
-            spriteBatch.DrawString(Core.freestyle12, ToString(),
-                new Vector2(destination.Left + destination.Width / 8, destination.Top + destination.Height * 7 / 10), Color.Black, 0, new Vector2(0, 0), 1.5f, SpriteEffects.None, 0);
+        public override string Description() {
+            string s = "";
+            if (S.T == Shape.Type.Bullet) {
+                if (E.T == Effect.Type.Damage) {
+                    s += "Fire one bullet in front of you. ";
+                } else if (E.T == Effect.Type.Spawn) {
+                    s += "Spawn one ally in front of you. ";
+                } else {
+                    throw new Exception("Error");
+                }
+            } else {
+                if (E.T == Effect.Type.Damage) {
+                    s += "Fire bullets ";
+                } else if (E.T == Effect.Type.Spawn) {
+                    s += "Spawn allies ";
+                } else {
+                    throw new Exception("Error");
+                }
+                s += "in a " + S.T + "in front of you. ";
+            }
+            if (E.T == Effect.Type.Damage) {
+                if (C.C == Core.Colours.Red) {
+                    s += "Bullets do bonus damage over time.";
+                } else if (C.C == Core.Colours.Blue) {
+                    s += "Bullets slow enemies.";
+                } else if (C.C == Core.Colours.Yellow) {
+                    s += "Bullets do bonus damage.";
+                }
+            }
+            return s;
         }
 
         public override void Cast(Vector2 pos, float angle, Field f) {

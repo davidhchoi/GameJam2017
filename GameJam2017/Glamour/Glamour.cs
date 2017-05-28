@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam2017.Glamour {
     public abstract class Glamour : Entity {
+        public GlamourColour C { get; protected set; }
 
         protected Glamour(Vector2 pos, Vector2 size) : base(pos, size, Vector2.Zero) {
         }
@@ -20,7 +21,43 @@ namespace GameJam2017.Glamour {
 
         public abstract override String ToString();
 
+        public abstract String Description();
+
+
         public override void Draw(GameTime g, SpriteBatch spriteBatch) {
+            base.Draw(g, spriteBatch);
+            Rectangle destination = new Rectangle(Pos.ToPoint(), Size.ToPoint());
+
+            if (Height > Width) {
+                C.Draw(spriteBatch, destination);
+                spriteBatch.Draw(Core.Rectangles[(int) Core.Colours.White], new Rectangle(
+                    destination.Left + destination.Width / 15, destination.Top + destination.Height * 6 / 10,
+                    destination.Width * 13 / 15, destination.Height * 3 / 10), Color.White * .8f);
+                spriteBatch.DrawString(Core.freestyle12,
+                    Core.WrapText(Core.freestyle12, Description(), destination.Width * 6 / 10),
+                    new Vector2(destination.Left + destination.Width / 15 + 5,
+                        destination.Top + destination.Height * 6 / 10 + 5),
+                    Color.Black, 0, new Vector2(0, 0), 1.5f, SpriteEffects.None, 0);
+
+                spriteBatch.Draw(Core.Rectangles[(int) Core.Colours.White], new Rectangle(
+                    destination.Left + destination.Width / 15, destination.Top + destination.Height / 20,
+                    destination.Width * 13 / 15, destination.Height * 1 / 10), Color.White * .8f);
+                spriteBatch.DrawString(Core.freestyle12,
+                    Core.WrapText(Core.freestyle12, ToString(), destination.Width * 6 / 10),
+                    new Vector2(destination.Left + destination.Width / 15 + 3,
+                        destination.Top + destination.Height / 20 + 3),
+                    Color.Black, 0, new Vector2(0, 0), 1.5f, SpriteEffects.None, 0);
+            } else {
+                C.Draw(spriteBatch, destination);
+                spriteBatch.Draw(Core.Rectangles[(int)Core.Colours.White], new Rectangle(
+                    destination.Left + destination.Width / 15, destination.Top + destination.Height / 15,
+                    destination.Width * 13 / 15, destination.Height * 13 / 15), Color.White * .8f);
+                spriteBatch.DrawString(Core.freestyle12,
+                    Core.WrapText(Core.freestyle12, ToString(), destination.Width * 6 / 10),
+                    new Vector2(destination.Left + destination.Width / 15 + 3,
+                        destination.Top + destination.Height / 20 + 2),
+                    Color.Black, 0, new Vector2(0, 0), 1.5f, SpriteEffects.None, 0);
+            }
         }
 
         public abstract void Cast(Vector2 pos, float angle, Field f);
@@ -30,6 +67,7 @@ namespace GameJam2017.Glamour {
             for (int num = 0; num < 1000; num++) {
                 i = Core.rnd.Next(Effect.effects.Length);
                 Effect e = Effect.effects[i];
+                if (e.T == Effect.Type.MindControl) continue;
                 i = Core.rnd.Next(Shape.shapes.Length);
                 Shape s = Shape.shapes[i];
 
@@ -37,7 +75,7 @@ namespace GameJam2017.Glamour {
                 if (g.Cost < maxCost)
                     return g;
             }
-            return new SpellGlamour(curColour, Shape.shapes[(int)Shape.Type.Bullet], Effect.effects[(int)Effect.Type.MindControl],
+            return new SpellGlamour(curColour, Shape.shapes[(int)Shape.Type.Bullet], Effect.effects[(int)Effect.Type.Damage],
                 new Alter[0], pos, size);
         }
 

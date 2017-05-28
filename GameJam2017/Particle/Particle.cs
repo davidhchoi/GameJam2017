@@ -14,7 +14,8 @@ namespace GameJam2017.Particle {
         private Scene.Scene s;
         public int Lifetime { get; private set; }
 
-        public Particle(Vector2 pos, Scene.Scene s) : base(pos, new Vector2(10, 10), new Vector2(Core.rnd.Next(5), Core.rnd.Next(5))) {
+        public Particle(Vector2 pos, int strength, Scene.Scene s) : base(pos, new Vector2(10, 10), 
+            new Vector2(Core.rnd.Next(strength * 2) - strength, Core.rnd.Next(strength * 2) - strength)) {
             Core.Colours c = (Core.Colours)Core.rnd.Next(Enum.GetValues(typeof(Core.Colours)).Length);
             texture = Core.GetRecoloredCache("particle", c);
 
@@ -26,15 +27,16 @@ namespace GameJam2017.Particle {
         public override void Update(GameTime gameTime) {
             base.Update(gameTime);
             Pos += Vel;
+            Vel /= 1.5f;
             Lifetime--;
             if (Lifetime <= 0) {
                 s.toRemove.Add(this);
             }
         }
 
-        public static void CreateParticles(Vector2 pos, Scene.Scene s, int num) {
+        public static void CreateParticles(Vector2 pos, Scene.Scene s, int num, int strength) {
             for (int i = 0; i < num; i++) {
-                new Particle(pos, s);
+                new Particle(pos, strength, s);
             }
         }
 

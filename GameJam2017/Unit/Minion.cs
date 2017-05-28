@@ -30,6 +30,7 @@ namespace GameJam2017.Unit {
 
         public override void Kill() {
             f.RemoveUnit(this);
+            Particle.Particle.CreateParticles(GetPos, f.scene, 20, 30);
         }
     }
 }

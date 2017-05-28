@@ -18,13 +18,14 @@ namespace GameJam2017.Scene {
         const int DECK_SIZE = 5;
 
         private int NumCardsEachDraft = 3;
+        private Texture2D title;
 
         public override void Initialize() {
             deck = new Deck(new Vector2((int)(Core.ScreenWidth * .8), 50), new Vector2((int)(Core.ScreenWidth * .2), Core.ScreenHeight - 100));
             toGame = new Button(delegate {
                 Core.Game.ChangeScene(SceneTypes.Game);
                 Core.Game.gameScene.SetDeck(deck);
-            }, new Vector2(Core.ScreenWidth / 2 - 100, Core.ScreenHeight * 3 / 4), new Vector2(200, 60));
+            }, new Vector2(Core.ScreenWidth / 2 - 100, Core.ScreenHeight - 100), new Vector2(200, 60));
             entities.Add(deck);
             entities.Add(toGame);
             base.Initialize();
@@ -34,6 +35,7 @@ namespace GameJam2017.Scene {
 
         public override void LoadContent() {
             base.LoadContent();
+            title = Core.Game.Content.Load<Texture2D>("draft");
         }
 
         public override void UnloadContent() {
@@ -46,13 +48,13 @@ namespace GameJam2017.Scene {
             }
             activeCards.Clear();
             Glamour.Glamour g;
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 2; i++) {
                 g = Glamour.Glamour.RandomColourGlamour(new Vector2(50 + i * 400, 50), new Vector2(300, 420), Core.AllowedColours);
                 activeCards.Add(g);
                 entities.Add(g);
             }
             if (deck.Count > 0) {
-                for (int i = 0; i < 3; i++) {
+                for (int i = 0; i < 3 - deck.NumSpells; i++) {
                     g = Glamour.Glamour.RandomSpellGlamour(new Vector2(50 + i * 400, 500), new Vector2(300, 420), 
                         deck.MaxCosts[(int)deck.LastColour.C], deck.LastColour);
                     activeCards.Add(g);
@@ -86,6 +88,7 @@ namespace GameJam2017.Scene {
         }
 
         public override void DrawUI(GameTime gameTime, SpriteBatch spriteBatch) {
+            spriteBatch.Draw(title, new Vector2(0, 0));
             for (int i = 0; i < activeCards.Count; i++) {
                 activeCards[i].Draw(gameTime, spriteBatch);
             }
