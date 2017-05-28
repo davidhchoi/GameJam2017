@@ -100,7 +100,6 @@ namespace GameJam2017.Scene {
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch) {
             field.Draw(gameTime, spriteBatch);
-            d.Draw(gameTime, spriteBatch);
             base.Draw(gameTime, spriteBatch);
         }
         public override void DrawUI(GameTime gameTime, SpriteBatch spriteBatch) {
