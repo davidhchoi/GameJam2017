@@ -69,16 +69,16 @@ namespace GameJam2017.Unit {
         public void MoveCamera(Direction d) {
             switch (d) {
                 case Direction.UP:
-                    Core.Game.camera.MoveCamera(new Vector2(0, -100));
+                    Core.Game.camera.MoveCamera(new Vector2(0, -50));
                     break;
                 case Direction.DOWN:
-                    Core.Game.camera.MoveCamera(new Vector2(0, 100));
+                    Core.Game.camera.MoveCamera(new Vector2(0, 50));
                     break;
                 case Direction.LEFT:
-                    Core.Game.camera.MoveCamera(new Vector2(-100, 0));
+                    Core.Game.camera.MoveCamera(new Vector2(-50, 0));
                     break;
                 case Direction.RIGHT:
-                    Core.Game.camera.MoveCamera(new Vector2(100, 0));
+                    Core.Game.camera.MoveCamera(new Vector2(50, 0));
                     break;
             }
         }

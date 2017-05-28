@@ -70,16 +70,20 @@ namespace GameJam2017.Scene {
                 field.CentreCamera();
             }
 
-            if (Core.Game.KeyboardBecame(Keys.Up, KeyState.Down)) {
+            if (Core.Game.KeyboardBecame(Keys.Up, KeyState.Down)
+                || Mouse.GetState().Position.Y < 50) {
                 field.MoveCamera(Field.Direction.UP);
             }
-            if (Core.Game.KeyboardBecame(Keys.Down, KeyState.Down)) {
+            if (Core.Game.KeyboardBecame(Keys.Down, KeyState.Down)
+                || Mouse.GetState().Position.Y > 1030) {
                 field.MoveCamera(Field.Direction.DOWN);
             }
-            if (Core.Game.KeyboardBecame(Keys.Right, KeyState.Down)) {
+            if (Core.Game.KeyboardBecame(Keys.Right, KeyState.Down)
+                || Mouse.GetState().Position.X > 1870) {
                 field.MoveCamera(Field.Direction.RIGHT);
             }
-            if (Core.Game.KeyboardBecame(Keys.Left, KeyState.Down)) {
+            if (Core.Game.KeyboardBecame(Keys.Left, KeyState.Down)
+                || Mouse.GetState().Position.X < 50) {
                 field.MoveCamera(Field.Direction.LEFT);
             }
 
