@@ -143,6 +143,9 @@ namespace GameJam2017.Scene {
                 if (d.Count == 0 && timingOut == false) {
                     timingOut = true;
                     remainingTime = 5;
+                } else {
+                    // Spawn some more enemies to fight
+                    field.SpawnEnemies(Core.currentLevel);
                 }
                 if (remainingTime == 0 && timingOut == true) {
                     Core.currentLevel++;
@@ -179,7 +182,7 @@ namespace GameJam2017.Scene {
                 spriteBatch.DrawString(Core.freestyle70,
                     remainingTime.ToString(),
                     new Vector2(Core.ScreenWidth / 2, Core.ScreenHeight / 2),
-                    Color.Black, 0, new Vector2(0, 0), 5.0f, SpriteEffects.None, 0);
+                    Color.Black, 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0);
             }
         }
 

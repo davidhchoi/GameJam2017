@@ -113,7 +113,7 @@ namespace GameJam2017.Unit {
 
             // Spawn 50 * (the current level) enemies
             RemainingEnemiesCount = 0;
-            SpawnEnemies(50 * Core.currentLevel);
+            SpawnEnemies(20 * Core.currentLevel);
 
             CentreCamera();
             selected.Add(player);
@@ -171,7 +171,7 @@ namespace GameJam2017.Unit {
 
         public void AMoveSelected(Vector2 target) {
             foreach (Controllable unit in selected) {
-                unit.AttackMove(target);
+                unit.AttackMove(target + Core.Game.camera.GetTopLeft());
             }
         }
         
@@ -205,13 +205,22 @@ namespace GameJam2017.Unit {
         public void SpawnEnemies(int numEnemies) {
             for (int i = 0; i < numEnemies; i++) {
                 
-                // Make sure they are outside of the camera
-                var topLeft = Core.Game.camera.GetTopLeft();
-                var x = Core.rnd.Next(100, STAGE_WIDTH - 100);
-                var y = Core.rnd.Next(100, STAGE_HEIGHT- 100);
-
                 int colour = Core.rnd.Next(0, 3);
-                var enemy = new Minion(UnitData.EnemyMinion, new Vector2(x, y), Unit.Factions.Enemy, (Core.Colours)colour, this);
+
+                var topLeft = Core.Game.camera.GetTopLeft();
+                int x, y;
+                if (colour == 0) {
+                    x = Core.rnd.Next(10, 100);
+                    y = Core.rnd.Next(100, STAGE_HEIGHT - 100);
+                } else if (colour == 1) {
+                    x = Core.rnd.Next(100, STAGE_WIDTH - 100);
+                    y = Core.rnd.Next(10, 100);
+                } else {
+                    x = Core.rnd.Next(STAGE_WIDTH - 100, STAGE_WIDTH - 10);
+                    y = Core.rnd.Next(100, STAGE_HEIGHT - 100);
+                }
+
+                var enemy = new Minion(UnitData.EnemyMinion, new Vector2(x, y), Unit.Factions.Enemy, (Core.Colours)Core.AllowedColours[colour], this);
                 AddUnit(enemy);
             }
             RemainingEnemiesCount += numEnemies;
