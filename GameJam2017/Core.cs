@@ -11,7 +11,7 @@ namespace GameJam2017 {
     public class Core {
         public static Game1 Game;
         public static Random rnd = new Random();
-        public static SpriteFont freestyle12;
+        public static SpriteFont freestyle12, freestyle16;
         public static int[] AllowedColours = { (int)Core.Colours.Blue, (int)Core.Colours.Red, (int)Core.Colours.Yellow };
         public static int FPS = 60;
 
@@ -35,7 +35,9 @@ namespace GameJam2017 {
 
         public static void Initialize() {
             freestyle12 = Game.Content.Load<SpriteFont>("freestyle12");
-            freestyle12.LineSpacing -= 10;
+            freestyle12.LineSpacing -= 20;
+            freestyle16 = Game.Content.Load<SpriteFont>("freestylelarger");
+            freestyle16.LineSpacing -= 26;
 
             foreach (Core.Colours colour in Enum.GetValues(typeof(Core.Colours))) {
                 Rectangles[(int)colour] = new Texture2D(Game.GraphicsDevice, 1, 1);

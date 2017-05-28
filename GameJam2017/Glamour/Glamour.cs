@@ -40,7 +40,7 @@ namespace GameJam2017.Glamour {
                     destination.Left + destination.Width / 15, destination.Top + destination.Height * 6 / 10,
                     destination.Width * 13 / 15, destination.Height * 3 / 10), Color.White * .8f);
                 spriteBatch.DrawString(Core.freestyle12,
-                    Core.WrapText(Core.freestyle12, Description(), destination.Width * 6 / 10),
+                    Core.WrapText(Core.freestyle12, Description(), destination.Width * 12 / 15),
                     new Vector2(destination.Left + destination.Width / 15 + 5,
                         destination.Top + destination.Height * 6 / 10 + 5),
                     Color.Black, 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0);
@@ -49,7 +49,7 @@ namespace GameJam2017.Glamour {
                     destination.Left + destination.Width / 15, destination.Top + destination.Height / 20,
                     destination.Width * 13 / 15, Core.freestyle12.LineSpacing - 4), Color.White * .8f);
                 spriteBatch.DrawString(Core.freestyle12,
-                    Core.WrapText(Core.freestyle12, ToString(), destination.Width * 6 / 10),
+                    Core.WrapText(Core.freestyle12, ToString(), destination.Width * 12 / 15),
                     new Vector2(destination.Left + destination.Width / 15 + 3,
                         destination.Top + destination.Height / 20 + 3),
                     Color.Black, 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0);
@@ -70,7 +70,7 @@ namespace GameJam2017.Glamour {
                     destination.Left + destination.Width / 15, destination.Top + destination.Height / 15,
                     destination.Width * 13 / 15, destination.Height * 13 / 15), Color.White * .8f);
                 spriteBatch.DrawString(Core.freestyle12,
-                    Core.WrapText(Core.freestyle12, ToString(), destination.Width * 6 / 10),
+                    Core.WrapText(Core.freestyle12, ToString(), destination.Width * 12 / 15),
                     new Vector2(destination.Left + destination.Width / 15 + 3,
                         destination.Top + destination.Height / 20 + 2),
                     Color.Black, 0, new Vector2(0, 0), 1.0f, SpriteEffects.None, 0);

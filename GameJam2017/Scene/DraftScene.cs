@@ -102,8 +102,8 @@ namespace GameJam2017.Scene {
             int curY = 50;
             for (int i = 0; i < Core.AllowedColours.Length; i++) {
                 int colour = Core.AllowedColours[i];
-                spriteBatch.DrawString(Core.freestyle12, ((Core.Colours)colour) + " Mana", new Vector2(curX, curY), Core.ColourNameToColour((Core.Colours)colour));
-                curY += Core.freestyle12.LineSpacing;
+                spriteBatch.DrawString(Core.freestyle16, ((Core.Colours)colour) + " Mana", new Vector2(curX, curY), Core.ColourNameToColour((Core.Colours)colour));
+                curY += Core.freestyle16.LineSpacing;
                 for (int j = 0; j < deck.MaxCosts[colour]; j++) {
                     spriteBatch.Draw(Core.GetRecoloredCache("mana", (Core.Colours)colour), new Rectangle(curX + 30 * j, curY, 25, 25), Color.White);
                 }
