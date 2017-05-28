@@ -28,6 +28,10 @@ namespace GameJam2017.Unit {
                     new Point((int)(((float)Health) / MaxHealth * Width), 5)), Color.Red);
         }
 
+        public override void Update(GameTime g) {
+            base.Update(g);
+        }
+
         public override void Kill() {
             Core.Game.ChangeScene(Scene.SceneTypes.MainMenu);
         }

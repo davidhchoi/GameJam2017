@@ -24,7 +24,7 @@ namespace GameJam2017.Glamour {
             return "Change allied colour to " + C.C + ". Gain one " + C.C + " mana.";
         }
 
-        public override void Cast(Vector2 pos, float angle, Field f) {
+        public override void Cast(float angle, Unit.Unit castor, Field f) {
             foreach (Controllable unit in f.Controllables) {
                 if (unit.Faction == Unit.Unit.Factions.P1) {
                     unit.ReColor(C.C);

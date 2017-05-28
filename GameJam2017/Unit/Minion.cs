@@ -25,7 +25,7 @@ namespace GameJam2017.Unit {
             Angle = (float)(-dir + Math.PI);
 
             if (timeSinceLastShot <= 0) {
-                spell.Cast(GetPos, dir, Colour, f);
+                spell.Cast(dir, this, f);
                 timeSinceLastShot = reload;
             }
         }

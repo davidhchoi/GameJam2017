@@ -1,8 +1,13 @@
-﻿namespace GameJam2017.Glamour {
+﻿using System;
+
+namespace GameJam2017.Glamour {
     public class Alter {
-        public static Alter [] alters = new Alter[0];
+        public static Alter [] alters = new Alter[Enum.GetValues(typeof(Type)).Length];
 
         public enum Type {
+            Split,
+            Explode,
+            Homing,
         };
 
         public Type T { get; }
@@ -12,6 +17,9 @@
         }
 
         public int Cost() {
+            if (T == Type.Split) return 2;
+            if (T == Type.Explode) return 1;
+            if (T == Type.Homing) return 1;
             return 0;
         }
 

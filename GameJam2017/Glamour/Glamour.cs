@@ -85,7 +85,7 @@ namespace GameJam2017.Glamour {
             }
         }
 
-        public abstract void Cast(Vector2 pos, float angle, Field f);
+        public abstract void Cast(float angle, Unit.Unit castor, Field f);
 
         public static Glamour RandomSpellGlamour(Vector2 pos, Vector2 size, int maxCost, GlamourColour curColour) {
             int i;
@@ -96,12 +96,26 @@ namespace GameJam2017.Glamour {
                 i = Core.rnd.Next(Shape.shapes.Length);
                 Shape s = Shape.shapes[i];
 
-                SpellGlamour g = new SpellGlamour(UnitData.SpellDamage, curColour, s, e, new Alter[0], pos, size);
+                SpellGlamour g = new SpellGlamour(UnitData.SpellDamage, curColour, s, e, new List<Alter>(), pos, size);
+                // TODO: This is a hack
+                bool[] wasUsed = new[] {false, false, false, false, false};
+                if (e.T == Effect.Type.Damage) {
+                    for (int j = 0; j < 100; j++) {
+                        Alter a = Alter.alters[Core.rnd.Next(Alter.alters.Length)];
+                        if (wasUsed[(int)a.T])
+                            continue;
+                        if (a.Cost() + g.Cost < maxCost) {
+                            g.A.Add(a);
+                            g.CalcCost();
+                            wasUsed[(int)a.T] = true;
+                        }
+                    }
+                }
                 if (g.Cost < maxCost)
                     return g;
             }
             return new SpellGlamour(UnitData.SpellDamage, curColour, Shape.shapes[(int)Shape.Type.Bullet], Effect.effects[(int)Effect.Type.Damage],
-                new Alter[0], pos, size);
+                new List<Alter>(), pos, size);
         }
 
         public static Glamour RandomColourGlamour(Vector2 pos, Vector2 size, int [] allowedColours) {

@@ -17,9 +17,9 @@ namespace GameJam2017.Glamour {
                 case Type.Bullet:
                     return 0;
                 case Type.Cone:
-                    return 4;
+                    return 2;
                 case Type.Circle:
-                    return 7;
+                    return 4;
             }
             throw new Exception("Something went wrong");
         }

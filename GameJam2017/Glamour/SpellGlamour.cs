@@ -15,31 +15,33 @@ namespace GameJam2017.Glamour {
     public class SpellGlamour : Glamour {
         public Shape S { get; }
         public Effect E { get; }
-        public Alter[] A { get; }
+        public List<Alter> A { get; }
 
-        public int Damage { get; }
+        public int DamageMult { get; protected set; }
 
-        public SpellGlamour(int damage, Shape s, Effect e, Alter[] a) : this(damage, GlamourColour.GlamourColours[0], s, e, a, Vector2.Zero, Vector2.Zero) {
+        public SpellGlamour(int damageMult, Shape s, Effect e, List<Alter> a) : this(damageMult, GlamourColour.GlamourColours[0], s, e, a, Vector2.Zero, Vector2.Zero) {
         }
 
-        public SpellGlamour(int damage, GlamourColour c, Shape s, Effect e, Alter[] a, Vector2 pos, Vector2 size) : base(pos, size, c) {
+        public SpellGlamour(int damageMult, GlamourColour c, Shape s, Effect e, List<Alter> a, Vector2 pos, Vector2 size) : base(pos, size, c) {
             this.S = s;
             this.E = e;
-            this.A = new Alter[a.Length];
-            Array.Copy(this.A, a, a.Length);
+            this.A = a;
 
-            Cost = c.Cost() + s.Cost() + e.Cost();
-            foreach (var alter in a) {
+            DamageMult = damageMult;
+            CalcCost();
+        }
+
+        public void CalcCost() {
+            Cost = C.Cost() + S.Cost() + E.Cost();
+            foreach (var alter in A) {
                 Cost += alter.Cost();
             }
-
-            Damage = damage;
         }
 
         public override String ToString() {
             String st = "";
-            for (int i = 0; i < A.Length; i++) {
-                st += A.ToString() + " ";
+            for (int i = 0; i < A.Count; i++) {
+                st += A[i].T.ToString() + " ";
             }
             st += C.C.ToString() + " " + S.T.ToString() + " " + E.T.ToString();
             return st;
@@ -74,15 +76,22 @@ namespace GameJam2017.Glamour {
                     s += "Bullets do bonus damage.";
                 }
             }
+            foreach (var a in A) {
+                if (a.T == Alter.Type.Explode) {
+                    s += " Bullets explode.";
+                } else if (a.T == Alter.Type.Homing) {
+                    s += " Bullets home.";
+                } else if (a.T == Alter.Type.Split) {
+                    s += " Bullets split.";
+                }
+            }
             return s;
         }
 
-        public void Cast(Vector2 pos, float angle, Core.Colours c, Field f) {
-            C = GlamourColour.GlamourColours[(int)c];
-            Cast(pos, angle, f);
-        }
+        public override void Cast(float angle, Unit.Unit castor, Field f) {
+            C = GlamourColour.GlamourColours[(int)castor.Colour];
+            var pos = castor.GetPos;
 
-        public override void Cast(Vector2 pos, float angle, Field f) {
             List<Unit.Unit> newEntities = new List<Unit.Unit>();
             float startAngle = 0, endAngle = 0, increment = 0;
             switch (S.T) {
@@ -125,17 +134,19 @@ namespace GameJam2017.Glamour {
             for (; startAngle < endAngle; startAngle += increment) {
                 Unit.Unit ent;
                 if (E.T != Effect.Type.Spawn) {
-                    ent = new Bullet(Damage, C.C, 5, startAngle, pos, new Vector2(20, 20), Unit.Unit.Factions.P1, f);
+                    DamageMult = (int)(C.C == Core.Colours.Yellow ? 1.5 * DamageMult : DamageMult);
+                    ent = (new Bullet(DamageMult, C.C, 5, startAngle, pos, new Vector2(20, 20), Unit.Unit.Factions.P1, f)).SetAlters(A);
 
                     if (C.C == Core.Colours.Red) {
-                        (ent as Bullet).StatusEffects.Add(new StatusEffect(1, 120, Core.Colours.Red));
+                        (ent as Bullet).StatusEffects.Add(new StatusEffect(1, DamageMult, Core.Colours.Red));
                     } else if (C.C == Core.Colours.Blue) {
-                        (ent as Bullet).StatusEffects.Add(new StatusEffect(4, 120, Core.Colours.Blue));
+                        (ent as Bullet).StatusEffects.Add(new StatusEffect(DamageMult * 4 / 100, 120, Core.Colours.Blue));
                     }
+                    
                 } else {
                     ent = new Minion(UnitData.AllyMinion, 
                         pos + new Vector2((float)Math.Sin(startAngle) * 10, (float)Math.Cos(startAngle) * 10),
-                        Unit.Unit.Factions.P1, C.C, f);
+                        castor.Faction, C.C, f);
                 }
                 newEntities.Add(ent);
                 f.AddUnit(ent);

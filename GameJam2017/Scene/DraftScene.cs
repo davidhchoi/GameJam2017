@@ -49,13 +49,13 @@ namespace GameJam2017.Scene {
             activeCards.Clear();
             Glamour.Glamour g;
             for (int i = 0; i < 2; i++) {
-                g = Glamour.Glamour.RandomColourGlamour(new Vector2(50 + i * 400, 50), new Vector2(300, 420), Core.AllowedColours);
+                g = Glamour.Glamour.RandomColourGlamour(new Vector2(50 + i * 400, 20), new Vector2(350, 490), Core.AllowedColours);
                 activeCards.Add(g);
                 entities.Add(g);
             }
             if (deck.Count > 0) {
                 for (int i = 0; i < 3 - deck.NumSpells; i++) {
-                    g = Glamour.Glamour.RandomSpellGlamour(new Vector2(50 + i * 400, 500), new Vector2(300, 420), 
+                    g = Glamour.Glamour.RandomSpellGlamour(new Vector2(50 + i * 400, 520), new Vector2(350, 490), 
                         deck.MaxCosts[(int)deck.LastColour.C], deck.LastColour);
                     activeCards.Add(g);
                     entities.Add(g);

@@ -137,9 +137,9 @@ namespace GameJam2017.Scene {
 
             var spellProgress = (gameTime.TotalGameTime.Duration() - lastSpellTime).TotalMilliseconds / Core.TimePerSpell / 1000.0;
             if (spellProgress > 1) {
-                d.CastNext(field.player.GetPos, (float)(Math.Atan2(diff.X, diff.Y)), field);
+                d.CastNext((float)(Math.Atan2(diff.X, diff.Y)), field.player, field);
                 lastSpellTime = gameTime.TotalGameTime.Duration();
-
+                
                 if (d.Count == 0 && timingOut == false) {
                     timingOut = true;
                     remainingTime = 5;

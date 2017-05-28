@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Linq;
 using GameJam2017.Content;
+using GameJam2017.Glamour.Bullets;
 using Microsoft.Xna.Framework.Input;
 
 namespace GameJam2017.Unit {
@@ -47,6 +48,10 @@ namespace GameJam2017.Unit {
 
         public void RemoveUnit(Unit u) {
             toRemoveUnits.Add(u);
+        }
+
+        public List<Controllable> AllEnemyWithin(Unit u1, int dist) {
+            return Controllables.Where(u => (u.Colour != u1.Colour && (u.GetPos - u1.GetPos).Length() < dist)).ToList();
         }
         
         public Unit ClosestAlly(Unit u1) {
@@ -199,6 +204,9 @@ namespace GameJam2017.Unit {
                 if (Controllables[i].Y < 0) Controllables[i].Vel += new Vector2(0, 5);
                 if (Controllables[i].X + Controllables[i].Width > STAGE_WIDTH) Controllables[i].Vel += new Vector2(-5, 0);
                 if (Controllables[i].Y + Controllables[i].Height > STAGE_HEIGHT) Controllables[i].Vel += new Vector2(0, -5);
+            }
+            foreach (var unit in units) {
+                if (unit is Bullet && (unit.X < 0 || unit.Y < 0 || unit.X > STAGE_WIDTH || unit.Y > STAGE_HEIGHT)) unit.Kill();
             }
         }
 

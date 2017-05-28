@@ -38,7 +38,7 @@ namespace GameJam2017 {
 
         public static void Initialize() {
             freestyle12 = Game.Content.Load<SpriteFont>("freestyle12");
-            freestyle12.LineSpacing -= 20;
+            freestyle12.LineSpacing -= 10;
             freestyle16 = Game.Content.Load<SpriteFont>("freestylelarger");
             freestyle16.LineSpacing -= 26;
             freestyle70 = Game.Content.Load<SpriteFont>("freestyle70");

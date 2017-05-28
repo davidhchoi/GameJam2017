@@ -56,9 +56,9 @@ namespace GameJam2017.Glamour {
             base.Draw(gameTime, spriteBatch);
         }
 
-        public void CastNext(Vector2 pos, float angle, Field f) {
+        public void CastNext(float angle, Unit.Unit u, Field f) {
             if (glamours.Count == 0) return;
-            glamours[0].Cast(pos, angle, f);
+            glamours[0].Cast(angle, u, f);
             glamours.RemoveAt(0);
         }
     }
