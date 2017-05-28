@@ -10,8 +10,8 @@ using Microsoft.Xna.Framework.Graphics;
 namespace GameJam2017.Glamour {
     class ColourGlamour : Glamour {
 
-        public ColourGlamour(GlamourColour c, Vector2 pos, Vector2 size) : base(pos, size) {
-            this.C = c;
+        public ColourGlamour(GlamourColour c, Vector2 pos, Vector2 size) : base(pos, size, c) {
+            Cost = 0;
         }
 
         public override String ToString() {

@@ -35,6 +35,7 @@ namespace GameJam2017 {
 
         public static void Initialize() {
             freestyle12 = Game.Content.Load<SpriteFont>("freestyle12");
+            freestyle12.LineSpacing -= 10;
 
             foreach (Core.Colours colour in Enum.GetValues(typeof(Core.Colours))) {
                 Rectangles[(int)colour] = new Texture2D(Game.GraphicsDevice, 1, 1);

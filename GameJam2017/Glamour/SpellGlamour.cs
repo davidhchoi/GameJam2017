@@ -17,11 +17,9 @@ namespace GameJam2017.Glamour {
         public Effect E { get; }
         public Alter[] A { get; }
 
-        public int Cost { get; }
         public int Damage { get; }
 
-        public SpellGlamour(GlamourColour c, Shape s, Effect e, Alter[] a, Vector2 pos, Vector2 size) : base(pos, size) {
-            this.C = c;
+        public SpellGlamour(GlamourColour c, Shape s, Effect e, Alter[] a, Vector2 pos, Vector2 size) : base(pos, size, c) {
             this.S = s;
             this.E = e;
             this.A = new Alter[a.Length];

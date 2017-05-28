@@ -15,7 +15,7 @@ namespace GameJam2017.Scene {
         private Deck deck;
         private Button toGame;
         private int numDrafted;
-        const int DECK_MULTIPLIER = 20;
+        const int DECK_MULTIPLIER = 2;
 
         private int NumCardsEachDraft = 3;
         private Texture2D title;
@@ -24,12 +24,10 @@ namespace GameJam2017.Scene {
         }
 
         public override void Initialize() {
-            deck = new Deck(new Vector2((int)(Core.ScreenWidth * .8), 50), new Vector2((int)(Core.ScreenWidth * .2), Core.ScreenHeight - 100));
             toGame = new Button(delegate {
                 Core.Game.ChangeScene(SceneTypes.Game);
                 Core.Game.gameScene.SetDeck(deck);
             }, new Vector2(Core.ScreenWidth / 2 - 100, Core.ScreenHeight - 100), new Vector2(200, 60));
-            entities.Add(deck);
             entities.Add(toGame);
             base.Initialize();
             toGame.Initialize();
@@ -67,7 +65,9 @@ namespace GameJam2017.Scene {
         }
 
         public override void MakeActive(GameTime gameTime) {
-            deck.Reset();
+            if (deck != null) entities.Remove(deck);
+            deck = new Deck(new Vector2((int)(Core.ScreenWidth * .8), 50), new Vector2((int)(Core.ScreenWidth * .2), Core.ScreenHeight - 100));
+            entities.Add(deck);
             GenerateCards();
             base.MakeActive(gameTime);
         }
@@ -97,6 +97,18 @@ namespace GameJam2017.Scene {
             }
             deck.Draw(gameTime, spriteBatch);
             toGame.Draw(gameTime, spriteBatch);
+
+            int curX = 850;
+            int curY = 50;
+            for (int i = 0; i < Core.AllowedColours.Length; i++) {
+                int colour = Core.AllowedColours[i];
+                spriteBatch.DrawString(Core.freestyle12, ((Core.Colours)colour) + " Mana", new Vector2(curX, curY), Core.ColourNameToColour((Core.Colours)colour));
+                curY += Core.freestyle12.LineSpacing;
+                for (int j = 0; j < deck.MaxCosts[colour]; j++) {
+                    spriteBatch.Draw(Core.GetRecoloredCache("mana", (Core.Colours)colour), new Rectangle(curX + 30 * j, curY, 25, 25), Color.White);
+                }
+                curY += 30;
+            }
             base.Draw(gameTime, spriteBatch);
         }
     }

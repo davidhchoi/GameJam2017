@@ -24,13 +24,13 @@ namespace GameJam2017.Glamour {
             }
         }
 
-        public override void Reset() {
-            glamours.Clear();
-            for (int i = 0; i < MaxCosts.Length; i++) {
-                MaxCosts[i] = 0;
-            }
-            base.Reset();
-        }
+//        public override void Reset() {
+//            glamours.Clear();
+//            for (int i = 0; i < MaxCosts.Length; i++) {
+//                MaxCosts[i] = 0;
+//            }
+//            base.Reset();
+//        }
 
         public int Count { get { return glamours.Count;  } }
 

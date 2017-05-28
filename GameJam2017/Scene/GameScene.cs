@@ -64,7 +64,7 @@ namespace GameJam2017.Scene {
         }
 
         public override void MakeActive(GameTime gameTime) {
-            entities.RemoveWhere(x => !(x is Deck));
+            entities.RemoveWhere(x => !(x is Deck || x is Button));
             field = new Field(this);
             field.Initialize();
             entities.Add(field);
