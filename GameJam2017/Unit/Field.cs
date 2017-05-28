@@ -18,8 +18,11 @@ namespace GameJam2017.Unit {
         List<Unit> toRemoveUnits;
         bool selecting = false;
         public Texture2D FieldTexture;
+        public Texture2D ClickTexture;
         public int STAGE_HEIGHT = 1080 * 2;
         public int STAGE_WIDTH = 1920 * 2;
+
+        int DisplayClick = 0;
 
         public enum Direction {
             UP,
@@ -87,6 +90,7 @@ namespace GameJam2017.Unit {
 
             Vector2 playerPos = new Vector2(STAGE_WIDTH / 2, STAGE_HEIGHT / 2);
             FieldTexture = Core.Game.Content.Load<Texture2D>("Units\\stage");
+            ClickTexture = Core.Game.Content.Load<Texture2D>("select");
             player = new Player(playerPos, this);
             cursor = new Cursor();
             
@@ -126,6 +130,7 @@ namespace GameJam2017.Unit {
             foreach (Controllable unit in selected) {
                 unit.Move(click);
             }
+            DisplayClick = 5;
         }
 
         public void BeginSelection(Vector2 _click) {
@@ -228,6 +233,12 @@ namespace GameJam2017.Unit {
                 sb.Draw(rect, topLeft, Color.White);
             }
 
+
+            // Display the click cursor if needed
+            if (DisplayClick > 0) {
+                sb.Draw(ClickTexture, cursor.getPos() - new Vector2(ClickTexture.Width / 2, ClickTexture.Height / 2));
+                DisplayClick -= 1;
+            }
             // Draw each unit
             foreach (var unit in units) {
                 unit.Draw(sb);
