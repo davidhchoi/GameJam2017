@@ -7,9 +7,7 @@ using static GameJam2017.Core;
 
 namespace GameJam2017.Unit {
     public class Player : Minion {
-        public Player(Vector2 position, Field f) : base("Units\\player", position, Factions.P1, Core.Colours.White, f) {
-            MaxHealth = 500;
-            Health = 500;
+        public Player(Vector2 position, Field f) : base(UnitData.PlayerUnitData, position, Factions.P1, Core.Colours.White, f) {
         }
         int timeSinceLastShot = 0;
 

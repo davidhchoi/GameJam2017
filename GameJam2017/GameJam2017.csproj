@@ -72,6 +72,7 @@
     <Compile Include="Unit\Cursor.cs" />
     <Compile Include="Unit\Field.cs" />
     <Compile Include="Unit\Player.cs" />
+    <Compile Include="Unit\UnitData.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

@@ -1,14 +1,21 @@
 ﻿using System;
+using GameJam2017.Glamour;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using GameJam2017.Glamour.Bullets;
 
 namespace GameJam2017.Unit {
     public class Minion : Controllable {
-        public Minion(string texture, Vector2 position, Factions faction, Core.Colours c, Field f) : base(texture, position, 5.0f, faction, c, f) {
-            range = 500;
-            MaxHealth = 100;
-            Health = 100;
+        private SpellGlamour spell;
+        private int reload;
+
+        public Minion(UnitData data,
+            Vector2 position, Factions faction, Core.Colours c, Field f) : base(data.Texture, position, 5.0f, faction, c, f) {
+            range = data.Range;
+            MaxHealth = data.Maxhealth;
+            Health = data.Health;
+            spell = data.Spell;
+            reload = data.Reload;
         }
         int timeSinceLastShot = 0;
 
@@ -18,9 +25,8 @@ namespace GameJam2017.Unit {
             Angle = (float)(-dir + Math.PI);
 
             if (timeSinceLastShot <= 0) {
-                Bullet b = new Bullet(20, Colour, 8f, dir, GetPos, new Vector2(20, 20), Faction, f);
-                timeSinceLastShot = 120;
-                f.AddUnit(b);
+                spell.Cast(GetPos, dir, Colour, f);
+                timeSinceLastShot = reload;
             }
         }
 

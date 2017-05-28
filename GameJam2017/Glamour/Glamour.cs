@@ -96,11 +96,11 @@ namespace GameJam2017.Glamour {
                 i = Core.rnd.Next(Shape.shapes.Length);
                 Shape s = Shape.shapes[i];
 
-                SpellGlamour g = new SpellGlamour(curColour, s, e, new Alter[0], pos, size);
+                SpellGlamour g = new SpellGlamour(UnitData.SpellDamage, curColour, s, e, new Alter[0], pos, size);
                 if (g.Cost < maxCost)
                     return g;
             }
-            return new SpellGlamour(curColour, Shape.shapes[(int)Shape.Type.Bullet], Effect.effects[(int)Effect.Type.Damage],
+            return new SpellGlamour(UnitData.SpellDamage, curColour, Shape.shapes[(int)Shape.Type.Bullet], Effect.effects[(int)Effect.Type.Damage],
                 new Alter[0], pos, size);
         }
 

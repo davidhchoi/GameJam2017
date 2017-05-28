@@ -106,7 +106,7 @@ namespace GameJam2017.Unit {
             for (int i = 0; i < 5; i ++) {
                 var x = Core.rnd.Next((int)playerPos.X - 300, (int)playerPos.X + 300);
                 var y = Core.rnd.Next((int)playerPos.Y - 300, (int)playerPos.Y + 300);
-                var minion = new Minion("Units\\minion", new Vector2(x, y), Unit.Factions.P1, Core.Colours.White, this);
+                var minion = new Minion(UnitData.AllyMinion, new Vector2(x, y), Unit.Factions.P1, Core.Colours.White, this);
                 AddUnit(minion);
             }
 
@@ -115,7 +115,7 @@ namespace GameJam2017.Unit {
                 var x = Core.rnd.Next(100, Width - 100);
                 var y = Core.rnd.Next(100, Height - 100);
                 int colour = Core.rnd.Next(0, 3);
-                var enemy = new Minion("Units\\enemy", new Vector2(x, y), Unit.Factions.Enemy, (Core.Colours)colour, this);
+                var enemy = new Minion(UnitData.EnemyMinion, new Vector2(x, y), Unit.Factions.Enemy, (Core.Colours)colour, this);
                 AddUnit(enemy);
             }
 

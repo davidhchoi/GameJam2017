@@ -16,7 +16,7 @@ namespace GameJam2017 {
         public static int FPS = 60;
 
         public static double TimePerSpell = 1;
-        public const int DECK_MULTIPLIER = 5;
+        public const int DECK_MULTIPLIER = 15;
 
         // Global for current level
         public static int currentLevel = 1;

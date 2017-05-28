@@ -19,7 +19,10 @@ namespace GameJam2017.Glamour {
 
         public int Damage { get; }
 
-        public SpellGlamour(GlamourColour c, Shape s, Effect e, Alter[] a, Vector2 pos, Vector2 size) : base(pos, size, c) {
+        public SpellGlamour(int damage, Shape s, Effect e, Alter[] a) : this(damage, GlamourColour.GlamourColours[0], s, e, a, Vector2.Zero, Vector2.Zero) {
+        }
+
+        public SpellGlamour(int damage, GlamourColour c, Shape s, Effect e, Alter[] a, Vector2 pos, Vector2 size) : base(pos, size, c) {
             this.S = s;
             this.E = e;
             this.A = new Alter[a.Length];
@@ -29,6 +32,8 @@ namespace GameJam2017.Glamour {
             foreach (var alter in a) {
                 Cost += alter.Cost();
             }
+
+            Damage = damage;
         }
 
         public override String ToString() {
@@ -70,6 +75,11 @@ namespace GameJam2017.Glamour {
                 }
             }
             return s;
+        }
+
+        public void Cast(Vector2 pos, float angle, Core.Colours c, Field f) {
+            C = GlamourColour.GlamourColours[(int)c];
+            Cast(pos, angle, f);
         }
 
         public override void Cast(Vector2 pos, float angle, Field f) {
@@ -115,7 +125,7 @@ namespace GameJam2017.Glamour {
             for (; startAngle < endAngle; startAngle += increment) {
                 Unit.Unit ent;
                 if (E.T != Effect.Type.Spawn) {
-                    ent = new Bullet(10, C.C, 5, startAngle, pos, new Vector2(20, 20), Unit.Unit.Factions.P1, f);
+                    ent = new Bullet(Damage, C.C, 5, startAngle, pos, new Vector2(20, 20), Unit.Unit.Factions.P1, f);
 
                     if (C.C == Core.Colours.Red) {
                         (ent as Bullet).StatusEffects.Add(new StatusEffect(1, 120, Core.Colours.Red));
@@ -123,7 +133,7 @@ namespace GameJam2017.Glamour {
                         (ent as Bullet).StatusEffects.Add(new StatusEffect(4, 120, Core.Colours.Blue));
                     }
                 } else {
-                    ent = new Minion("Units\\minion",
+                    ent = new Minion(UnitData.AllyMinion, 
                         pos + new Vector2((float)Math.Sin(startAngle) * 10, (float)Math.Cos(startAngle) * 10),
                         Unit.Unit.Factions.P1, C.C, f);
                 }
