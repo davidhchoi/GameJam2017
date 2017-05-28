@@ -44,8 +44,8 @@ namespace GameJam2017.Scene {
         public override void DrawUI(GameTime gameTime, SpriteBatch spriteBatch) {
             spriteBatch.Draw(title, new Vector2(0, 0));
             toDraft.Draw(gameTime, spriteBatch);
-            spriteBatch.Draw(logo, new Rectangle(Core.ScreenWidth / 2 - 150, Core.ScreenHeight / 2 - 150, 300, 300), Color.White);
-            spriteBatch.Draw(logoSpin, new Rectangle(Core.ScreenWidth / 2, Core.ScreenHeight / 2, 600, 600), null, 
+            spriteBatch.Draw(logo, new Rectangle(Core.ScreenWidth / 2 - 150, Core.ScreenHeight / 2 - 150 + 80, 300, 300), Color.White);
+            spriteBatch.Draw(logoSpin, new Rectangle(Core.ScreenWidth / 2, Core.ScreenHeight / 2 + 80, 600, 600), null, 
                 Color.White, (float)(time % 360) / 360.0f * (float)Math.PI * 2, new Vector2(150, 150), SpriteEffects.None, 0f);
             
             base.Draw(gameTime, spriteBatch);
