@@ -14,6 +14,8 @@ namespace GameJam2017.Scene {
         private List<Glamour.Glamour> activeCards = new List<Glamour.Glamour>();
         private Deck deck;
         private Button toGame;
+        private int numDrafted;
+        const int DECK_SIZE = 30;
 
         private int NumCardsEachDraft = 3;
 
@@ -27,6 +29,7 @@ namespace GameJam2017.Scene {
             entities.Add(toGame);
             base.Initialize();
             toGame.Initialize();
+            toGame.Disable();
         }
 
         public override void LoadContent() {
@@ -70,7 +73,12 @@ namespace GameJam2017.Scene {
                 for (int i = 0; i < activeCards.Count; i++) {
                     if (activeCards[i].Intersects(Mouse.GetState().Position)) {
                         deck.AddGlamour(activeCards[i]);
-                        GenerateCards();
+                        if (++numDrafted >= DECK_SIZE) {
+                            toGame.Enable();
+                            activeCards.Clear();
+                        } else {
+                            GenerateCards();
+                        }
                         return;
                     }
                 }

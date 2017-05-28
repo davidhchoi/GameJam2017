@@ -25,7 +25,7 @@ namespace GameJam2017.Scene {
         bool amoveBtnPressed;
         Texture2D icontray;
 
-        private Double lastSpellTime;
+        private TimeSpan lastSpellTime;
         
         public GameScene() {
         }
@@ -68,7 +68,7 @@ namespace GameJam2017.Scene {
             field = new Field(this);
             field.Initialize();
             entities.Add(field);
-            lastSpellTime = gameTime.TotalGameTime.Seconds;
+            lastSpellTime = gameTime.TotalGameTime.Duration();
             base.MakeActive(gameTime);
         }
 
@@ -128,9 +128,9 @@ namespace GameJam2017.Scene {
             var diff = Mouse.GetState().Position + Core.Game.camera.GetTopLeft().ToPoint() - field.player.GetPos.ToPoint();
             field.player.Angle = (float)(Math.Atan2(diff.Y, diff.X) + Math.PI);
 
-            if (gameTime.TotalGameTime.Seconds - lastSpellTime > 1) {
+            if ((gameTime.TotalGameTime.Duration() - lastSpellTime).Seconds > 1) {
                 d.CastNext(field.player.GetPos, (float)(Math.Atan2(diff.X, diff.Y)), field);
-                lastSpellTime = gameTime.TotalGameTime.Seconds;
+                lastSpellTime = gameTime.TotalGameTime.Duration();
             }
             field.AddNewUnits();
             field.RemoveKilledUnits();

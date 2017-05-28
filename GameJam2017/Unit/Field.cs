@@ -100,8 +100,8 @@ namespace GameJam2017.Unit {
             Controllables = new List<Controllable>();
             AddUnit(player);
             for (int i = 0; i < 5; i ++) {
-                var x = Core.rnd.Next(100, STAGE_WIDTH - 100);
-                var y = Core.rnd.Next(100, STAGE_HEIGHT - 100);
+                var x = Core.rnd.Next((int)playerPos.X - 300, (int)playerPos.X + 300);
+                var y = Core.rnd.Next((int)playerPos.Y - 300, (int)playerPos.Y + 300);
                 var minion = new Minion("Units\\minion", new Vector2(x, y), Unit.Factions.P1, Core.Colours.White, this);
                 AddUnit(minion);
             }

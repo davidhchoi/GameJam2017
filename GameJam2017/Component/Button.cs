@@ -20,6 +20,7 @@ namespace GameJam2017.Component {
         private BState state;
         private Texture2D texture;
         private String Texture;
+        private bool Enabled = true;
 
         public void Initialize() {
             texture = Core.Game.Content.Load<Texture2D>(Texture);
@@ -37,6 +38,14 @@ namespace GameJam2017.Component {
             Texture = texture;
         }
 
+        public void Disable() {
+            Enabled = false;
+        }
+
+        public void Enable() {
+            Enabled = true;
+        }
+
         public override void Update(GameTime gameTime) {
             switch (state) {
                 case BState.Unpressed:
@@ -45,7 +54,7 @@ namespace GameJam2017.Component {
                     }
                     break;
                 case BState.Pressed:
-                    if (!Intersects(Mouse.GetState().Position)) state = BState.Unpressed;
+                    if (!Intersects(Mouse.GetState().Position) || !Enabled) state = BState.Unpressed;
                     else if (Core.Game.MouseLeftBecame(ButtonState.Released)) {
                         callback();
                     }
@@ -55,7 +64,9 @@ namespace GameJam2017.Component {
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch) {
-            spriteBatch.Draw(texture, Pos, state == BState.Unpressed ? Color.White : (Color.White * .7f));
+            if (Enabled) {
+                spriteBatch.Draw(texture, Pos, state == BState.Unpressed ? Color.White : (Color.White * .7f));
+            }
             base.Draw(gameTime, spriteBatch);
         }
     }
